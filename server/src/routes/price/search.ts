@@ -7,11 +7,13 @@ import { AxiosGeolocate } from "@types";
 
 import { cacheClient } from "@utils/axios";
 import { search } from "@utils/searchers";
+import steam from "@utils/searchers/steam";
 
 const querystring = Type.Object(
     {
         country: Type.Optional(Type.String({ minLength: 1, maxLength: 4 })),
         currency: Type.Optional(Type.String({ minLength: 1, maxLength: 4 })),
+        steamId: Type.Optional(Type.Integer({ minimum: 0 })),
         query: Type.String(),
     },
     { additionalProperties: false }
@@ -19,7 +21,7 @@ const querystring = Type.Object(
 type Querystring = Static<typeof querystring>;
 
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
-    const { query, country, currency } = req.query;
+    const { query, country, currency, steamId } = req.query;
 
     const ip =
         req.headers["cf-connecting-ip"]?.toString() ||
@@ -32,11 +34,23 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         })
     );
 
-    return search({
+    const searchResult = [];
+
+    if (steamId) {
+        const result = await steam.fetchPrice({
+            id: steamId,
+            country: country?.toUpperCase() || data.country_code,
+        });
+        searchResult.push({ provider: steam.provider, result });
+    }
+
+    const result = await search({
         query,
         country: country?.toUpperCase() || data.country_code,
         currency: currency || data.currency.code,
     });
+
+    return [...searchResult, ...result];
 };
 
 export default (): Resource => ({
