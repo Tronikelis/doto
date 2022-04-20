@@ -28,6 +28,10 @@ const fetchPrice = async ({
     });
 
     const results = data.hits
+        .filter(
+            ({ localized_prices, genres }) =>
+                !!localized_prices && !genres.includes("software")
+        )
         .map(({ localized_prices, human_name, storefront_icon, link }) => ({
             link: `https://www.humblebundle.com/store${link}`,
             name: human_name,
