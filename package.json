@@ -11,7 +11,7 @@
         "build:server": "cd server && npm run build",
         "build:all": "npm run build:server && npm run build:client",
         "build": "",
-        "dev": "nodemon --exec \"npm run build:server && npm run web\"",
+        "dev": "nodemon --exec \"rm -rf dist && npm run build:server && npm run web\"",
         "web": "cd server/dist && node .",
         "lint": "eslint . -c ./.eslintrc.json"
     },
