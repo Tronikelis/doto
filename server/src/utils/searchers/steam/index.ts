@@ -1,5 +1,6 @@
-import axios from "axios";
 import urlCat from "urlcat";
+
+import { cacheClient } from "@utils/axios";
 
 import { SteamResult } from "./types";
 
@@ -10,9 +11,9 @@ interface SteamFetchProps {
     country?: string;
 }
 
-export const fetchPrice = async ({ id, country = "LT" }: SteamFetchProps) => {
+const fetchPrice = async ({ id, country = "LT" }: SteamFetchProps) => {
     const url = urlCat(BASE_URL, { appids: id, cc: country.toLowerCase() });
-    const { data } = await axios.get<SteamResult>(url);
+    const { data } = await cacheClient.get<SteamResult>(url);
 
     const { name, price_overview, header_image } = data[id].data;
     return {
@@ -25,4 +26,9 @@ export const fetchPrice = async ({ id, country = "LT" }: SteamFetchProps) => {
             currency: price_overview.currency,
         },
     };
+};
+
+export default {
+    fetchPrice,
+    provider: "steam",
 };

@@ -1,5 +1,6 @@
-import axios from "axios";
 import urlCat from "urlcat";
+
+import { cacheClient } from "@utils/axios";
 
 import { FetchPriceProps, SearchResults } from "../types";
 import { KinguinResult } from "./types";
@@ -17,7 +18,7 @@ const chunk = {
     visible: 1,
 };
 
-export const fetchPrice = async ({
+const fetchPrice = async ({
     query,
     country = "LT",
     currency = "USD",
@@ -27,7 +28,7 @@ export const fetchPrice = async ({
         phrase: query,
     });
 
-    const { data } = await axios.get<KinguinResult>(url, {
+    const { data } = await cacheClient.get<KinguinResult>(url, {
         headers: { Cookie: `currency=${currency}` },
     });
 
@@ -45,4 +46,9 @@ export const fetchPrice = async ({
         .sort((a, b) => a.price.amount - b.price.amount);
 
     return results;
+};
+
+export default {
+    fetchPrice,
+    provider: "kinguin",
 };

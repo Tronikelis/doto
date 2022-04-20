@@ -1,5 +1,6 @@
-import axios from "axios";
 import urlCat from "urlcat";
+
+import { cacheClient } from "@utils/axios";
 
 import { FetchPriceProps, SearchResults } from "../types";
 import { HumbleResult } from "./types";
@@ -13,12 +14,12 @@ const url = urlCat(BASE_URL, {
     "x-algolia-api-key": "5229f8b3dec4b8ad265ad17ead42cb7f",
 });
 
-export const fetchPrice = async ({
+const fetchPrice = async ({
     query,
     // country = "LT",
     currency = "USD",
 }: FetchPriceProps): Promise<SearchResults[]> => {
-    const { data } = await axios.post<HumbleResult>(url, {
+    const { data } = await cacheClient.post<HumbleResult>(url, {
         params: urlCat("", {
             query,
             hitsPerPage: 20,
@@ -42,4 +43,9 @@ export const fetchPrice = async ({
         .sort((a, b) => a.price.amount - b.price.amount);
 
     return results;
+};
+
+export default {
+    fetchPrice,
+    provider: "humble",
 };

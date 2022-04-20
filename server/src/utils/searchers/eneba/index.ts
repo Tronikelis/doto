@@ -1,5 +1,6 @@
-import axios from "axios";
 import { byInternet } from "country-code-lookup";
+
+import { cacheClient } from "@utils/axios";
 
 import { FetchPriceProps, SearchResults } from "../types";
 import { EnebaResult } from "./types";
@@ -44,7 +45,7 @@ const extensions = {
     },
 };
 
-export const fetchPrice = async ({
+const fetchPrice = async ({
     query,
     country = "LT",
     currency = "USD",
@@ -60,7 +61,9 @@ export const fetchPrice = async ({
         variables
     )}&extensions=${JSON.stringify(extensions)}`;
 
-    const { data } = await axios.get<EnebaResult>(url);
+    const { data } = await cacheClient.get<EnebaResult>(url);
+
+    const lookup = byInternet(country);
 
     const results = data.data.search.results.edges
         .filter(({ node }) => !!node.cheapestAuction)
@@ -74,8 +77,6 @@ export const fetchPrice = async ({
 
         .map(({ regions, ...rest }) => {
             if (regions.includes("global")) return { ...rest, regions, inRegion: true };
-
-            const lookup = byInternet(country);
             if (!lookup) return { ...rest, regions, inRegion: false };
 
             return {
@@ -93,4 +94,9 @@ export const fetchPrice = async ({
         });
 
     return results as SearchResults[];
+};
+
+export default {
+    fetchPrice,
+    provider: "eneba",
 };
