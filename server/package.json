@@ -1,0 +1,37 @@
+{
+    "name": "server",
+    "scripts": {
+        "build": "tsc && tsc-alias"
+    },
+    "dependencies": {
+        "@fastify/session": "^8.1.0",
+        "@meanie/mongoose-to-json": "^2.6.0",
+        "@sinclair/typebox": "^0.23.4",
+        "axios-cache-adapter": "^2.7.3",
+        "cheerio": "^1.0.0-rc.10",
+        "connect-mongo": "^4.6.0",
+        "dotenv": "^16.0.0",
+        "express-session": "^1.17.2",
+        "fastify": "^3.28.0",
+        "fastify-autoroutes": "^2.1.3",
+        "fastify-cookie": "^5.6.1",
+        "fastify-helmet": "^7.0.1",
+        "fastify-nextjs": "^7.2.0",
+        "fastify-rate-limit": "^5.8.0",
+        "fuzzysort": "^1.2.1",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.3.0",
+        "node-cron": "^3.0.0",
+        "nodemailer": "^6.7.3",
+        "p-limit": "~3.1.0",
+        "pino": "^7.10.0",
+        "under-pressure": "^5.8.0",
+        "urlcat": "^2.0.4"
+    },
+    "devDependencies": {
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/node-cron": "^3.0.1",
+        "@types/nodemailer": "^6.4.4",
+        "tsc-alias": "^1.6.6"
+    }
+}
