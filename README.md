@@ -11,3 +11,8 @@
 ## Contact
 
 Send me an email => `contactdonatas@gmail.com`
+
+## Disclaimer
+
+-   All of the information about the games and everything is provided by RAWG.io (https://rawg.io/apidocs)
+-   All trademarks are property of their respective owners in the US and other countries.
