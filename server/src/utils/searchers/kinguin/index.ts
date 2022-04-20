@@ -10,7 +10,7 @@ const BASE_URL = "https://www.kinguin.net/services/library/api/v1/products/searc
 const chunk = {
     platforms: 2,
     productType: 1,
-    active: 0,
+    active: 1,
     hideUnavailable: 0,
     page: 0,
     size: 20,
@@ -33,7 +33,8 @@ const fetchPrice = async ({
     });
 
     const results = data._embedded.products
-        .map(({ name, attributes, imageUrl, price }) => ({
+        .map(({ name, attributes, imageUrl, price, externalId }) => ({
+            link: `https://www.kinguin.net/category/${externalId}/${attributes.urlKey}`,
             name,
             regions: attributes.region.excludedCountries.map(x => `!${x}`),
             image: imageUrl,

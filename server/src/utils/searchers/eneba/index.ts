@@ -69,6 +69,7 @@ const fetchPrice = async ({
         .filter(({ node }) => !!node.cheapestAuction)
 
         .map(({ node }) => ({
+            link: `https://eneba.com/${node.slug}`,
             name: node.name,
             regions: node.regions.map(({ code }) => code),
             image: node.cover.src,

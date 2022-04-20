@@ -1,6 +1,7 @@
 export interface SearchResults {
     name: string;
     image: string;
+    link: string;
     price: {
         amount: number;
         currency: string;

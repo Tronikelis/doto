@@ -28,7 +28,8 @@ const fetchPrice = async ({
     });
 
     const results = data.hits
-        .map(({ localized_prices, human_name, storefront_icon }) => ({
+        .map(({ localized_prices, human_name, storefront_icon, link }) => ({
+            link: `https://www.humblebundle.com/store${link}`,
             name: human_name,
             regions: ["global"],
             image: storefront_icon,
