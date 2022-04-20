@@ -1,4 +1,4 @@
-# Sokutei - Buy the cheapest game without the hassle
+# Doto - Buy the cheapest game without the hassle
 
 <div align="center">
 

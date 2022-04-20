@@ -141,7 +141,7 @@ export default function MyApp(props: MyAppProps) {
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
 
-            <NextSeo titleTemplate="%s | Sokutei" defaultTitle="Sokutei" />
+            <NextSeo titleTemplate="%s | Doto" defaultTitle="Doto" />
 
             <ThemeProvider theme={theme}>
                 <SnackbarProvider
