@@ -46,6 +46,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         const result = await steam.fetchPrice({
             id: steamId,
             country: computedCountry,
+            currency: computedCountry,
         });
         searchResult.push({ provider: steam.provider, result });
     }

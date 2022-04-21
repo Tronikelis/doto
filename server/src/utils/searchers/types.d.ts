@@ -3,7 +3,7 @@ export interface SearchResults {
     image: string;
     link: string;
     price: {
-        amount: number;
+        amount: number | null;
         currency: string;
     };
     regions: string[];

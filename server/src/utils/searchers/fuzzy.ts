@@ -5,14 +5,12 @@ interface FuzzyProps {
     list: SearchResults[];
 }
 
-const cleanRegex = /[^\w\s]/g;
-
 const badWords = ["bundle", "pack", "dlc", "xbox", "ps 1", "ps 2", "ps 3", "ps 4", "ps 5"];
 
 export default async function Fuzzy({ list, query }: FuzzyProps) {
     return list.filter(({ name, price }) => {
-        const cleanName = name.replace(cleanRegex, "").toLowerCase();
-        const cleanQuery = query.replace(cleanRegex, "").toLowerCase();
+        const cleanName = name.toLowerCase();
+        const cleanQuery = query.toLowerCase();
 
         const cleanNameNoSpaces = cleanName.replace(/ /g, "");
         const cleanQueryNoSpaces = cleanQuery.replace(/ /g, "");
@@ -29,7 +27,7 @@ export default async function Fuzzy({ list, query }: FuzzyProps) {
         const isIncluded = cleanName.includes(cleanQuery);
         const noBadWords = !badWords.some(word => cleanName.includes(word));
         const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
-        const notFree = price.amount > 0;
+        const notFree = price.amount && price.amount > 0;
 
         return noBadWords && checkSequel && atStart && isIncluded && notFree;
     });

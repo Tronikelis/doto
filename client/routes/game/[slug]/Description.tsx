@@ -1,7 +1,8 @@
 import CodeIcon from "@mui/icons-material/Code";
 import PublishIcon from "@mui/icons-material/Publish";
 import WebIcon from "@mui/icons-material/Web";
-import { Box, Button, Chip, Collapse, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Collapse, Divider, Paper, Stack, Typography } from "@mui/material";
+import Markdown from "markdown-to-jsx";
 import { useMemo, useState } from "react";
 
 import { useGame } from "./hooks";
@@ -26,15 +27,11 @@ const Summary = ({ summary }: SummaryProps) => {
 
     return (
         <Stack>
-            <Typography
-                whiteSpace="pre-line"
-                sx={{ wordBreak: "break-word", overflowWrap: "anywhere" }}
-            >
-                <Typography component="span" color="text.secondary">
-                    Summary:{" "}
-                </Typography>
-                <Typography component="span">{sliced[0]}</Typography>
-            </Typography>
+            <Divider flexItem sx={{ mb: 2 }}>
+                <Chip label="Summary" />
+            </Divider>
+
+            <Markdown>{String(sliced[0])}</Markdown>
 
             <Collapse
                 in={open}
@@ -44,7 +41,7 @@ const Summary = ({ summary }: SummaryProps) => {
                     overflowWrap: "anywhere",
                 }}
             >
-                {sliced[1]}
+                <Markdown>{String(sliced[1])}</Markdown>
             </Collapse>
 
             {sliced[1] && (

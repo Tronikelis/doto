@@ -9,10 +9,15 @@ const BASE_URL = "https://store.steampowered.com/api/appdetails";
 
 interface SteamFetchProps {
     id: number;
-    country?: string;
+    country: string;
+    currency: string;
 }
 
-const fetchPrice = async ({ id, country = "LT" }: SteamFetchProps): Promise<SearchResults> => {
+const fetchPrice = async ({
+    id,
+    country,
+    currency,
+}: SteamFetchProps): Promise<SearchResults> => {
     const url = urlCat(BASE_URL, { appids: id, cc: country.toLowerCase() });
     const { data } = await cacheClient.get<SteamResult>(url);
 
@@ -24,8 +29,8 @@ const fetchPrice = async ({ id, country = "LT" }: SteamFetchProps): Promise<Sear
         image: header_image,
         inRegion: true,
         price: {
-            amount: price_overview.final / 100,
-            currency: price_overview.currency,
+            amount: price_overview ? price_overview.final / 100 : null,
+            currency: price_overview ? price_overview.currency : currency,
         },
     };
 };
