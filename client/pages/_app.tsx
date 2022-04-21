@@ -141,7 +141,11 @@ export default function MyApp(props: MyAppProps) {
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
 
-            <NextSeo titleTemplate="%s | Doto" defaultTitle="Doto" />
+            <NextSeo
+                titleTemplate="%s | Doto"
+                defaultTitle="Doto"
+                description="Doto is the easiest way to buy the cheapest video games currently available"
+            />
 
             <ThemeProvider theme={theme}>
                 <SnackbarProvider

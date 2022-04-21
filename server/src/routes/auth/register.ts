@@ -62,10 +62,10 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     await transporter.sendMail({
         from: process.env.EMAIL_USER,
-        subject: "Kuraku account verification",
+        subject: "Doto account verification",
         to: user.email,
         html:
-            `<p>Hello, if you didn't register an account at kuraku you can safely ignore this email</p>` +
+            `<p>Hello, if you didn't register an account at doto you can safely ignore this email</p>` +
             `<p>To verify your account click this <a href="${url}">link</a></p>`,
     });
 

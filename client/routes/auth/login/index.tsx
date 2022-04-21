@@ -39,7 +39,7 @@ export default function Login() {
 
     return (
         <Container maxWidth="sm" sx={{ mt: 4 }}>
-            <NextSeo title="Login" description="Login to Kuraku" />
+            <NextSeo title="Login" description="Login to Doto" />
 
             <Paper component="form" sx={{ px: 4, py: 2 }} onSubmit={handleSubmit(onSubmit)}>
                 <Typography variant="h5" align="center" gutterBottom>

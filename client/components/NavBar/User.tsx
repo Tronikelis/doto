@@ -1,6 +1,7 @@
 import KeyIcon from "@mui/icons-material/Key";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import {
     Avatar,
     Divider,
@@ -30,6 +31,7 @@ const UserMenu = (props: MenuProps) => {
     };
 
     const onLogin = () => Router.push("/auth/login");
+    const onAccount = () => Router.push("/account");
     const onRecover = () => Router.push("/auth/recover/generate");
 
     return (
@@ -40,6 +42,13 @@ const UserMenu = (props: MenuProps) => {
         >
             <Typography align="center">{user?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
+
+            <MenuItem onClick={onAccount}>
+                <ListItemIcon>
+                    <ManageAccountsIcon />
+                </ListItemIcon>
+                Account
+            </MenuItem>
 
             <MenuItem onClick={onRecover}>
                 <ListItemIcon>

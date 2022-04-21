@@ -8,10 +8,7 @@ import Side from "./Side";
 export default function Index() {
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
-            <NextSeo
-                title="Home"
-                description="Kuraku is an open source website that ONLY shows the status of game cracks"
-            />
+            <NextSeo title="Home" />
 
             <Grid container spacing={6}>
                 <Grid item xs={12} md={4} xl={3}>

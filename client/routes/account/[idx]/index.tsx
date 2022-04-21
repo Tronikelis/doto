@@ -10,7 +10,7 @@ export default function Account() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3, p: 2 }} component={Paper}>
-            <NextSeo title={user?.nickname} description="Account page for Kuraku" />
+            <NextSeo title={user?.nickname} description="Account page for Doto" />
             <User />
         </Container>
     );
