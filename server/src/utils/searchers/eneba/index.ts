@@ -89,7 +89,9 @@ const fetchPrice = async ({
                 ...rest,
                 regions,
                 inRegion: Object.keys(lookup).some(key =>
-                    regions.includes(lookup[key as keyof typeof lookup].toLowerCase())
+                    regions
+                        .map(x => x.toLowerCase())
+                        .includes(lookup[key as keyof typeof lookup].toLowerCase())
                 ),
             };
         })
@@ -99,7 +101,7 @@ const fetchPrice = async ({
             return a.price.amount - b.price.amount;
         });
 
-    return Fuzzy({ query, list }) as any as SearchResults[];
+    return Fuzzy({ query, list: list as any }) as any as SearchResults[];
 };
 
 export default {

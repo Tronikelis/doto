@@ -1,28 +1,20 @@
-import fuzzysort from "fuzzysort";
+import { SearchResults } from "./types";
 
-interface FuzzyProps<T> {
+interface FuzzyProps {
     query: string;
-    list: T[];
-    options?: Fuzzysort.Options;
+    list: SearchResults[];
 }
 
-// play around with these settings
-const defaultOptions: Fuzzysort.Options = {
-    allowTypo: false,
-    limit: 10,
-    threshold: -30,
-};
+const cleanRegex = /[^\w\s]/g;
 
-export default async function Fuzzy<T>({
-    list,
-    query,
-    options = defaultOptions,
-}: FuzzyProps<T>): Promise<T[]> {
-    const result = await fuzzysort.goAsync(query, list, {
-        ...defaultOptions,
-        ...options,
-        key: "name",
+const badWords = ["bundle", "pack", "dlc"];
+
+export default async function Fuzzy({ list, query }: FuzzyProps) {
+    return list.filter(({ name }) => {
+        const cleanName = name.replace(cleanRegex, "").toLowerCase();
+        const cleanQuery = query.replace(cleanRegex, "").toLowerCase();
+        return (
+            cleanName.includes(cleanQuery) && !badWords.some(word => cleanName.includes(word))
+        );
     });
-
-    return result.reduce((prev: any, { obj }) => [...prev, obj], []);
 }

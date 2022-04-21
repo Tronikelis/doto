@@ -11,8 +11,10 @@
 ## Providers
 
 -   Eneba (https://www.eneba.com/)
--   Kinguin (https://www.kinguin.net/)
+-   GOG (https://www.gog.com/)
 -   Humble Bundle (https://www.humblebundle.com/)
+-   Instant Gaming (https://www.instant-gaming.com/)
+-   Kinguin (https://www.kinguin.net/)
 -   Steam (https://store.steampowered.com/)
 
 ## Contact
