@@ -18,6 +18,7 @@
 -   🤑 No referral links
 -   🦾 Has a public API _in the future_
 -   ✉️ Sends an email on custom discount targets _in the future_
+-   🏠 Self hostable [how?](#how-to-self-host)
 
 ## Providers
 
@@ -31,6 +32,10 @@
 ## Contact
 
 Send me an email => `contactdonatas@gmail.com`
+
+## How to self-host
+
+_in the future_
 
 ## Disclaimer
 
