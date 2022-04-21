@@ -14,7 +14,7 @@
 -   💲 Automatically searches in your currency (If it is not specified)
 -   😎 Manages game keys which are region locked
 -   ⚡ Built to be as fast as possible
--   ➕ Has excellent support for mobile
+-   📱 Has excellent support for mobile
 -   🔓 100% FOSS
 -   🤑 No referral links
 -   🦾 Has a public API _in the future_
