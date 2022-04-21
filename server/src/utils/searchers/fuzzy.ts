@@ -10,7 +10,7 @@ const cleanRegex = /[^\w\s]/g;
 const badWords = ["bundle", "pack", "dlc", "xbox", "ps 1", "ps 2", "ps 3", "ps 4", "ps 5"];
 
 export default async function Fuzzy({ list, query }: FuzzyProps) {
-    return list.filter(({ name }) => {
+    return list.filter(({ name, price }) => {
         const cleanName = name.replace(cleanRegex, "").toLowerCase();
         const cleanQuery = query.replace(cleanRegex, "").toLowerCase();
 
@@ -29,7 +29,8 @@ export default async function Fuzzy({ list, query }: FuzzyProps) {
         const isIncluded = cleanName.includes(cleanQuery);
         const noBadWords = !badWords.some(word => cleanName.includes(word));
         const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
+        const notFree = price.amount > 0;
 
-        return noBadWords && checkSequel && atStart && isIncluded;
+        return noBadWords && checkSequel && atStart && isIncluded && notFree;
     });
 }

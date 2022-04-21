@@ -35,7 +35,7 @@ const fetchPrice = async ({ country, currency, query }: FetchPriceProps) => {
 
     const list: SearchResults[] = data.hits
         .map(({ name, prod_id, seo_name, region, price }) => {
-            const link = `https://www.instant-gaming.com/${prod_id}-buy-${seo_name}`;
+            const link = `https://www.instant-gaming.com/en/${prod_id}-buy-${seo_name}`;
             const image = `https://www.instant-gaming.com/images/products/${prod_id}/380x218/${prod_id}.jpg`;
 
             const inRegion =
