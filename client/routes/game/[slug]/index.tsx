@@ -9,6 +9,7 @@ import ResponsiveImage from "@components/ResponsiveImage";
 
 import Description from "./Description";
 import Media from "./Media";
+import Prices from "./Prices";
 import Reviews from "./Reviews";
 
 export default function Game() {
@@ -56,6 +57,10 @@ export default function Game() {
 
                 <Grid item xs={12} md={6} lg={3}>
                     <Reviews />
+                </Grid>
+
+                <Grid item xs>
+                    <Prices />
                 </Grid>
             </Grid>
         </Container>

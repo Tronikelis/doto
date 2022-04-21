@@ -20,6 +20,9 @@ const querystring = Type.Object(
 );
 type Querystring = Static<typeof querystring>;
 
+const defCountry = "LT";
+const defCurrency = "EUR";
+
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { query, country, currency, steamId } = req.query;
 
@@ -36,21 +39,30 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
     const searchResult = [];
 
+    const computedCountry = country?.toUpperCase() || data?.country_code || defCountry;
+    const computedCurrency = currency || data.currency.code || defCurrency;
+
     if (steamId) {
         const result = await steam.fetchPrice({
             id: steamId,
-            country: country?.toUpperCase() || data.country_code,
+            country: computedCountry,
         });
         searchResult.push({ provider: steam.provider, result });
     }
 
     const result = await search({
         query,
-        country: country?.toUpperCase() || data.country_code,
-        currency: currency || data.currency.code,
+        country: computedCountry,
+        currency: computedCurrency,
     });
 
-    return [...searchResult, ...result];
+    return {
+        country: data?.country_name
+            ? `${data?.country_name} ${data?.location.country_flag_emoji}`
+            : computedCountry,
+        query,
+        prices: [...searchResult, ...result],
+    };
 };
 
 export default (): Resource => ({
