@@ -15,7 +15,7 @@ const cache: IAxiosCacheAdapterOptions = {
         methods: [],
         query: false,
     },
-    limit: 8_000,
+    limit: 16_000,
     maxAge: 1000 * 60 * 60 * 24 * 2,
 };
 
@@ -30,6 +30,7 @@ const cacheClient = setup({
     cache: {
         ...cache,
         maxAge: 1000 * 60 * 60 * 2,
+        limit: 8_000,
     },
 });
 
