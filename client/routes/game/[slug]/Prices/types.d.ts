@@ -4,12 +4,17 @@ export interface AxiosPriceSearch {
     country: string;
     currency: string;
     query: string;
-    prices: PriceElement[];
+    baseline: Baseline[];
+    thirdParty: ThirdParty[];
 }
 
-export interface PriceElement {
+export interface ThirdParty {
     provider: string;
     result: Result[];
+}
+
+export interface Baseline extends ThirdParty {
+    result: Result;
 }
 
 export interface Result {

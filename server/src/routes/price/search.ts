@@ -37,19 +37,16 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         })
     );
 
-    const searchResult = [];
-
     const computedCountry = country?.toUpperCase() || data?.country_code || defCountry;
     const computedCurrency = currency || data.currency.code || defCurrency;
 
-    if (steamId) {
-        const result = await steam.fetchPrice({
-            id: steamId,
-            country: computedCountry,
-            currency: computedCountry,
-        });
-        searchResult.push({ provider: steam.provider, result });
-    }
+    const steamResult = steamId
+        ? await steam.fetchPrice({
+              id: steamId,
+              country: computedCountry,
+              currency: computedCountry,
+          })
+        : null;
 
     const result = await search({
         query,
@@ -63,7 +60,9 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
             : computedCountry,
         currency: computedCurrency,
         query,
-        prices: [...searchResult, ...result],
+
+        baseline: [{ provider: steam.provider, result: steamResult }],
+        thirdParty: result,
     };
 };
 

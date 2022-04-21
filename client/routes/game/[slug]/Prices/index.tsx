@@ -1,4 +1,4 @@
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useMemo } from "react";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
@@ -13,9 +13,8 @@ export default function Prices() {
         if (!game) return null;
 
         const query = game.name;
-        const steamId = game.stores
-            .find(({ store }) => store.id === 1)
-            ?.url.replace(/\D/g, "");
+        const steamUrl = game.stores.find(({ store }) => store.id === 1)?.url;
+        const steamId = steamUrl && new URL(steamUrl).pathname.split("/")[2];
 
         return urlCat("/price/search", { steamId, query });
     }, [game]);
@@ -24,7 +23,35 @@ export default function Prices() {
 
     return (
         <Box component={Paper}>
-            <pre>{JSON.stringify(data, null, 2)}</pre>
+            <Stack>
+                <Typography variant="h6">Baseline</Typography>
+                {data?.baseline.map(({ provider, result }) => (
+                    <Stack key={provider}>
+                        <Typography my={2}>{provider.toUpperCase()}</Typography>
+                        <Typography>
+                            {result.name} - {result.price.amount}
+                        </Typography>
+                    </Stack>
+                ))}
+            </Stack>
+
+            <Stack my={4}>
+                <Typography variant="h6">Third party</Typography>
+                {data?.thirdParty.map(({ provider, result }) => {
+                    return (
+                        <Stack key={provider}>
+                            <Typography my={2}>{provider.toUpperCase()}</Typography>
+                            <Stack>
+                                {result.map(({ name, price, link }) => (
+                                    <Typography key={link}>
+                                        {name} - {price.amount}
+                                    </Typography>
+                                ))}
+                            </Stack>
+                        </Stack>
+                    );
+                })}
+            </Stack>
         </Box>
     );
 }
