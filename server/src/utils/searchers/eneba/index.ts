@@ -94,11 +94,6 @@ const fetchPrice = async ({
                         .includes(lookup[key as keyof typeof lookup].toLowerCase())
                 ),
             };
-        })
-
-        .sort((a, b) => {
-            if (!a.price.amount || !b.price.amount) return 0;
-            return a.price.amount - b.price.amount;
         });
 
     return Fuzzy({ query, list: list as any }) as any as SearchResults[];
