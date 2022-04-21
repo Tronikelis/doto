@@ -60,6 +60,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         country: data?.country_name
             ? `${data?.country_name} ${data?.location.country_flag_emoji}`
             : computedCountry,
+        currency: computedCurrency,
         query,
         prices: [...searchResult, ...result],
     };
