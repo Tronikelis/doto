@@ -1,4 +1,4 @@
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import ContrastIcon from "@mui/icons-material/Contrast";
 import { Box, Divider, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import useSWR from "swr/immutable";
@@ -31,6 +31,7 @@ export default function Prices() {
 
     const { data } = useSWR<AxiosPriceSearch>(url);
 
+    // do something with the region locks (display it somehow)
     const contrast = useMemo(() => {
         if (!data) return null;
 
@@ -53,7 +54,7 @@ export default function Prices() {
             <IconTypography
                 sx={{ mb: 2 }}
                 props={{ variant: "h5" }}
-                icon={<CompareArrowsIcon fontSize="large" />}
+                icon={<ContrastIcon fontSize="large" />}
             >
                 Price comparison ({data?.currency} {data?.country})
             </IconTypography>
