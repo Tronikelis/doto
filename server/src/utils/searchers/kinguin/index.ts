@@ -1,6 +1,7 @@
 import urlCat from "urlcat";
 
 import { cacheClient } from "@utils/axios";
+import Fuzzy from "@utils/searchers/fuzzy";
 
 import { FetchPriceProps, SearchResults } from "../types";
 import { KinguinResult } from "./types";
@@ -32,7 +33,7 @@ const fetchPrice = async ({
         headers: { Cookie: `currency=${currency}` },
     });
 
-    const results = data._embedded.products
+    const list = data._embedded.products
         .map(({ name, attributes, imageUrl, price, externalId }) => ({
             link: `https://www.kinguin.net/category/${externalId}/${attributes.urlKey}`,
             name,
@@ -46,7 +47,7 @@ const fetchPrice = async ({
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return results;
+    return Fuzzy({ query, list });
 };
 
 export default {

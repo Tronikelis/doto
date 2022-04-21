@@ -1,6 +1,7 @@
 import { byInternet } from "country-code-lookup";
 
 import { cacheClient } from "@utils/axios";
+import Fuzzy from "@utils/searchers/fuzzy";
 
 import { FetchPriceProps, SearchResults } from "../types";
 import { EnebaResult } from "./types";
@@ -65,7 +66,7 @@ const fetchPrice = async ({
 
     const lookup = byInternet(country);
 
-    const results = data.data.search.results.edges
+    const list = data.data.search.results.edges
         .filter(({ node }) => !!node.cheapestAuction)
 
         .map(({ node }) => ({
@@ -94,7 +95,7 @@ const fetchPrice = async ({
             return a.price.amount - b.price.amount;
         });
 
-    return results as SearchResults[];
+    return Fuzzy({ query, list }) as any as SearchResults[];
 };
 
 export default {

@@ -1,6 +1,7 @@
 import urlCat from "urlcat";
 
 import { cacheClient } from "@utils/axios";
+import Fuzzy from "@utils/searchers/fuzzy";
 
 import { FetchPriceProps, SearchResults } from "../types";
 import { HumbleResult } from "./types";
@@ -27,7 +28,7 @@ const fetchPrice = async ({
         }),
     });
 
-    const results = data.hits
+    const list = data.hits
         .filter(
             ({ localized_prices, genres }) =>
                 !!localized_prices && !genres.includes("software")
@@ -47,7 +48,7 @@ const fetchPrice = async ({
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return results;
+    return Fuzzy({ query, list });
 };
 
 export default {
