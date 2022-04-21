@@ -1,0 +1,46 @@
+import urlCat from "urlcat";
+
+import { cacheClient } from "@utils/axios";
+
+import Fuzzy from "../fuzzy";
+import { FetchPriceProps, SearchResults } from "../types";
+import { GogResult } from "./types";
+
+const fetchPrice = async ({
+    country,
+    currency,
+    query,
+}: FetchPriceProps): Promise<SearchResults[]> => {
+    const { data } = await cacheClient.get<GogResult>(
+        urlCat("https://catalog.gog.com/v1/catalog", {
+            limit: 20,
+            query: `like:${query}`,
+            order: "desc:score",
+            productType: "in:game,pack",
+            page: 1,
+            countryCode: country,
+            currencyCode: currency,
+        })
+    );
+
+    const list: SearchResults[] = data.products
+        .map(({ title, slug, coverHorizontal, price }) => ({
+            name: title,
+            link: `https://www.gog.com/game/${slug}`,
+            image: coverHorizontal,
+            inRegion: true,
+            regions: ["global"],
+            price: {
+                amount: Number(price.finalMoney.amount),
+                currency,
+            },
+        }))
+        .sort((a, b) => a.price.amount - b.price.amount);
+
+    return Fuzzy({ list, query });
+};
+
+export default {
+    fetchPrice,
+    provider: "gog",
+};

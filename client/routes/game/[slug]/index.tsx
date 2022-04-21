@@ -59,7 +59,7 @@ export default function Game() {
                     <Reviews />
                 </Grid>
 
-                <Grid item xs>
+                <Grid item xs={12} md={12} lg={9}>
                     <Prices />
                 </Grid>
             </Grid>

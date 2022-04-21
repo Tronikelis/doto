@@ -24,7 +24,7 @@ const fetchPrice = async ({ id, country = "LT" }: SteamFetchProps): Promise<Sear
         image: header_image,
         inRegion: true,
         price: {
-            amount: price_overview.final,
+            amount: price_overview.final / 100,
             currency: price_overview.currency,
         },
     };

@@ -11,7 +11,7 @@ export interface SearchResults {
 }
 
 export interface FetchPriceProps {
-    currency?: string;
-    country?: string;
+    currency: string;
+    country: string;
     query: string;
 }

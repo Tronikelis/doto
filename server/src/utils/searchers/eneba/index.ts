@@ -1,8 +1,8 @@
 import { byInternet } from "country-code-lookup";
 
 import { cacheClient } from "@utils/axios";
-import Fuzzy from "@utils/searchers/fuzzy";
 
+import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
 import { EnebaResult } from "./types";
 
@@ -48,8 +48,8 @@ const extensions = {
 
 const fetchPrice = async ({
     query,
-    country = "LT",
-    currency = "USD",
+    country,
+    currency,
 }: FetchPriceProps): Promise<SearchResults[]> => {
     const variables = {
         ...chunk,
@@ -74,7 +74,11 @@ const fetchPrice = async ({
             name: node.name,
             regions: node.regions.map(({ code }) => code),
             image: node.cover.src,
-            price: { ...node.cheapestAuction?.price, __typename: undefined },
+            price: {
+                ...node.cheapestAuction?.price,
+                amount: (node.cheapestAuction?.price.amount || 0) / 100,
+                __typename: undefined,
+            },
         }))
 
         .map(({ regions, ...rest }) => {

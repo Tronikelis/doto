@@ -1,8 +1,8 @@
 import urlCat from "urlcat";
 
 import { cacheClient } from "@utils/axios";
-import Fuzzy from "@utils/searchers/fuzzy";
 
+import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
 import { KinguinResult } from "./types";
 
@@ -21,8 +21,8 @@ const chunk = {
 
 const fetchPrice = async ({
     query,
-    country = "LT",
-    currency = "USD",
+    country,
+    currency,
 }: FetchPriceProps): Promise<SearchResults[]> => {
     const url = urlCat(BASE_URL, {
         ...chunk,
@@ -33,7 +33,7 @@ const fetchPrice = async ({
         headers: { Cookie: `currency=${currency}` },
     });
 
-    const list = data._embedded.products
+    const list: SearchResults[] = data._embedded.products
         .map(({ name, attributes, imageUrl, price, externalId }) => ({
             link: `https://www.kinguin.net/category/${externalId}/${attributes.urlKey}`,
             name,
@@ -41,7 +41,7 @@ const fetchPrice = async ({
             image: imageUrl,
             inRegion: !attributes.region.excludedCountries.includes(country),
             price: {
-                amount: price.lowestOffer,
+                amount: price.lowestOffer / 100,
                 currency,
             },
         }))

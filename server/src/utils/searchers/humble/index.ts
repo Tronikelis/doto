@@ -1,8 +1,8 @@
 import urlCat from "urlcat";
 
 import { cacheClient } from "@utils/axios";
-import Fuzzy from "@utils/searchers/fuzzy";
 
+import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
 import { HumbleResult } from "./types";
 
@@ -15,11 +15,7 @@ const url = urlCat(BASE_URL, {
     "x-algolia-api-key": "5229f8b3dec4b8ad265ad17ead42cb7f",
 });
 
-const fetchPrice = async ({
-    query,
-    // country = "LT",
-    currency = "USD",
-}: FetchPriceProps): Promise<SearchResults[]> => {
+const fetchPrice = async ({ query, currency }: FetchPriceProps): Promise<SearchResults[]> => {
     const { data } = await cacheClient.post<HumbleResult>(url, {
         params: urlCat("", {
             query,
@@ -28,7 +24,7 @@ const fetchPrice = async ({
         }),
     });
 
-    const list = data.hits
+    const list: SearchResults[] = data.hits
         .filter(
             ({ localized_prices, genres }) =>
                 !!localized_prices && !genres.includes("software")
@@ -39,9 +35,7 @@ const fetchPrice = async ({
             regions: ["global"],
             image: storefront_icon,
             price: {
-                amount: Number(
-                    localized_prices[currency].current_price.toString().replace(/\./g, "")
-                ),
+                amount: Number(localized_prices[currency].current_price),
                 currency,
             },
             inRegion: true,
