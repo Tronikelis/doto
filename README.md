@@ -1,4 +1,4 @@
-# Doto - Buy the cheapest game without the hassle
+# Doto 🤑 - Buy the cheapest game without the hassle
 
 <div align="center">
 
@@ -7,6 +7,16 @@
 </div>
 
 ⭐ Thanks to everyone who starred the project, it means a lot
+
+## Features
+
+-   👨‍💻 Built on modern web technologies
+-   💲 Automatically searches in your currency (If it is not specified)
+-   🦾 Has a public API
+-   ⚡ Built to be as fast as possible
+-   ➕ Has excellent support for mobile
+-   🔓 100% FOSS
+-   🤑 No referral links
 
 ## Providers
 

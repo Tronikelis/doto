@@ -33,8 +33,8 @@ const fetchPrice = async ({
         headers: { Cookie: `currency=${currency}` },
     });
 
-    const list: SearchResults[] = data._embedded.products.map(
-        ({ name, attributes, imageUrl, price, externalId }) => ({
+    const list: SearchResults[] = data._embedded.products
+        .map(({ name, attributes, imageUrl, price, externalId }) => ({
             link: `https://www.kinguin.net/category/${externalId}/${attributes.urlKey}`,
             name,
             regions: attributes.region.excludedCountries.map(x => `!${x}`),
@@ -44,8 +44,8 @@ const fetchPrice = async ({
                 amount: price.lowestOffer / 100,
                 currency,
             },
-        })
-    );
+        }))
+        .sort((a, b) => a.price.amount - b.price.amount);
 
     return Fuzzy({ query, list });
 };

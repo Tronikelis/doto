@@ -23,8 +23,8 @@ const fetchPrice = async ({
         })
     );
 
-    const list: SearchResults[] = data.products.map(
-        ({ title, slug, coverHorizontal, price }) => ({
+    const list: SearchResults[] = data.products
+        .map(({ title, slug, coverHorizontal, price }) => ({
             name: title,
             link: `https://www.gog.com/game/${slug}`,
             image: coverHorizontal,
@@ -34,8 +34,8 @@ const fetchPrice = async ({
                 amount: Number(price.finalMoney.amount),
                 currency,
             },
-        })
-    );
+        }))
+        .sort((a, b) => a.price.amount - b.price.amount);
 
     return Fuzzy({ list, query });
 };

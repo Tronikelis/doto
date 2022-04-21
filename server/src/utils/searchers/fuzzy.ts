@@ -7,7 +7,7 @@ interface FuzzyProps {
 
 const cleanRegex = /[^\w\s]/g;
 
-const badWords = ["bundle", "pack", "dlc"];
+const badWords = ["bundle", "pack", "dlc", "xbox", "ps 1", "ps 2", "ps 3", "ps 4", "ps 5"];
 
 export default async function Fuzzy({ list, query }: FuzzyProps) {
     return list.filter(({ name }) => {

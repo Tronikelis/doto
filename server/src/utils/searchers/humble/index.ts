@@ -39,7 +39,8 @@ const fetchPrice = async ({ query, currency }: FetchPriceProps): Promise<SearchR
                 currency,
             },
             inRegion: true,
-        }));
+        }))
+        .sort((a, b) => a.price.amount - b.price.amount);
 
     return Fuzzy({ query, list });
 };

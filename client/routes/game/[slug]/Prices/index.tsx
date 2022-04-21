@@ -22,5 +22,9 @@ export default function Prices() {
 
     const { data } = useSWR<AxiosPriceSearch>(url);
 
-    return <Box component={Paper}>{JSON.stringify(data)}</Box>;
+    return (
+        <Box component={Paper}>
+            <pre>{JSON.stringify(data, null, 2)}</pre>
+        </Box>
+    );
 }

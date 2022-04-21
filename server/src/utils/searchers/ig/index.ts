@@ -33,8 +33,8 @@ const fetchPrice = async ({ country, currency, query }: FetchPriceProps) => {
 
     const lookup = byInternet(country);
 
-    const list: SearchResults[] = data.hits.map(
-        ({ name, prod_id, seo_name, region, price }) => {
+    const list: SearchResults[] = data.hits
+        .map(({ name, prod_id, seo_name, region, price }) => {
             const link = `https://www.instant-gaming.com/${prod_id}-buy-${seo_name}`;
             const image = `https://www.instant-gaming.com/images/products/${prod_id}/380x218/${prod_id}.jpg`;
 
@@ -55,8 +55,8 @@ const fetchPrice = async ({ country, currency, query }: FetchPriceProps) => {
                     currency,
                 },
             };
-        }
-    );
+        })
+        .sort((a, b) => a.price.amount - b.price.amount);
 
     return Fuzzy({ list, query });
 };
