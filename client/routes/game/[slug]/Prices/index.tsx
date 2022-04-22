@@ -11,8 +11,6 @@ import Extended from "./Extended";
 import Quick from "./Quick";
 import { AxiosPriceSearch } from "./types";
 
-const steamSVG = "https://cdn.akamai.steamstatic.com/store/about/icon-steamos.svg";
-
 const Items = [Quick, Extended];
 
 export default function Prices() {

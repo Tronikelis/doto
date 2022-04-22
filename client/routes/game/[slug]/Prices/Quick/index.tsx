@@ -1,90 +1,13 @@
-import { Link, Stack, Typography } from "@mui/material";
-import { memo, useMemo } from "react";
+import { Grid, Typography } from "@mui/material";
+import { useMemo } from "react";
 
 import { AxiosPriceSearch, Result } from "../types";
+import PriceComparison from "./PriceComparison";
+import Products from "./Products";
 
 interface QuickProps {
     data?: AxiosPriceSearch;
 }
-
-interface IPriceComparison {
-    highest?: Result | null;
-    lowest?: Result | null;
-}
-
-interface PriceComparisonProps {
-    total: IPriceComparison;
-    compatible: IPriceComparison;
-    baseline: Result | null;
-}
-
-const PriceComparison = memo(({ compatible, total, baseline }: PriceComparisonProps) => {
-    if (!total.lowest && !total.highest)
-        return <Typography variant="h6">{"Providers didn't find anything 🤔"}</Typography>;
-
-    return (
-        <Stack spacing={3}>
-            <Stack>
-                <Typography gutterBottom>↓ [all/compatible]</Typography>
-                <Stack flexDirection="row" flexWrap="wrap">
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="success.main"
-                        target="_blank"
-                        href={total.lowest?.link}
-                    >
-                        {total.lowest?.price.amount}
-                    </Typography>
-                    <Typography variant="h2" color="success.main" mx={1}>
-                        {"/"}
-                    </Typography>
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="success.main"
-                        target="_blank"
-                        href={compatible.lowest?.link}
-                    >
-                        {compatible.lowest?.price.amount}
-                    </Typography>
-                </Stack>
-            </Stack>
-
-            <Stack>
-                <Typography gutterBottom>Retail price</Typography>
-                <Typography variant="h2">{baseline?.price.amount}</Typography>
-            </Stack>
-
-            <Stack>
-                <Typography gutterBottom>↑ [all/compatible]</Typography>
-                <Stack flexDirection="row" flexWrap="wrap">
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="error.main"
-                        target="_blank"
-                        href={total.highest?.link}
-                    >
-                        {total.highest?.price.amount}
-                    </Typography>
-                    <Typography variant="h2" color="error.main" mx={1}>
-                        {"/"}
-                    </Typography>
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="error.main"
-                        target="_blank"
-                        href={compatible.highest?.link}
-                    >
-                        {compatible.highest?.price.amount}
-                    </Typography>
-                </Stack>
-            </Stack>
-        </Stack>
-    );
-});
 
 export default function Quick({ data }: QuickProps) {
     const computed = useMemo(() => {
@@ -113,18 +36,21 @@ export default function Quick({ data }: QuickProps) {
     }, [data]);
 
     if (!computed) return <></>;
-
-    const { baseline, compatible, total } = computed;
+    if (!computed.total.highest || !computed.total.lowest)
+        return (
+            <Typography my={2} align="center" variant="h4">
+                {"Providers don't have this game 🤔"}
+            </Typography>
+        );
 
     return (
-        <Stack
-            my={2}
-            flexWrap="wrap"
-            spacing={2}
-            justifyContent="space-evenly"
-            alignItems="center"
-        >
-            <PriceComparison compatible={compatible} total={total} baseline={baseline} />
-        </Stack>
+        <Grid mt={2} spacing={2} container justifyContent="center" alignItems="center">
+            <Grid item xs={12} lg={6}>
+                <PriceComparison {...computed} />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+                <Products {...computed} />
+            </Grid>
+        </Grid>
     );
 }
