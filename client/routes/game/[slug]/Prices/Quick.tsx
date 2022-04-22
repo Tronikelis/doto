@@ -46,7 +46,12 @@ const Comparison = memo(({ baseline, highest, lowest }: ComparisonProps) => {
         return <Typography variant="h5">{"This game wasn't found 🤔"}</Typography>;
 
     return (
-        <Stack flexDirection="row" flexWrap="wrap" justifyContent="center" alignItems="center">
+        <Stack
+            flexDirection={isMobile ? "column" : "row"}
+            flexWrap="wrap"
+            justifyContent="center"
+            alignItems="center"
+        >
             {lowest.price.amount <= (baseline?.price.amount || Infinity) && (
                 <>
                     <Stack>
@@ -69,7 +74,7 @@ const Comparison = memo(({ baseline, highest, lowest }: ComparisonProps) => {
                     </Stack>
 
                     <Typography variant={variantLR} mx={2}>
-                        {"<"}
+                        {isMobile ? "^" : "<"}
                     </Typography>
                 </>
             )}
@@ -79,7 +84,7 @@ const Comparison = memo(({ baseline, highest, lowest }: ComparisonProps) => {
             {highest.price.amount >= (baseline?.price.amount || -Infinity) && (
                 <>
                     <Typography variant={variantLR} mx={2}>
-                        {"<"}
+                        {isMobile ? "^" : "<"}
                     </Typography>
 
                     <Stack>
@@ -138,9 +143,9 @@ export default function Quick({ data }: QuickProps) {
 
     return (
         <Stack
-            mt={2}
+            my={2}
             flexWrap="wrap"
-            flexDirection="row"
+            spacing={2}
             justifyContent="space-evenly"
             alignItems="center"
         >
