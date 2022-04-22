@@ -9,7 +9,7 @@ import { EnebaResult } from "./types";
 const chunk = {
     currency: "USD",
     searchType: "DEFAULT",
-    platforms: ["STEAM"],
+    // platforms: ["STEAM"],
     types: ["game"],
     regions: [
         "argentina",

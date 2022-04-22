@@ -10,11 +10,11 @@ export interface AxiosPriceSearch {
 
 export interface ThirdParty {
     provider: string;
-    result: Result[];
+    result: Result[] | null;
 }
 
 export interface Baseline extends ThirdParty {
-    result: Result;
+    result: Result | null;
 }
 
 export interface Result {

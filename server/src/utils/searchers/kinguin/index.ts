@@ -9,7 +9,7 @@ import { KinguinResult } from "./types";
 const BASE_URL = "https://www.kinguin.net/services/library/api/v1/products/search";
 
 const chunk = {
-    platforms: 2,
+    // platforms: 2,
     productType: 1,
     active: 1,
     hideUnavailable: 0,

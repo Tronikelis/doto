@@ -26,7 +26,7 @@ const fetchPrice = async ({
     const list: SearchResults[] = data.products
         .map(({ title, slug, coverHorizontal, price }) => ({
             name: title,
-            link: `https://www.gog.com/game/${slug}`,
+            link: `https://www.gog.com/en/game/${slug}`.replace(/-/g, "_"),
             image: coverHorizontal,
             inRegion: true,
             regions: ["global"],
