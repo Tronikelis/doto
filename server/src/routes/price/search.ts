@@ -23,8 +23,6 @@ type Querystring = Static<typeof querystring>;
 const defCountry = "LT";
 const defCurrency = "EUR";
 
-const cleanRegex = /[^\w\s]/g;
-
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { query, country, currency, steamId } = req.query;
 
@@ -51,9 +49,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         : null;
 
     const result = await search({
-        // make it easer for search engines to pickup
-        // removes non letter chars
-        query: query.replace(cleanRegex, ""),
+        query,
         country: computedCountry,
         currency: computedCurrency,
     });

@@ -7,12 +7,13 @@ import urlCat from "urlcat";
 import IconTypography from "@components/IconTypography";
 
 import { useGame } from "../hooks";
+import Extended from "./Extended";
 import Quick from "./Quick";
 import { AxiosPriceSearch, Result } from "./types";
 
 const steamSVG = "https://cdn.akamai.steamstatic.com/store/about/icon-steamos.svg";
 
-const Items = [Quick];
+const Items = [Quick, Extended];
 
 export default function Prices() {
     const { data: game } = useGame();
@@ -67,6 +68,7 @@ export default function Prices() {
             {Items.map((Item, i) => (
                 <Box key={i} hidden={i !== value}>
                     <Item
+                        data={data}
                         lowest={contrast?.lowest}
                         highest={contrast?.highest}
                         baseline={contrast?.baseline}

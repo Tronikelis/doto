@@ -7,10 +7,12 @@ interface FuzzyProps {
 
 const badWords = ["bundle", "pack", "dlc", "xbox", "ps 1", "ps 2", "ps 3", "ps 4", "ps 5"];
 
+const cleanRegex = /[^\w\s]/g;
+
 export default async function Fuzzy({ list, query }: FuzzyProps) {
     return list.filter(({ name, price }) => {
-        const cleanName = name.toLowerCase();
-        const cleanQuery = query.toLowerCase();
+        const cleanName = name.toLowerCase().replace(cleanRegex, "");
+        const cleanQuery = query.toLowerCase().replace(cleanRegex, "");
 
         const cleanNameNoSpaces = cleanName.replace(/ /g, "");
         const cleanQueryNoSpaces = cleanQuery.replace(/ /g, "");
