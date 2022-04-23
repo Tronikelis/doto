@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 import { AxiosPriceSearch, ResultWProvider } from "../types";
 import PriceComparison from "./PriceComparison";
@@ -9,7 +9,7 @@ interface QuickProps {
     data?: AxiosPriceSearch;
 }
 
-export default function Quick({ data }: QuickProps) {
+const Quick = memo(({ data }: QuickProps) => {
     const computed = useMemo(() => {
         if (!data) return null;
 
@@ -54,4 +54,6 @@ export default function Quick({ data }: QuickProps) {
             </Grid>
         </Grid>
     );
-}
+});
+
+export default Quick;

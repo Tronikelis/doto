@@ -28,7 +28,7 @@ export default function ProviderProduct({
                         {price?.amount} {price?.currency}
                     </Typography>
 
-                    <Typography>From {provider?.toUpperCase()}</Typography>
+                    {provider && <Typography>From {provider.toUpperCase()}</Typography>}
                     <Typography component="i">
                         {inRegion
                             ? "Compatible"
