@@ -5,7 +5,8 @@ interface FuzzyProps {
     list: SearchResults[];
 }
 
-const badWords = ["bundle", "pack", "dlc", "xbox", "ps 1", "ps 2", "ps 3", "ps 4", "ps 5"];
+// add spaces to these to make sure they aren't in the game's name
+const badWords = ["bundle", "pack", "dlc", "membership", "vip", "pass"].map(x => ` ${x} `);
 
 const cleanRegex = /[^\w\s]/g;
 

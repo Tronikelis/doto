@@ -1,5 +1,5 @@
 import ContrastIcon from "@mui/icons-material/Contrast";
-import { Box, Paper, Stack, Tab, Tabs } from "@mui/material";
+import { Box, CircularProgress, Paper, Stack, Tab, Tabs } from "@mui/material";
 import { useMemo, useState } from "react";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
@@ -28,17 +28,21 @@ export default function Prices() {
         return urlCat("/price/search", { steamId, query });
     }, [game]);
 
-    const { data } = useSWR<AxiosPriceSearch>(url);
+    const { data, error, isValidating } = useSWR<AxiosPriceSearch>(url);
+    const loading = (!data && !error) || isValidating;
 
     return (
         <Stack component={Paper} p={2}>
-            <IconTypography
-                sx={{ mb: 2 }}
-                props={{ variant: "h5" }}
-                icon={<ContrastIcon fontSize="large" />}
-            >
-                Price comparison ({data?.currency} {data?.country})
-            </IconTypography>
+            <Stack flexDirection="row">
+                <IconTypography
+                    sx={{ mb: 2, mr: 2 }}
+                    props={{ variant: "h5" }}
+                    icon={<ContrastIcon fontSize="large" />}
+                >
+                    Price comparison ({data?.currency} {data?.country})
+                </IconTypography>
+                {loading && <CircularProgress size={30} />}
+            </Stack>
 
             <Tabs value={value} centered onChange={(_, value) => setValue(value)}>
                 <Tab label="Quick" value={0} />

@@ -14,6 +14,11 @@ const Extended = memo(({ data }: ExtendedProps) => {
         [data?.thirdParty]
     );
 
+    const results = useMemo(
+        () => filtered?.reduce((prev: any, { result }) => [...prev, ...(result || [])], []),
+        [filtered]
+    );
+
     return (
         <Stack>
             <Stack>
@@ -26,6 +31,10 @@ const Extended = memo(({ data }: ExtendedProps) => {
             </Stack>
 
             <Divider sx={{ my: 2 }} />
+
+            <Typography mb={2} variant="h6">
+                Found {results?.length} results
+            </Typography>
 
             <Grid container spacing={3}>
                 {filtered?.map(({ provider, result }) =>

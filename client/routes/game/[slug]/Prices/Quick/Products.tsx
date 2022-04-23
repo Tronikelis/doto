@@ -7,10 +7,10 @@ export default function Products({ baseline, compatible, total }: PriceCompariso
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
             <Grid item xs={12} md={6} lg={4}>
-                <ProviderProduct {...compatible.lowest} />
+                <ProviderProduct {...total.lowest} />
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
-                <ProviderProduct {...total.lowest} />
+                <ProviderProduct {...compatible.lowest} />
             </Grid>
         </Grid>
     );
