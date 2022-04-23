@@ -2,7 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
-import { Result } from "@routes/game/[slug]/Prices/types";
+import { ResultWProvider } from "./types";
 
 export default function ProviderProduct({
     image,
@@ -10,7 +10,8 @@ export default function ProviderProduct({
     name,
     price,
     inRegion,
-}: Partial<Result>) {
+    provider,
+}: Partial<ResultWProvider>) {
     return (
         <Card variant="outlined">
             <CardActionArea LinkComponent="a" href={link || ""} target="_blank">
@@ -27,6 +28,7 @@ export default function ProviderProduct({
                         {price?.amount} {price?.currency}
                     </Typography>
 
+                    <Typography>From {provider?.toUpperCase()}</Typography>
                     <Typography component="i">
                         {inRegion
                             ? "Compatible"

@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 
-import ProviderProduct from "@components/ProviderProduct";
-
+import ProviderProduct from "../ProviderProduct";
 import { PriceComparisonProps } from "./types";
 
 export default function Products({ baseline, compatible, total }: PriceComparisonProps) {

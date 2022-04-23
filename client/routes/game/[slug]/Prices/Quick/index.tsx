@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { useMemo } from "react";
 
-import { AxiosPriceSearch, Result } from "../types";
+import { AxiosPriceSearch, ResultWProvider } from "../types";
 import PriceComparison from "./PriceComparison";
 import Products from "./Products";
 
@@ -13,10 +13,11 @@ export default function Quick({ data }: QuickProps) {
     const computed = useMemo(() => {
         if (!data) return null;
 
-        const reduced = data.thirdParty.reduce(
-            (prev: any, { result }) => [...prev, ...(result || [])],
-            []
-        ) as Result[];
+        const reduced = data.thirdParty.reduce((prev: any, { result, provider }) => {
+            // add corresponding provider to each result
+            const reduce = result?.map(x => ({ ...x, provider })) || [];
+            return [...prev, ...reduce];
+        }, []) as ResultWProvider[];
 
         reduced.sort((a, b) => a.price.amount - b.price.amount);
 

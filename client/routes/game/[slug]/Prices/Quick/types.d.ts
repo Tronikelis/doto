@@ -1,8 +1,8 @@
 import { Result } from "../types";
 
 export interface IPriceComparison {
-    highest?: Result | null;
-    lowest?: Result | null;
+    highest?: QuickResult | null;
+    lowest?: QuickResult | null;
 }
 
 export interface PriceComparisonProps {

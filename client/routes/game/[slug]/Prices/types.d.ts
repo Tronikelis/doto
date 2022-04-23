@@ -26,6 +26,10 @@ export interface Result {
     inRegion: boolean;
 }
 
+export interface ResultWProvider extends Result {
+    provider: string;
+}
+
 export interface ResultPrice {
     amount: number;
     currency: string;
