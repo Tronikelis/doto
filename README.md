@@ -1,4 +1,4 @@
-# Doto 🤑 - Buy the cheapest game without the hassle
+# Doto ( 同等 ) - Buy the cheapest game without the hassle
 
 <div align="center">
 
