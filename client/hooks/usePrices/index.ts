@@ -4,6 +4,8 @@ import urlCat from "urlcat";
 
 import { AxiosGame } from "@types";
 
+import useAccountMutation from "@hooks/mutations/useAccountMutation";
+
 import { AxiosPriceSearch, ResultWProvider } from "./types";
 
 interface usePricesProps {
@@ -13,6 +15,7 @@ interface usePricesProps {
 
 export default function usePrices({ slug = null, filter = "pc" }: usePricesProps) {
     const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
+    const { data: account } = useAccountMutation();
 
     const url = useMemo(() => {
         if (!game) return null;
@@ -21,8 +24,8 @@ export default function usePrices({ slug = null, filter = "pc" }: usePricesProps
         const steamUrl = game.stores.find(({ store }) => store.id === 1)?.url;
         const steamId = steamUrl && new URL(steamUrl).pathname.split("/")[2];
 
-        return urlCat("/price/search", { steamId, query, filter });
-    }, [filter, game]);
+        return urlCat("/price/search", { steamId, query, filter, ...account?.settings });
+    }, [account?.settings, filter, game]);
 
     const { data, error, isValidating } = useSWR<AxiosPriceSearch>(url);
     const loading = (!data && !error) || isValidating;

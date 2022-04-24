@@ -1,4 +1,4 @@
-import { Autocomplete, Stack, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Stack, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr/immutable";
 
@@ -38,20 +38,30 @@ export default function Settings() {
                 </Typography>
 
                 <Controller
-                    render={({ field: { onChange }, ...props }) => (
+                    render={({ field: { onChange }, fieldState: { error }, ...props }) => (
                         <Autocomplete
                             options={countries}
                             getOptionLabel={({ name, flag }) => `${name.common} ${flag}`}
                             onChange={(_, data) => onChange(data)}
-                            renderInput={props => <TextField {...props} label="Country" />}
+                            renderInput={props => (
+                                <TextField
+                                    {...props}
+                                    error={!!error}
+                                    helperText={error?.message}
+                                    label="Country"
+                                />
+                            )}
                             {...props}
                         />
                     )}
                     name="country"
                     control={control}
+                    rules={{ required: "Select a country" }}
                 />
 
                 <Typography>Current country: {account?.settings.country || "🤔"}</Typography>
+
+                <Button type="submit">Save</Button>
             </Stack>
         </Stack>
     );

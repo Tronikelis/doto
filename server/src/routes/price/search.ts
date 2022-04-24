@@ -3,6 +3,8 @@ import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 import urlCat from "urlcat";
 
+import { accountModel } from "@mongo";
+
 import { AxiosGeolocate } from "@types";
 
 import { cacheClient } from "@utils/axios";
@@ -38,8 +40,27 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         })
     );
 
-    const computedCountry = country?.toUpperCase() || data?.country_code || defCountry;
-    const computedCurrency = currency || data.currency.code || defCurrency;
+    const account = await accountModel.findOne({ user: req.session.user?.id || null });
+
+    // priority list
+    // 1. querystring
+    // 2. account settings
+    // 3. settings based on IP
+    // 4. default if not any
+
+    const computedCountry = (
+        country ||
+        account?.settings.country ||
+        data?.country_code ||
+        defCountry
+    ).toUpperCase();
+
+    const computedCurrency = (
+        currency ||
+        data.currency.code ||
+        account?.settings.currency ||
+        defCurrency
+    ).toUpperCase();
 
     const steamResult = steamId
         ? await steam.fetchPrice({
