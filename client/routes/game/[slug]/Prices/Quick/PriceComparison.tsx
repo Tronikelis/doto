@@ -1,6 +1,27 @@
 import { Link, Stack, Typography } from "@mui/material";
 
+import { ResultWProvider } from "@hooks/usePrices/types";
+
 import { PriceComparisonProps } from "./types";
+
+interface PriceLinkProps {
+    data?: ResultWProvider | null;
+    color: string;
+}
+
+const PriceLink = ({ data, color }: PriceLinkProps) => {
+    return (
+        <Typography
+            component={Link}
+            variant="h2"
+            color={color}
+            target="_blank"
+            href={data?.link}
+        >
+            {data?.price.amount}
+        </Typography>
+    );
+};
 
 export default function PriceComparison({
     compatible,
@@ -12,27 +33,11 @@ export default function PriceComparison({
             <Stack>
                 <Typography gutterBottom>↓ [all/compatible]</Typography>
                 <Stack flexDirection="row" flexWrap="wrap">
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="success.main"
-                        target="_blank"
-                        href={total.lowest?.link}
-                    >
-                        {total.lowest?.price.amount}
-                    </Typography>
+                    <PriceLink data={total.lowest} color="success.main" />
                     <Typography variant="h2" color="success.main" mx={1}>
                         {"/"}
                     </Typography>
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="success.main"
-                        target="_blank"
-                        href={compatible.lowest?.link}
-                    >
-                        {compatible.lowest?.price.amount}
-                    </Typography>
+                    <PriceLink data={compatible.lowest} color="success.main" />
                 </Stack>
             </Stack>
 
@@ -44,27 +49,11 @@ export default function PriceComparison({
             <Stack>
                 <Typography gutterBottom>↑ [all/compatible]</Typography>
                 <Stack flexDirection="row" flexWrap="wrap">
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="error.main"
-                        target="_blank"
-                        href={total.highest?.link}
-                    >
-                        {total.highest?.price.amount}
-                    </Typography>
+                    <PriceLink data={total.highest} color="error.main" />
                     <Typography variant="h2" color="error.main" mx={1}>
                         {"/"}
                     </Typography>
-                    <Typography
-                        component={Link}
-                        variant="h2"
-                        color="error.main"
-                        target="_blank"
-                        href={compatible.highest?.link}
-                    >
-                        {compatible.highest?.price.amount}
-                    </Typography>
+                    <PriceLink data={compatible.highest} color="error.main" />
                 </Stack>
             </Stack>
         </Stack>

@@ -1,23 +1,14 @@
 import { Divider, Grid, Stack, Typography } from "@mui/material";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
+import usePrices from "@hooks/usePrices";
+
+import { useGame } from "../../hooks";
 import ProviderProduct from "../ProviderProduct";
-import { AxiosPriceSearch } from "../types";
 
-interface ExtendedProps {
-    data?: AxiosPriceSearch;
-}
-
-const Extended = memo(({ data }: ExtendedProps) => {
-    const filtered = useMemo(
-        () => data?.thirdParty.filter(({ result }) => (result?.length || -1) > 0),
-        [data?.thirdParty]
-    );
-
-    const results = useMemo(
-        () => filtered?.reduce((prev: any, { result }) => [...prev, ...(result || [])], []),
-        [filtered]
-    );
+const Extended = memo(() => {
+    const { data: game } = useGame();
+    const { computed, data } = usePrices({ slug: game?.slug });
 
     return (
         <Stack>
@@ -33,18 +24,15 @@ const Extended = memo(({ data }: ExtendedProps) => {
             <Divider sx={{ my: 2 }} />
 
             <Typography mb={2} variant="h6">
-                Found {results?.length} results
+                Found {computed?.reduced.length} results
             </Typography>
 
             <Grid container spacing={3}>
-                {filtered?.map(({ provider, result }) =>
-                    result?.map(item => (
-                        <Grid item xs={12} md={6} lg={3} key={item.link}>
-                            <Typography gutterBottom>{provider.toUpperCase()}</Typography>
-                            <ProviderProduct {...item} />
-                        </Grid>
-                    ))
-                )}
+                {computed?.reduced?.map(item => (
+                    <Grid item xs={12} md={6} lg={3} key={item.link}>
+                        <ProviderProduct {...item} />
+                    </Grid>
+                ))}
             </Grid>
         </Stack>
     );

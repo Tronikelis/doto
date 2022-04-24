@@ -1,8 +1,8 @@
-import { Result } from "../types";
+import { Result, ResultWProvider } from "@hooks/usePrices/types";
 
 export interface IPriceComparison {
-    highest?: QuickResult | null;
-    lowest?: QuickResult | null;
+    highest?: ResultWProvider | null;
+    lowest?: ResultWProvider | null;
 }
 
 export interface PriceComparisonProps {

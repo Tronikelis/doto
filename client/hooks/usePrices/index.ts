@@ -23,9 +23,10 @@ export default function usePrices({ slug = null }: usePricesProps) {
         return urlCat("/price/search", { steamId, query });
     }, [game]);
 
-    const { data } = useSWR<AxiosPriceSearch>(url);
+    const { data, error, isValidating } = useSWR<AxiosPriceSearch>(url);
+    const loading = (!data && !error) || isValidating;
 
-    const reduced = useMemo(() => {
+    const computed = useMemo(() => {
         if (!data) return null;
 
         const reduced = data.thirdParty.reduce((prev: any, { result, provider }) => {
@@ -40,6 +41,7 @@ export default function usePrices({ slug = null }: usePricesProps) {
 
         return {
             baseline: data.baseline[0].result,
+            reduced,
             total: {
                 lowest: reduced[0],
                 highest: reduced[reduced.length - 1],
@@ -52,7 +54,8 @@ export default function usePrices({ slug = null }: usePricesProps) {
     }, [data]);
 
     return {
-        ...reduced,
         data,
+        loading,
+        computed,
     };
 }
