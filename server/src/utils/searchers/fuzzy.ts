@@ -3,7 +3,7 @@ import { SearchResults } from "./types";
 interface FuzzyProps {
     query: string;
     list: SearchResults[];
-    type?: "all" | "pc";
+    filter?: "all" | "pc" | string;
 }
 
 // add a space to these to make sure they aren't in the game's name
@@ -36,7 +36,7 @@ const pcFilter = [
 
 const cleanRegex = /[^\w\s]/g;
 
-export default async function Fuzzy({ list, query, type = "pc" }: FuzzyProps) {
+export default async function Fuzzy({ list, query, filter = "pc" }: FuzzyProps) {
     return list.filter(({ name, price }) => {
         const cleanName = name.toLowerCase().replace(cleanRegex, "");
         const cleanQuery = query.toLowerCase().replace(cleanRegex, "");
@@ -56,11 +56,11 @@ export default async function Fuzzy({ list, query, type = "pc" }: FuzzyProps) {
         // pc: blacklist console words
         // all: all :D
         let noBadWords = false;
-        switch (type) {
+        switch (filter) {
             case "pc":
                 noBadWords = !pcFilter.some(word => cleanName.includes(word));
                 break;
-            default:
+            case "all":
                 noBadWords = !allFilter.some(word => cleanName.includes(word));
                 break;
         }

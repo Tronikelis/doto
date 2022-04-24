@@ -22,3 +22,4 @@ export const toObjectId = (id: string) => {
 export * from "./models/user";
 export * from "./models/thread/comment";
 export * from "./models/report";
+export * from "./models/account";

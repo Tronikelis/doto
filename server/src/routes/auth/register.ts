@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import urlCat from "urlcat";
 import { promisify } from "util";
 
-import { userModel } from "@mongo";
+import { accountModel, userModel } from "@mongo";
 
 import { transporter } from "@utils/email";
 import ErrorBuilder from "@utils/errorBuilder";
@@ -54,6 +54,8 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         avatar,
         ip: ip && hash,
     });
+
+    await accountModel.create({ user: user.id });
 
     const key = jwt.sign({ id: user.id }, process.env.SECRET || "x");
     const url = urlCat(process.env.BASE_URL || "", "/api/v1/auth/account/verify", {

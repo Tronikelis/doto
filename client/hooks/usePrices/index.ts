@@ -8,9 +8,10 @@ import { AxiosPriceSearch, ResultWProvider } from "./types";
 
 interface usePricesProps {
     slug?: string | null;
+    filter?: string;
 }
 
-export default function usePrices({ slug = null }: usePricesProps) {
+export default function usePrices({ slug = null, filter = "pc" }: usePricesProps) {
     const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
 
     const url = useMemo(() => {
@@ -20,8 +21,8 @@ export default function usePrices({ slug = null }: usePricesProps) {
         const steamUrl = game.stores.find(({ store }) => store.id === 1)?.url;
         const steamId = steamUrl && new URL(steamUrl).pathname.split("/")[2];
 
-        return urlCat("/price/search", { steamId, query });
-    }, [game]);
+        return urlCat("/price/search", { steamId, query, filter });
+    }, [filter, game]);
 
     const { data, error, isValidating } = useSWR<AxiosPriceSearch>(url);
     const loading = (!data && !error) || isValidating;

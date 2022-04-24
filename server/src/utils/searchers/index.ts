@@ -9,12 +9,17 @@ const searchers = [eneba, humble, kinguin, gog, ig];
 
 const cleanRegex = /[^\w\s]/g;
 
-export const search = ({ query, country = "LT", currency = "EUR" }: FetchPriceProps) => {
+export const search = ({
+    query,
+    country = "LT",
+    currency = "EUR",
+    filter,
+}: FetchPriceProps) => {
     const cleanQuery = query.replace(cleanRegex, "");
 
     const promises = searchers.map(async ({ fetchPrice, provider }) => {
         try {
-            const result = await fetchPrice({ query: cleanQuery, country, currency });
+            const result = await fetchPrice({ query: cleanQuery, country, currency, filter });
             return { provider, result, error: null };
         } catch (error) {
             return { provider, result: [], error: String(error) };

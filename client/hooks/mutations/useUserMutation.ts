@@ -20,7 +20,7 @@ export interface User {
 }
 
 export default function useUserMutation() {
-    const { data: user, mutate } = useSWR<User | Record<string, never>>("/user");
+    const { data, mutate } = useSWR<User | Record<string, never>>("/user");
 
     const logout = () => {
         return mutate(
@@ -46,24 +46,25 @@ export default function useUserMutation() {
     };
 
     const changeAvatar = (img: string) => {
-        if (!user?.avatar) return;
         return mutate(
             axios.put("/user/avatar", { img }).then(x => x.data),
             {
                 ...SWRMutate,
-                optimisticData: produce(user, draft => {
-                    (draft.avatar as any) = user;
+                optimisticData: produce(data, draft => {
+                    (draft as any).avatar = data;
                 }),
             }
         );
     };
 
     return {
-        login,
-        logout,
-        register,
-        user,
-        validateNickname,
-        changeAvatar,
+        data,
+        actions: {
+            login,
+            logout,
+            register,
+            validateNickname,
+            changeAvatar,
+        },
     };
 }

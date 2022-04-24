@@ -32,7 +32,9 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<RegisterArgs>();
 
-    const { validateNickname, register: signup } = useUserMutation();
+    const {
+        actions: { validateNickname, register: signup },
+    } = useUserMutation();
 
     const onSubmit = async (data: RegisterArgs) => {
         await signup(data);

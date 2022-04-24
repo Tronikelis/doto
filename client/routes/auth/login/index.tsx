@@ -30,7 +30,9 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<LoginArgs>();
 
-    const { login } = useUserMutation();
+    const {
+        actions: { login },
+    } = useUserMutation();
 
     const onSubmit = async (data: LoginArgs) => {
         await login(data);

@@ -22,7 +22,9 @@ interface EditDialogProps {
 }
 
 const EditDialog = ({ open, onClose }: EditDialogProps) => {
-    const { changeAvatar } = useUserMutation();
+    const {
+        actions: { changeAvatar },
+    } = useUserMutation();
 
     const [value, setValue] = useState("");
 
@@ -54,7 +56,7 @@ const EditDialog = ({ open, onClose }: EditDialogProps) => {
 };
 
 export default function User() {
-    const { user } = useUserMutation();
+    const { data } = useUserMutation();
 
     const [open, setOpen] = useState(false);
 
@@ -69,7 +71,7 @@ export default function User() {
                 badgeContent={<EditIcon />}
             >
                 <IconButton onClick={() => setOpen(true)}>
-                    <Avatar src={user?.avatar} sx={{ width: 100, height: 100 }} />
+                    <Avatar src={data?.avatar} sx={{ width: 100, height: 100 }} />
                 </IconButton>
 
                 {/** opens this */}
@@ -77,26 +79,26 @@ export default function User() {
             </Badge>
 
             <Typography ml={1} variant="h3" sx={{ overflowWrap: "anywhere" }}>
-                {user?.nickname || "Logged out"}
+                {data?.nickname || "Logged out"}
                 <Typography color="text.secondary">
-                    {user?.email || "Login to start watching games"}
+                    {data?.email || "Login to start watching games"}
                 </Typography>
             </Typography>
 
             <Divider flexItem orientation="vertical" sx={{ mx: 2 }} />
 
-            {user?.nickname && (
+            {data?.nickname && (
                 <Stack>
                     <Typography gutterBottom>
-                        created on: {new Date(user.createdAt).toLocaleDateString()}
+                        created on: {new Date(data.createdAt).toLocaleDateString()}
                         {" ( "}
-                        <TimeAgo datetime={new Date(user.createdAt)} />
+                        <TimeAgo datetime={new Date(data.createdAt)} />
                         {" )"}
                     </Typography>
 
-                    {Object.keys(user.attributes).map(key => (
+                    {Object.keys(data.attributes).map(key => (
                         <Typography key={key}>
-                            {key}: {String((user as any).attributes[key])}
+                            {key}: {String((data as any).attributes[key])}
                         </Typography>
                     ))}
                 </Stack>
