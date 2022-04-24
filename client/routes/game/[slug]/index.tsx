@@ -9,6 +9,7 @@ import ResponsiveImage from "@components/ResponsiveImage";
 
 import Description from "./Description";
 import Media from "./Media";
+import Prices from "./Prices";
 import Reviews from "./Reviews";
 
 export default function Game() {
@@ -18,7 +19,7 @@ export default function Game() {
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <NextSeo
-                title={data?.name}
+                title={data?.name + " - Comparison"}
                 description={data?.description_raw}
                 openGraph={{
                     images: [{ url: data?.background_image_additional || "" }],
@@ -56,6 +57,10 @@ export default function Game() {
 
                 <Grid item xs={12} md={6} lg={3}>
                     <Reviews />
+                </Grid>
+
+                <Grid item xs={12} md={12} lg={9}>
+                    <Prices />
                 </Grid>
             </Grid>
         </Container>

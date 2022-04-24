@@ -65,4 +65,4 @@ jobs:
                   FORCE_DEPLOY: true
                   BRANCH: master
                   HOST: ${{ secrets.HOST }}
-                  PROJECT: sokutei
+                  PROJECT: doto

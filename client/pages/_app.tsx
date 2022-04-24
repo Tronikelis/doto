@@ -27,13 +27,8 @@ axios.defaults.baseURL = "/api/v1";
 axios.interceptors.response.use(
     x => x,
     error => {
-        // don't show auth notifications
         if (error.response.status === 401) return Promise.reject();
-        // only snack on 400 and >= 500
-        if (error.response.status === 400 || error.response.status >= 500) {
-            snack.error(parseError(error));
-        }
-
+        snack.error(parseError(error));
         return Promise.reject(error);
     }
 );
@@ -141,12 +136,15 @@ export default function MyApp(props: MyAppProps) {
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
 
-            <NextSeo titleTemplate="%s | Sokutei" defaultTitle="Sokutei" />
+            <NextSeo
+                titleTemplate="%s | Doto"
+                defaultTitle="Doto"
+                description="Doto is the easiest way to buy the cheapest video games currently available"
+            />
 
             <ThemeProvider theme={theme}>
                 <SnackbarProvider
-                    maxSnack={2}
-                    preventDuplicate
+                    maxSnack={3}
                     classes={{
                         variantWarning: "snack-warning",
                         variantError: "snack-error",

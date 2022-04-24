@@ -1,6 +1,7 @@
 import KeyIcon from "@mui/icons-material/Key";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import {
     Avatar,
     Divider,
@@ -22,7 +23,10 @@ import useUserMutation from "@hooks/mutations/useUserMutation";
 import MiscInfo from "./MiscInfo";
 
 const UserMenu = (props: MenuProps) => {
-    const { logout, user } = useUserMutation();
+    const {
+        actions: { logout },
+        data,
+    } = useUserMutation();
 
     const onLogout = async () => {
         await logout();
@@ -30,6 +34,7 @@ const UserMenu = (props: MenuProps) => {
     };
 
     const onLogin = () => Router.push("/auth/login");
+    const onAccount = () => Router.push("/account");
     const onRecover = () => Router.push("/auth/recover/generate");
 
     return (
@@ -38,8 +43,15 @@ const UserMenu = (props: MenuProps) => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
-            <Typography align="center">{user?.nickname || "Logged out"}</Typography>
+            <Typography align="center">{data?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
+
+            <MenuItem onClick={onAccount}>
+                <ListItemIcon>
+                    <ManageAccountsIcon />
+                </ListItemIcon>
+                Account
+            </MenuItem>
 
             <MenuItem onClick={onRecover}>
                 <ListItemIcon>
@@ -48,7 +60,7 @@ const UserMenu = (props: MenuProps) => {
                 Reset password
             </MenuItem>
 
-            {user?.nickname ? (
+            {data?.nickname ? (
                 <MenuItem onClick={onLogout}>
                     <ListItemIcon>
                         <LogoutIcon />
@@ -72,7 +84,7 @@ const UserMenu = (props: MenuProps) => {
 };
 
 export default function User() {
-    const { user } = useUserMutation();
+    const { data } = useUserMutation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = !!anchorEl;
@@ -80,8 +92,8 @@ export default function User() {
     return (
         <Stack flexDirection="row" justifyContent="center" alignItems="center">
             <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
-                <Avatar alt={user?.nickname}>
-                    {user?.avatar && <ResponsiveImage src={user.avatar} />}
+                <Avatar alt={data?.nickname}>
+                    {data?.avatar && <ResponsiveImage src={data.avatar} />}
                 </Avatar>
             </IconButton>
 

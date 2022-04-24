@@ -135,7 +135,7 @@ export default function Links() {
             <Drawer anchor="left" open={open} onClose={onClose}>
                 <Stack flexDirection="row" my={1} alignItems="center" justifyContent="center">
                     <Typography pl={5} flex={1} align="center">
-                        Kuraku
+                        Doto
                     </Typography>
 
                     <Stack alignItems="flex-end" mr={1}>
@@ -154,7 +154,7 @@ export default function Links() {
                     <Divider sx={{ my: 1 }} />
 
                     <ListItem disableGutters disablePadding>
-                        <NextLink href="https://github.com/Tronikelis/sokutei" passHref>
+                        <NextLink href="https://github.com/Tronikelis/doto" passHref>
                             <ListItemButton LinkComponent="a">
                                 <ListItemIcon>
                                     <GitHubIcon />

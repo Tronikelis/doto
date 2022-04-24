@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import urlCat from "urlcat";
 import { promisify } from "util";
 
-import { userModel } from "@mongo";
+import { accountModel, userModel } from "@mongo";
 
 import { transporter } from "@utils/email";
 import ErrorBuilder from "@utils/errorBuilder";
@@ -55,6 +55,8 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         ip: ip && hash,
     });
 
+    await accountModel.create({ user: user.id });
+
     const key = jwt.sign({ id: user.id }, process.env.SECRET || "x");
     const url = urlCat(process.env.BASE_URL || "", "/api/v1/auth/account/verify", {
         key,
@@ -62,10 +64,10 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     await transporter.sendMail({
         from: process.env.EMAIL_USER,
-        subject: "Kuraku account verification",
+        subject: "Doto account verification",
         to: user.email,
         html:
-            `<p>Hello, if you didn't register an account at kuraku you can safely ignore this email</p>` +
+            `<p>Hello, if you didn't register an account at doto you can safely ignore this email</p>` +
             `<p>To verify your account click this <a href="${url}">link</a></p>`,
     });
 

@@ -5,8 +5,5 @@
     "ext": "ts",
     "env": {
         "NODE_ENV": "development"
-    },
-    "events": {
-        "restart": "rm -rf server/dist"
     }
 }

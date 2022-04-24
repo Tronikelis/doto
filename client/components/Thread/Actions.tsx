@@ -87,10 +87,10 @@ const Actions = ({
 }: ActionsProps) => {
     const { downvotes, upvotes, voted } = votes;
 
-    const { user } = useUserMutation();
+    const { data } = useUserMutation();
     const [open, setOpen] = useState(false);
 
-    const loggedIn = !!user?.nickname;
+    const loggedIn = !!data?.nickname;
 
     const formattedVotes = useMemo(
         () => numberToString(upvotes - downvotes),
@@ -99,7 +99,7 @@ const Actions = ({
 
     const onClose = () => setOpen(false);
 
-    const isDeletable = user?.attributes?.admin || authorId === user?.id;
+    const isDeletable = data?.attributes?.admin || authorId === data?.id;
 
     return (
         <Stack flexDirection="row" flexWrap="wrap" justifyContent="space-between">
