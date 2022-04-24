@@ -19,6 +19,9 @@ interface ContentProps {
 export default function Content({ name, slug, genres = [] }: ContentProps) {
     const { computed, loading } = usePrices({ slug });
 
+    const isLess =
+        (computed?.total.lowest?.price.amount || 0) < (computed?.baseline?.price.amount || 0);
+
     return (
         <CardContent>
             <Stack flexDirection="row">
@@ -45,7 +48,7 @@ export default function Content({ name, slug, genres = [] }: ContentProps) {
             <Typography my={1}>
                 {computed?.baseline?.price.amount || "🤔"}
                 {" => "}
-                <Typography component="span" color="success.main">
+                <Typography component="span" color={isLess ? "success.main" : "error.main"}>
                     {computed?.total.lowest?.price.amount || "🤔"}
                 </Typography>
             </Typography>

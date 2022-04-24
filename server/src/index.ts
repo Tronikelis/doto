@@ -35,7 +35,7 @@ const fastify = Fastify({
 });
 
 fastify.register(fastifyRateLimit, {
-    max: 200,
+    max: 350,
     timeWindow: "1 minute",
     allowList: req =>
         // ssr is allowed
