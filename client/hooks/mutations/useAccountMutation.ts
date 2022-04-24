@@ -7,6 +7,7 @@ export interface Account {
     settings: {
         currency?: string | null;
         country?: string | null;
+        filter?: string | null;
     };
 }
 
@@ -18,7 +19,7 @@ export default function useAccountMutation() {
             axios.post("/account/settings", settings).then(x => x.data),
             {
                 ...SWRMutate,
-                optimisticData: { settings },
+                optimisticData: stale => ({ settings: { ...stale?.settings, ...settings } }),
             }
         );
     };
@@ -32,6 +33,7 @@ export default function useAccountMutation() {
                     settings: {
                         country: null,
                         currency: null,
+                        filter: null,
                     },
                 },
             }

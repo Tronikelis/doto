@@ -6,12 +6,12 @@ import useAccountMutation from "@hooks/mutations/useAccountMutation";
 
 import { AxiosCountries } from "./types";
 
-interface Settings {
+interface FormProps {
     country: AxiosCountries;
 }
 
-export default function Settings() {
-    const { control, handleSubmit } = useForm<Settings>();
+export default function Country() {
+    const { control, handleSubmit } = useForm<FormProps>();
 
     const { data: countries = [] } = useSWR<AxiosCountries[]>(
         "https://restcountries.com/v3.1/all"
@@ -19,10 +19,10 @@ export default function Settings() {
 
     const {
         data: account,
-        actions: { updateSettings, resetSettings },
+        actions: { updateSettings },
     } = useAccountMutation();
 
-    const onSubmit = ({ country }: Settings) => {
+    const onSubmit = ({ country }: FormProps) => {
         updateSettings({
             country: country.cca2,
             currency: Object.keys(country.currencies || { USD: "" })[0],
@@ -31,12 +31,12 @@ export default function Settings() {
 
     return (
         <Stack component="form" onSubmit={handleSubmit(onSubmit)}>
-            <Stack width={400} spacing={2}>
+            <Stack width="100%" maxWidth={350} spacing={2}>
                 <Typography>
                     Current country:{" "}
                     {account?.settings.country
                         ? `${account.settings.country} (${account.settings.currency})`
-                        : "🤔"}
+                        : "AUTO"}
                 </Typography>
                 <Controller
                     render={({ field: { onChange }, fieldState: { error }, ...props }) => (
@@ -66,10 +66,7 @@ export default function Settings() {
                 </Typography>
 
                 <Box alignSelf="flex-end">
-                    <Button sx={{ mr: 1 }} onClick={resetSettings}>
-                        Reset
-                    </Button>
-                    <Button variant="contained" type="submit">
+                    <Button disabled={!account} variant="contained" type="submit">
                         Save
                     </Button>
                 </Box>

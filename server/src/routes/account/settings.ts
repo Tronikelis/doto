@@ -10,6 +10,7 @@ const body = Type.Object(
     {
         country: Type.Optional(Type.String({ maxLength: 4 })),
         currency: Type.Optional(Type.String({ maxLength: 4 })),
+        filter: Type.Optional(Type.String({ pattern: /^(all|pc)$/g.source })),
     },
     { additionalProperties: false }
 );
