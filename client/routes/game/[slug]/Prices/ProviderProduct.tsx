@@ -2,7 +2,7 @@ import { Card, CardActionArea, CardContent, CardMedia, Typography } from "@mui/m
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
-import { ResultWProvider } from "./types";
+import { ResultWProvider } from "@hooks/usePrices/types";
 
 export default function ProviderProduct({
     image,
