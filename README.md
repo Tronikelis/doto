@@ -1,4 +1,6 @@
-# Doto ( 同等 ) - Buy the cheapest game without the hassle
+<h1 align="center">
+    Doto - finding cheap game keys shouldn't be a hassle
+</h1>
 
 <div align="center">
 

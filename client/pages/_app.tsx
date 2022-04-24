@@ -139,7 +139,7 @@ export default function MyApp(props: MyAppProps) {
             <NextSeo
                 titleTemplate="%s | Doto"
                 defaultTitle="Doto"
-                description="Doto is the easiest way to buy the cheapest video games currently available"
+                description="Looking for the cheapest way to buy your favorite game? Look no further than Doto! Here we'll show you the best deals on the internet for the hottest games."
             />
 
             <ThemeProvider theme={theme}>
