@@ -15,7 +15,7 @@ const body = Type.Object(
 );
 type Body = Static<typeof body>;
 
-const handler: any = async (req: Req<{ Body: Body }>) => {
+const POST_handler: any = async (req: Req<{ Body: Body }>) => {
     const { body, session } = req;
 
     const account = await accountModel.findOne({ user: session.user?.id || null }).orFail();
@@ -28,9 +28,26 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     return account.toJSON();
 };
 
+const DEL_handler = async (req: Req) => {
+    const account = await accountModel
+        .findOne({ user: req.session.user?.id || null })
+        .orFail();
+
+    (Object.keys(account.settings) as Array<keyof typeof account["settings"]>).forEach(key => {
+        account.settings[key] = null;
+    });
+
+    await account.save();
+    return account.toJSON();
+};
+
 export default (): Resource => ({
+    delete: {
+        handler: DEL_handler,
+        onRequest: authenticate("user"),
+    },
     post: {
-        handler,
+        handler: POST_handler,
         schema: { body },
         onRequest: authenticate("user"),
     },

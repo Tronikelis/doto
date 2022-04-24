@@ -26,7 +26,7 @@ export default function Account() {
             </Tabs>
 
             {Items.map((Item, i) => (
-                <Box key={i} hidden={i !== value}>
+                <Box key={i} hidden={i !== value} mt={2}>
                     <Item />
                 </Box>
             ))}

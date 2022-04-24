@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Stack, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import useSWR from "swr/immutable";
 
@@ -19,7 +19,7 @@ export default function Settings() {
 
     const {
         data: account,
-        actions: { updateSettings },
+        actions: { updateSettings, resetSettings },
     } = useAccountMutation();
 
     const onSubmit = ({ country }: Settings) => {
@@ -31,12 +31,13 @@ export default function Settings() {
 
     return (
         <Stack component="form" onSubmit={handleSubmit(onSubmit)}>
-            <Stack width={400} spacing={1.5}>
+            <Stack width={400} spacing={2}>
                 <Typography>
-                    Most of the time this is not needed as the app auto selects your
-                    country/currency
+                    Current country:{" "}
+                    {account?.settings.country
+                        ? `${account.settings.country} (${account.settings.currency})`
+                        : "🤔"}
                 </Typography>
-
                 <Controller
                     render={({ field: { onChange }, fieldState: { error }, ...props }) => (
                         <Autocomplete
@@ -59,9 +60,19 @@ export default function Settings() {
                     rules={{ required: "Select a country" }}
                 />
 
-                <Typography>Current country: {account?.settings.country || "🤔"}</Typography>
+                <Typography>
+                    Most of the time this is not needed as the app automatically selects your
+                    country/currency
+                </Typography>
 
-                <Button type="submit">Save</Button>
+                <Box alignSelf="flex-end">
+                    <Button sx={{ mr: 1 }} onClick={resetSettings}>
+                        Reset
+                    </Button>
+                    <Button variant="contained" type="submit">
+                        Save
+                    </Button>
+                </Box>
             </Stack>
         </Stack>
     );

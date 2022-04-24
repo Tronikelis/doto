@@ -8,18 +8,24 @@
 
 ⭐ Thanks to everyone who starred the project, it means a lot
 
-## Features
+## Planned features
 
--   👨‍💻 Built on modern web technologies
--   💲 Automatically searches in your currency (If it is not specified)
--   😎 Manages game keys which are region locked
--   ⚡ Built to be as fast as possible
--   📱 Has excellent support for mobile
--   🔓 100% FOSS
--   🤑 No referral links
--   🦾 Has a public API _in the future_
--   ✉️ Sends an email on custom discount targets _in the future_
--   🏠 Self hostable [how?](#how-to-self-host)
+-   [x] Built on modern web technologies 👨‍💻
+-   [x] Automatically searches in your currency (If it is not specified) 💲
+-   [x] Manages game keys which are region locked 😎
+-   [x] Built to be as fast as possible ⚡
+-   [x] Has excellent support for mobile 📱
+-   [x] 100% FOSS 🔓
+-   [x] No referral links 🤑
+-   [ ] Has a public API 🦾
+-   [ ] Self hostable [how?](#how-to-self-host) 🏠
+
+## Ideas
+
+Send me more if you have them
+
+-   Integrate with steam to show your total savings
+-   Send an email on custom discount targets
 
 ## Providers
 

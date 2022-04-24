@@ -1,6 +1,8 @@
 import axios from "axios";
 import useSWR from "swr/immutable";
 
+import { SWRMutate } from "@config";
+
 export interface Account {
     settings: {
         currency?: string | null;
@@ -11,12 +13,30 @@ export interface Account {
 export default function useAccountMutation() {
     const { data, mutate } = useSWR<Account>("/account");
 
-    const updateSettings = (data: Account["settings"]) => {
+    const updateSettings = (settings: Account["settings"]) => {
         return mutate(
-            axios.post("/account/settings", data).then(x => x.data),
-            false
+            axios.post("/account/settings", settings).then(x => x.data),
+            {
+                ...SWRMutate,
+                optimisticData: { settings },
+            }
         );
     };
 
-    return { data, actions: { updateSettings } };
+    const resetSettings = () => {
+        return mutate(
+            axios.delete("/account/settings").then(x => x.data),
+            {
+                ...SWRMutate,
+                optimisticData: {
+                    settings: {
+                        country: null,
+                        currency: null,
+                    },
+                },
+            }
+        );
+    };
+
+    return { data, actions: { updateSettings, resetSettings } };
 }
