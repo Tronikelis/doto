@@ -1,12 +1,4 @@
-import {
-    CardContent,
-    Chip,
-    CircularProgress,
-    Link as MuiLink,
-    Stack,
-    Typography,
-} from "@mui/material";
-import NextLink from "next/link";
+import { CardContent, Chip, CircularProgress, Stack, Typography } from "@mui/material";
 
 import usePrices from "@hooks/usePrices";
 
@@ -25,23 +17,14 @@ export default function Content({ name, slug, genres = [] }: ContentProps) {
     return (
         <CardContent>
             <Stack flexDirection="row">
-                <NextLink href={`/game/${slug}`} passHref>
-                    <Typography
-                        variant="h5"
-                        component={MuiLink}
-                        underline="none"
-                        mr={1}
-                        sx={{
-                            overflowWrap: "anywhere",
-                            "&:hover": {
-                                cursor: "pointer",
-                                color: "text.secondary",
-                            },
-                        }}
-                    >
-                        {name}
-                    </Typography>
-                </NextLink>
+                <Typography
+                    variant="h5"
+                    color="primary.main"
+                    sx={{ overflowWrap: "anywhere" }}
+                    mr={1}
+                >
+                    {name}
+                </Typography>
                 {loading && <CircularProgress color="secondary" size={28} />}
             </Stack>
 

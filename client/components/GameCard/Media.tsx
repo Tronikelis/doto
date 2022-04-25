@@ -1,7 +1,10 @@
 import { CardMedia } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 import ResponsiveImage from "@components/ResponsiveImage";
+
+import useMobile from "@hooks/useMobile";
 
 interface MediaProps {
     img: string | null;
@@ -10,6 +13,15 @@ interface MediaProps {
 
 export default function Media({ img, video }: MediaProps) {
     const [hovering, setHovering] = useState(false);
+    const isMobile = useMobile();
+
+    const { ref, inView } = useInView({
+        threshold: 0.8,
+    });
+
+    useEffect(() => {
+        isMobile && setHovering(inView);
+    }, [inView, isMobile]);
 
     const imageHidden = !!(hovering && video);
 
@@ -21,8 +33,8 @@ export default function Media({ img, video }: MediaProps) {
                 display: "flex",
                 flexDirection: "column",
             }}
+            ref={ref}
             onMouseEnter={() => setHovering(true)}
-            onClick={() => setHovering(x => !x)}
             onMouseLeave={() => setHovering(false)}
         >
             {hovering && (
