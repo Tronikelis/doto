@@ -32,6 +32,7 @@ const cacheClient = setup({
         maxAge: 1000 * 60 * 60 * 2,
         limit: 8_000,
     },
+    timeout: 8_000,
 });
 
 export { rawgClient, cacheClient };

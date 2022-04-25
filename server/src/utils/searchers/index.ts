@@ -1,11 +1,12 @@
 import eneba from "./eneba";
+import gmg from "./gmg";
 import gog from "./gog";
 import humble from "./humble";
 import ig from "./ig";
 import kinguin from "./kinguin";
 import { FetchPriceProps } from "./types";
 
-const searchers = [eneba, humble, kinguin, gog, ig];
+const searchers = [eneba, humble, kinguin, gog, ig, gmg];
 
 const cleanRegex = /[^\w\s]/g;
 
