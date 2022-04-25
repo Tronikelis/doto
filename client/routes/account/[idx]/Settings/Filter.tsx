@@ -29,7 +29,7 @@ export default function Filter() {
                 Current filter: {account?.settings.filter?.toUpperCase() || "PC"}
             </Typography>
             <TextField
-                sx={{ width: 400 }}
+                sx={{ maxWidth: 400, width: "100%" }}
                 error={!!errors.filter}
                 helperText={errors.filter?.message}
                 select
