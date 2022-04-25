@@ -36,6 +36,7 @@ Send me more if you have them
 -   Humble Bundle (https://www.humblebundle.com/)
 -   Instant Gaming (https://www.instant-gaming.com/)
 -   Kinguin (https://www.kinguin.net/)
+-   Green Man Gaming (https://www.greenmangaming.com/)
 -   Steam (https://store.steampowered.com/)
 
 ## Contact
