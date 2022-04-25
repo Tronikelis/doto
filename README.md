@@ -12,6 +12,7 @@
 
 ## Planned features
 
+-   [x] Uses the beautiful [nord](https://www.nordtheme.com/) theme ⛰️
 -   [x] Built on modern web technologies 👨‍💻
 -   [x] Automatically searches in your currency (If it is not specified) 💲
 -   [x] Manages game keys which are region locked 😎

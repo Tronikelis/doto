@@ -1,4 +1,4 @@
-import { CardContent, Chip, CircularProgress, Stack, Typography } from "@mui/material";
+import { CardContent, Chip, LinearProgress, Stack, Typography } from "@mui/material";
 
 import usePrices from "@hooks/usePrices";
 
@@ -16,6 +16,11 @@ export default function Content({ name, slug, genres = [] }: ContentProps) {
 
     return (
         <CardContent>
+            {loading && (
+                <LinearProgress
+                    sx={{ position: "absolute", width: "100%", right: 0, bottom: 0 }}
+                />
+            )}
             <Stack flexDirection="row">
                 <Typography
                     variant="h5"
@@ -25,7 +30,6 @@ export default function Content({ name, slug, genres = [] }: ContentProps) {
                 >
                     {name}
                 </Typography>
-                {loading && <CircularProgress color="secondary" size={28} />}
             </Stack>
 
             <Typography my={1}>

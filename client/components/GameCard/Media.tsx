@@ -13,6 +13,7 @@ interface MediaProps {
 
 export default function Media({ img, video }: MediaProps) {
     const [hovering, setHovering] = useState(false);
+    const [videoLoaded, setVideoLoaded] = useState(false);
     const isMobile = useMobile();
 
     const { ref, inView } = useInView({
@@ -23,7 +24,7 @@ export default function Media({ img, video }: MediaProps) {
         isMobile && setHovering(inView);
     }, [inView, isMobile]);
 
-    const imageHidden = !!(hovering && video);
+    const imageHidden = !!(hovering && video && videoLoaded);
 
     return (
         <CardMedia
@@ -43,6 +44,7 @@ export default function Media({ img, video }: MediaProps) {
                     preload="none"
                     src={video}
                     autoPlay
+                    onCanPlay={() => setVideoLoaded(true)}
                     loop
                     style={{
                         position: "absolute",
