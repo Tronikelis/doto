@@ -1,4 +1,5 @@
 import eneba from "./eneba";
+import fanatical from "./fanatical";
 import gmg from "./gmg";
 import gog from "./gog";
 import humble from "./humble";
@@ -6,7 +7,7 @@ import ig from "./ig";
 import kinguin from "./kinguin";
 import { FetchPriceProps } from "./types";
 
-const searchers = [eneba, humble, kinguin, gog, ig, gmg];
+const searchers = [eneba, humble, kinguin, gog, ig, gmg, fanatical];
 
 const cleanRegex = /[^\w\s]/g;
 
@@ -22,8 +23,8 @@ export const search = ({
         try {
             const result = await fetchPrice({ query: cleanQuery, country, currency, filter });
             return { provider, result, error: null };
-        } catch (error) {
-            return { provider, result: [], error: String(error) };
+        } catch (error: any) {
+            return { provider, result: [], error: String(error.data || error) };
         }
     });
 

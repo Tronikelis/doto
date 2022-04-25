@@ -37,6 +37,7 @@ Send me more if you have them
 -   Instant Gaming (https://www.instant-gaming.com/)
 -   Kinguin (https://www.kinguin.net/)
 -   Green Man Gaming (https://www.greenmangaming.com/)
+-   Fanatical (https://www.fanatical.com/en/)
 -   Steam (https://store.steampowered.com/)
 
 ## Contact
