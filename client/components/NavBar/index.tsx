@@ -1,8 +1,9 @@
-import { AppBar, Container, Stack } from "@mui/material";
+import { AppBar, Box, Container, Stack } from "@mui/material";
 import dynamic from "next/dynamic";
 import { memo } from "react";
 
 import Links from "./Links";
+import Title from "./Title";
 import User from "./User";
 
 const Search = dynamic(() => import("./Search"));
@@ -17,7 +18,11 @@ function NavBar() {
                     justifyContent="space-between"
                     alignItems="center"
                 >
-                    <Links />
+                    <Stack flexDirection="row" justifyContent="center" alignItems="center">
+                        <Links />
+                        <Box width={10} />
+                        <Title />
+                    </Stack>
                     <Search />
                     <User />
                 </Stack>
