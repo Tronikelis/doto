@@ -24,6 +24,8 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
+import useMobile from "@hooks/useMobile";
+
 interface Link {
     name: string;
     href: string;
@@ -114,6 +116,8 @@ export default function Links() {
         setOpen(false);
     }, []);
 
+    const isMobile = useMobile();
+
     useEffect(() => {
         const callback = ({ key }: KeyboardEvent) => {
             if (key !== "Control") return;
@@ -130,9 +134,11 @@ export default function Links() {
                 <MenuIcon />
             </IconButton>
 
-            <Typography variant="body2" color="text.secondary">
-                (CTRL)
-            </Typography>
+            {!isMobile && (
+                <Typography variant="body2" color="text.secondary">
+                    (CTRL)
+                </Typography>
+            )}
 
             <Drawer anchor="left" open={open} onClose={onClose}>
                 <Stack flexDirection="row" my={1} alignItems="center" justifyContent="center">
