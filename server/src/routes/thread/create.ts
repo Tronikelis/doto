@@ -8,7 +8,7 @@ import { authenticate } from "@hooks/authenticate";
 
 const body = Type.Object(
     {
-        title: Type.String({ minLength: 1, maxLength: 500 }),
+        title: Type.String({ minLength: 1, maxLength: 200 }),
         description: Type.String({ minLength: 1, maxLength: 10_000 }),
         slug: Type.String(),
     },

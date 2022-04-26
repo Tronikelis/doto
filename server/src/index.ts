@@ -85,6 +85,7 @@ fastify
         fastify.next("/recently");
         fastify.next("/denuvo/*");
         fastify.next("/auth/*");
+        fastify.next("/create/*");
     });
 
 fastify.register(

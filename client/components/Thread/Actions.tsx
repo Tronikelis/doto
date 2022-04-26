@@ -9,6 +9,8 @@ import { useForm } from "react-hook-form";
 
 import { FormattedVotes } from "@types";
 
+import { removeNewlines, removeSpaces } from "@config";
+
 import useUserMutation from "@hooks/mutations/useUserMutation";
 
 import numberToString from "@utils/numberToString";
@@ -28,9 +30,6 @@ interface ActionsProps {
     onDelete: () => any;
 }
 
-const removeNewlines = /([ \t]*\n){3,}/g;
-const removeSpaces = / +(?= )/g;
-
 const ReplyBox = ({ onReply, onClose }: ReplyBoxProps) => {
     const { register, handleSubmit } = useForm<{ comment: string }>();
 
@@ -49,10 +48,7 @@ const ReplyBox = ({ onReply, onClose }: ReplyBoxProps) => {
                 variant="standard"
                 {...register("comment", {
                     required: "Write a comment",
-                    maxLength: {
-                        value: 5_000,
-                        message: "Your comment is too long",
-                    },
+                    maxLength: 5_000,
                     setValueAs,
                 })}
                 multiline
