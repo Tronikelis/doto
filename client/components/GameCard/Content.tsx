@@ -1,4 +1,5 @@
 import { CardContent, Chip, LinearProgress, Stack, Typography } from "@mui/material";
+import { useInView } from "react-intersection-observer";
 
 import usePrices from "@hooks/usePrices";
 
@@ -9,18 +10,15 @@ interface ContentProps {
 }
 
 export default function Content({ name, slug, genres = [] }: ContentProps) {
-    const { computed, loading } = usePrices({ slug });
+    const { ref, inView } = useInView();
+
+    const { computed, loading } = usePrices({ slug: inView ? slug : null });
 
     const isLess =
         (computed?.total.lowest?.price.amount || 0) < (computed?.baseline?.price.amount || 0);
 
     return (
-        <CardContent>
-            {loading && (
-                <LinearProgress
-                    sx={{ position: "absolute", width: "100%", right: 0, bottom: 0 }}
-                />
-            )}
+        <CardContent ref={ref}>
             <Stack flexDirection="row">
                 <Typography
                     variant="h5"
@@ -45,6 +43,12 @@ export default function Content({ name, slug, genres = [] }: ContentProps) {
                     <Chip sx={{ mr: 1, my: 0.5 }} label={genre} key={genre} />
                 ))}
             </Stack>
+
+            {loading && (
+                <LinearProgress
+                    sx={{ position: "absolute", width: "100%", right: 0, bottom: 0 }}
+                />
+            )}
         </CardContent>
     );
 }
