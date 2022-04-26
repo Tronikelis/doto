@@ -1,5 +1,5 @@
 import axios from "axios";
-import useSWR from "swr/immutable";
+import useSWR from "swr";
 
 import { SWRMutate } from "@config";
 

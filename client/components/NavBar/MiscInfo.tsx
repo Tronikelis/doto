@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import useSWR from "swr/immutable";
+import useSWR from "swr";
 
 import useInterval from "@hooks/useInterval";
 

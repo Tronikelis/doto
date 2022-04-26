@@ -1,7 +1,5 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
     Box,
-    Button,
     Card,
     CardActionArea,
     CardContent,
@@ -18,12 +16,11 @@ import {
 import { dequal } from "dequal";
 import { NextSeo } from "next-seo";
 import { memo, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import urlCat from "urlcat";
 
 import { AxiosDenuvoUpdates } from "@types";
-
-import { SWRImmutable } from "@config";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
@@ -69,26 +66,24 @@ export default function DenuvoUpdates() {
         (index, prev) => {
             if (prev && !prev.next) return null;
             return urlCat("/denuvo/updates", { page: index + 1, type });
-        },
-        SWRImmutable
+        }
     );
 
     const loading = (!error && !data) || isValidating;
 
-    const onClick = () => {
-        setSize(x => x + 1);
-    };
+    const { ref } = useInView({
+        onChange: inView => {
+            inView && setSize(x => x + 1);
+        },
+    });
 
     return (
         <Container maxWidth="xl">
             <NextSeo title="Denuvo updates" description="Most recent updates about denuvo" />
 
-            <Stack flexDirection="row" alignItems="center" justifyContent="center" my={3}>
-                <Typography variant="h4" mr={2}>
-                    Denuvo updates
-                </Typography>
-                {loading && <CircularProgress />}
-            </Stack>
+            <Typography variant="h4" align="center" my={3}>
+                Denuvo updates
+            </Typography>
 
             <Tabs centered value={type} onChange={(_, value) => setType(value)}>
                 <Tab label="Recent updates" value={0} />
@@ -108,16 +103,11 @@ export default function DenuvoUpdates() {
                     )}
                 </Grid>
 
-                <Box>
-                    <Button
-                        disabled={loading || !data?.[data.length - 1].next}
-                        onClick={onClick}
-                        variant="contained"
-                        endIcon={<ExpandMoreIcon />}
-                    >
-                        Load more
-                    </Button>
-                </Box>
+                <Stack justifyContent="center" alignItems="center">
+                    {(data?.[data?.length - 1].next || loading) && (
+                        <CircularProgress ref={ref} />
+                    )}
+                </Stack>
             </Stack>
         </Container>
     );

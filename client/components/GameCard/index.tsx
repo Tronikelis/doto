@@ -1,5 +1,6 @@
-import { Card } from "@mui/material";
+import { Card, CardActionArea } from "@mui/material";
 import { dequal } from "dequal";
+import NextLink from "next/link";
 import { memo } from "react";
 
 import Content from "./Content";
@@ -30,8 +31,12 @@ const GameCard = memo(
                     }
                 }
             >
-                <Media img={img} video={video} />
-                <Content name={name} slug={slug} genres={genres} />
+                <NextLink href={`/game/${slug}`} passHref>
+                    <CardActionArea LinkComponent="a">
+                        <Media img={img} video={video} />
+                        <Content name={name} slug={slug} genres={genres} />
+                    </CardActionArea>
+                </NextLink>
             </Card>
         );
     },

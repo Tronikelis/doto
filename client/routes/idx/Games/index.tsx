@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Grid, Stack } from "@mui/material";
 import { dequal } from "dequal";
-import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSWRConfig } from "swr";
 import useSWRInfinite from "swr/infinite";
@@ -31,12 +30,11 @@ export default function Index() {
         { fallbackData: [fallback.games] }
     );
 
-    const { ref, inView } = useInView();
-
-    useEffect(() => {
-        if (!inView) return;
-        setSize(x => x + 1);
-    }, [inView, setSize]);
+    const { ref } = useInView({
+        onChange: inView => {
+            inView && setSize(x => x + 1);
+        },
+    });
 
     return (
         <Stack flex={1}>

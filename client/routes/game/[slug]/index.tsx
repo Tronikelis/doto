@@ -1,9 +1,5 @@
 import { Container, Grid } from "@mui/material";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
-import useSWR from "swr";
-
-import { AxiosGame } from "@types";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
@@ -11,15 +7,15 @@ import Description from "./Description";
 import Media from "./Media";
 import Prices from "./Prices";
 import Reviews from "./Reviews";
+import { useGame } from "./hooks";
 
 export default function Game() {
-    const { slug = null } = useRouter().query;
-    const { data } = useSWR<AxiosGame>(slug && `/game/${slug}`);
+    const { data } = useGame();
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <NextSeo
-                title={data?.name + " - Comparison"}
+                title={data?.name + " - Price comparison"}
                 description={data?.description_raw}
                 openGraph={{
                     images: [{ url: data?.background_image_additional || "" }],

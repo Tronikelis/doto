@@ -8,7 +8,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useMemo } from "react";
-import useSWR from "swr/immutable";
+import useSWR from "swr";
 import urlCat from "urlcat";
 
 import { AxiosRedditTop } from "@types";
@@ -50,7 +50,7 @@ export default function TopReddit({ reddit }: TopRedditProps) {
                 >
                     {result?.url.includes("i.redd.it") && (
                         <CardMedia sx={{ height: 280 }}>
-                            <ResponsiveImage src={result.url} />
+                            <ResponsiveImage src={result.url} objectFit="contain" />
                         </CardMedia>
                     )}
 

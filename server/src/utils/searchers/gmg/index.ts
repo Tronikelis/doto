@@ -39,8 +39,8 @@ const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps)
 
     const getAmount = (regions: Regions) => {
         const keys = Object.keys(regions);
-        const key = keys[keys.length - 1];
-        return regions[key as keyof typeof regions].Mrp;
+        const key = keys[keys.length - 1] as keyof typeof regions;
+        return regions[key]?.Mrp || regions[key]?.Drp || regions[key]?.Rrp;
     };
 
     const list: SearchResults[] = data.results[0].hits

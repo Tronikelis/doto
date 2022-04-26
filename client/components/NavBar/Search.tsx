@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Router from "next/router";
 import { HTMLAttributes, useState } from "react";
-import useSWR from "swr/immutable";
+import useSWR from "swr";
 import { useDebounce } from "use-debounce";
 
 import { AxiosGames, ResultGames } from "@types";

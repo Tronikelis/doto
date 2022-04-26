@@ -1,12 +1,5 @@
-import {
-    CardContent,
-    Chip,
-    CircularProgress,
-    Link as MuiLink,
-    Stack,
-    Typography,
-} from "@mui/material";
-import NextLink from "next/link";
+import { CardContent, Chip, LinearProgress, Stack, Typography } from "@mui/material";
+import { useInView } from "react-intersection-observer";
 
 import usePrices from "@hooks/usePrices";
 
@@ -17,32 +10,24 @@ interface ContentProps {
 }
 
 export default function Content({ name, slug, genres = [] }: ContentProps) {
-    const { computed, loading } = usePrices({ slug });
+    const { ref, inView } = useInView();
+
+    const { computed, loading } = usePrices({ slug: inView ? slug : null });
 
     const isLess =
         (computed?.total.lowest?.price.amount || 0) < (computed?.baseline?.price.amount || 0);
 
     return (
-        <CardContent>
+        <CardContent ref={ref}>
             <Stack flexDirection="row">
-                <NextLink href={`/game/${slug}`} passHref>
-                    <Typography
-                        variant="h5"
-                        component={MuiLink}
-                        underline="none"
-                        mr={1}
-                        sx={{
-                            overflowWrap: "anywhere",
-                            "&:hover": {
-                                cursor: "pointer",
-                                color: "text.secondary",
-                            },
-                        }}
-                    >
-                        {name}
-                    </Typography>
-                </NextLink>
-                {loading && <CircularProgress color="secondary" size={28} />}
+                <Typography
+                    variant="h5"
+                    color="primary.main"
+                    sx={{ overflowWrap: "anywhere" }}
+                    mr={1}
+                >
+                    {name}
+                </Typography>
             </Stack>
 
             <Typography my={1}>
@@ -58,6 +43,12 @@ export default function Content({ name, slug, genres = [] }: ContentProps) {
                     <Chip sx={{ mr: 1, my: 0.5 }} label={genre} key={genre} />
                 ))}
             </Stack>
+
+            {loading && (
+                <LinearProgress
+                    sx={{ position: "absolute", width: "100%", right: 0, bottom: 0 }}
+                />
+            )}
         </CardContent>
     );
 }

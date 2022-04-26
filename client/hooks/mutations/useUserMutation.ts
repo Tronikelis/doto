@@ -1,6 +1,6 @@
 import axios from "axios";
 import produce from "immer";
-import useSWR from "swr/immutable";
+import useSWR from "swr";
 
 import { SWRMutate } from "@config";
 

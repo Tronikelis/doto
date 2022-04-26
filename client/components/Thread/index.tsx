@@ -6,8 +6,6 @@ import TimeAgo from "timeago-react";
 
 import { Reply } from "@types";
 
-import { SWRImmutable } from "@config";
-
 import useCommentMutation from "@hooks/mutations/thread/useCommentMutation";
 import useReplyMutation from "@hooks/mutations/thread/useReplyMutation";
 
@@ -52,7 +50,7 @@ const Thread = () => {
         next,
         loading,
         reply,
-    } = useReplyMutation({ count, id: comment?.id }, SWRImmutable);
+    } = useReplyMutation({ count, id: comment?.id });
 
     const comments = useMemo(
         () => replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []),

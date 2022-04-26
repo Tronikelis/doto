@@ -2,12 +2,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import GamepadIcon from "@mui/icons-material/Gamepad";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
-import UpgradeIcon from "@mui/icons-material/Upgrade";
 import {
     Collapse,
     Divider,
@@ -18,12 +16,15 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Link as MuiLink,
     Stack,
     Typography,
 } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+import useMobile from "@hooks/useMobile";
 
 interface Link {
     name: string;
@@ -47,20 +48,9 @@ const links: Link[] = [
     },
     {
         name: "Denuvo",
-        href: "/denuvo",
+        href: "/denuvo/updates",
         icon: <DangerousIcon />,
-        nested: [
-            {
-                name: "Games",
-                href: "/denuvo/games",
-                icon: <GamepadIcon />,
-            },
-            {
-                name: "Updates",
-                href: "/denuvo/updates",
-                icon: <UpgradeIcon />,
-            },
-        ],
+        nested: null,
     },
 ];
 
@@ -126,11 +116,29 @@ export default function Links() {
         setOpen(false);
     }, []);
 
+    const isMobile = useMobile();
+
+    useEffect(() => {
+        const callback = ({ key }: KeyboardEvent) => {
+            if (key !== "Control") return;
+            setOpen(x => !x);
+        };
+
+        document.addEventListener("keyup", callback);
+        return () => document.removeEventListener("keyup", callback);
+    }, []);
+
     return (
         <Stack flexDirection="row" justifyContent="center" alignItems="center">
             <IconButton onClick={() => setOpen(x => !x)}>
                 <MenuIcon />
             </IconButton>
+
+            {!isMobile && (
+                <Typography variant="body2" color="text.secondary">
+                    (CTRL)
+                </Typography>
+            )}
 
             <Drawer anchor="left" open={open} onClose={onClose}>
                 <Stack flexDirection="row" my={1} alignItems="center" justifyContent="center">
@@ -153,15 +161,19 @@ export default function Links() {
                     ))}
                     <Divider sx={{ my: 1 }} />
 
-                    <ListItem disableGutters disablePadding>
-                        <NextLink href="https://github.com/Tronikelis/doto" passHref>
-                            <ListItemButton LinkComponent="a">
-                                <ListItemIcon>
-                                    <GitHubIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="GitHub" />
-                            </ListItemButton>
-                        </NextLink>
+                    <ListItem
+                        disableGutters
+                        disablePadding
+                        component={MuiLink}
+                        target="_blank"
+                        href="https://github.com/Tronikelis/doto"
+                    >
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <GitHubIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="GitHub" />
+                        </ListItemButton>
                     </ListItem>
                 </List>
             </Drawer>
