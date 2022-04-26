@@ -9,8 +9,6 @@ import { useSnapshot } from "valtio";
 
 import { AxiosGames } from "@types";
 
-import { SWRImmutable } from "@config";
-
 import GameCard from "@components/GameCard";
 
 import Filters from "./Filters";
@@ -29,7 +27,7 @@ export default function Index() {
             if (previous && !previous.next) return null;
             return urlCat("/games", { ...debouncedQuery, page: index + 1 });
         },
-        { ...SWRImmutable, fallbackData: [fallback.games] }
+        { fallbackData: [fallback.games] }
     );
 
     const { ref } = useInView({

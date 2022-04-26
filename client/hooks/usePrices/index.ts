@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import useSWR from "swr/immutable";
+import useSWR from "swr";
 import urlCat from "urlcat";
 
 import { AxiosGame } from "@types";

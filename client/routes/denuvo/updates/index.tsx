@@ -22,8 +22,6 @@ import urlCat from "urlcat";
 
 import { AxiosDenuvoUpdates } from "@types";
 
-import { SWRImmutable } from "@config";
-
 import ResponsiveImage from "@components/ResponsiveImage";
 
 const Item = memo(({ date, img, price, status, steam }: AxiosDenuvoUpdates["items"][0]) => {
@@ -68,8 +66,7 @@ export default function DenuvoUpdates() {
         (index, prev) => {
             if (prev && !prev.next) return null;
             return urlCat("/denuvo/updates", { page: index + 1, type });
-        },
-        SWRImmutable
+        }
     );
 
     const loading = (!error && !data) || isValidating;
