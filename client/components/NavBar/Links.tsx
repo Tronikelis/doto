@@ -16,6 +16,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Link as MuiLink,
     Stack,
     Typography,
 } from "@mui/material";
@@ -140,15 +141,19 @@ export default function Links() {
                     ))}
                     <Divider sx={{ my: 1 }} />
 
-                    <ListItem disableGutters disablePadding>
-                        <NextLink href="https://github.com/Tronikelis/doto" passHref>
-                            <ListItemButton LinkComponent="a">
-                                <ListItemIcon>
-                                    <GitHubIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="GitHub" />
-                            </ListItemButton>
-                        </NextLink>
+                    <ListItem
+                        disableGutters
+                        disablePadding
+                        component={MuiLink}
+                        target="_blank"
+                        href="https://github.com/Tronikelis/doto"
+                    >
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <GitHubIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="GitHub" />
+                        </ListItemButton>
                     </ListItem>
                 </List>
             </Drawer>
