@@ -15,7 +15,7 @@ export default function Game() {
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <NextSeo
-                title={data?.name + " - Comparison"}
+                title={data?.name + " - Price comparison"}
                 description={data?.description_raw}
                 openGraph={{
                     images: [{ url: data?.background_image_additional || "" }],
