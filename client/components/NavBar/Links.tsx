@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface Link {
     name: string;
@@ -114,11 +114,25 @@ export default function Links() {
         setOpen(false);
     }, []);
 
+    useEffect(() => {
+        const callback = ({ key }: KeyboardEvent) => {
+            if (key !== "Control") return;
+            setOpen(x => !x);
+        };
+
+        document.addEventListener("keyup", callback);
+        return () => document.removeEventListener("keyup", callback);
+    }, []);
+
     return (
         <Stack flexDirection="row" justifyContent="center" alignItems="center">
             <IconButton onClick={() => setOpen(x => !x)}>
                 <MenuIcon />
             </IconButton>
+
+            <Typography variant="body2" color="text.secondary">
+                (CTRL)
+            </Typography>
 
             <Drawer anchor="left" open={open} onClose={onClose}>
                 <Stack flexDirection="row" my={1} alignItems="center" justifyContent="center">
