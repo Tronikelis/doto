@@ -1,5 +1,5 @@
 import { CardMedia } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 
 import ResponsiveImage from "@components/ResponsiveImage";
@@ -16,13 +16,12 @@ export default function Media({ img, video }: MediaProps) {
     const [videoLoaded, setVideoLoaded] = useState(false);
     const isMobile = useMobile();
 
-    const { ref, inView } = useInView({
+    const { ref } = useInView({
         threshold: 0.8,
+        onChange: inView => {
+            isMobile && setHovering(inView);
+        },
     });
-
-    useEffect(() => {
-        isMobile && setHovering(inView);
-    }, [inView, isMobile]);
 
     const imageHidden = !!(hovering && video && videoLoaded);
 

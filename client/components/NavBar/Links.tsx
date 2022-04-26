@@ -2,12 +2,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import GamepadIcon from "@mui/icons-material/Gamepad";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
-import UpgradeIcon from "@mui/icons-material/Upgrade";
 import {
     Collapse,
     Divider,
@@ -47,20 +45,9 @@ const links: Link[] = [
     },
     {
         name: "Denuvo",
-        href: "/denuvo",
+        href: "/denuvo/updates",
         icon: <DangerousIcon />,
-        nested: [
-            {
-                name: "Games",
-                href: "/denuvo/games",
-                icon: <GamepadIcon />,
-            },
-            {
-                name: "Updates",
-                href: "/denuvo/updates",
-                icon: <UpgradeIcon />,
-            },
-        ],
+        nested: null,
     },
 ];
 

@@ -11,7 +11,7 @@ interface IndexStore {
 export const store = proxy<IndexStore>({
     filters: {
         ordering: "-added",
-        dates: -2,
+        dates: -10,
     },
 });
 

@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Grid, Stack } from "@mui/material";
 import { dequal } from "dequal";
-import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useSWRConfig } from "swr";
 import useSWRInfinite from "swr/infinite";
@@ -9,6 +8,8 @@ import { useDebounce } from "use-debounce";
 import { useSnapshot } from "valtio";
 
 import { AxiosGames } from "@types";
+
+import { SWRImmutable } from "@config";
 
 import GameCard from "@components/GameCard";
 
@@ -28,15 +29,14 @@ export default function Index() {
             if (previous && !previous.next) return null;
             return urlCat("/games", { ...debouncedQuery, page: index + 1 });
         },
-        { fallbackData: [fallback.games] }
+        { ...SWRImmutable, fallbackData: [fallback.games] }
     );
 
-    const { ref, inView } = useInView();
-
-    useEffect(() => {
-        if (!inView) return;
-        setSize(x => x + 1);
-    }, [inView, setSize]);
+    const { ref } = useInView({
+        onChange: inView => {
+            inView && setSize(x => x + 1);
+        },
+    });
 
     return (
         <Stack flex={1}>

@@ -12,7 +12,7 @@ import pick from "@utils/pick";
 const querystring = Type.Object(
     {
         page: Type.Number({ default: 1, minimum: 1 }),
-        dates: Type.String({ default: "-2,0" }),
+        dates: Type.String({ default: "-10,0" }),
         ordering: Type.String({ default: "-added" }),
     },
     { additionalProperties: false }
