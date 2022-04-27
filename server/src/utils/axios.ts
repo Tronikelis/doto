@@ -1,4 +1,10 @@
-import { IAxiosCacheAdapterOptions, setup } from "axios-cache-adapter";
+import axios from "axios";
+import {
+    CacheOptions,
+    buildMemoryStorage,
+    defaultKeyGenerator,
+    setupCache,
+} from "axios-cache-interceptor";
 
 const headers = {
     Host: "rawg.io",
@@ -10,29 +16,24 @@ const headers = {
     "X-API-Referer": "%2F",
 };
 
-const cache: IAxiosCacheAdapterOptions = {
-    exclude: {
-        methods: [],
-        query: false,
-    },
-    limit: 16_000,
-    maxAge: 1000 * 60 * 60 * 24 * 2,
+const options: CacheOptions = {
+    storage: buildMemoryStorage(),
+    generateKey: defaultKeyGenerator,
+    interpretHeader: false,
+    methods: ["get", "post"],
 };
 
-const rawgClient = setup({
+const rawgAxios = axios.create({
     baseURL: "https://api.rawg.io/api",
     headers,
-    cache,
 });
 
-const cacheClient = setup({
-    headers: { "user-agent": headers["user-agent"] },
-    cache: {
-        ...cache,
-        maxAge: 1000 * 60 * 60 * 2,
-        limit: 8_000,
-    },
+const cacheAxios = axios.create({
     timeout: 8_000,
+    headers: { "user-agent": headers["user-agent"] },
 });
+
+const rawgClient = setupCache(rawgAxios, options);
+const cacheClient = setupCache(cacheAxios, options);
 
 export { rawgClient, cacheClient };
