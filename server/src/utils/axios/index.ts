@@ -1,10 +1,7 @@
 import axios from "axios";
-import {
-    CacheOptions,
-    buildMemoryStorage,
-    defaultKeyGenerator,
-    setupCache,
-} from "axios-cache-interceptor";
+import { CacheOptions, defaultKeyGenerator, setupCache } from "axios-cache-interceptor";
+
+import { redisStorage } from "./redis";
 
 const headers = {
     Host: "rawg.io",
@@ -17,10 +14,11 @@ const headers = {
 };
 
 const options: CacheOptions = {
-    storage: buildMemoryStorage(),
+    storage: redisStorage,
     generateKey: defaultKeyGenerator,
     interpretHeader: false,
     methods: ["get", "post"],
+    ttl: 1000 * 60 * 60 * 24 * 2,
 };
 
 const rawgAxios = axios.create({
@@ -34,6 +32,6 @@ const cacheAxios = axios.create({
 });
 
 const rawgClient = setupCache(rawgAxios, options);
-const cacheClient = setupCache(cacheAxios, options);
+const cacheClient = setupCache(cacheAxios, { ...options, ttl: 1000 * 60 * 60 * 2 });
 
 export { rawgClient, cacheClient };
