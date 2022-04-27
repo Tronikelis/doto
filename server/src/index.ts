@@ -1,12 +1,12 @@
+import fastifyCookie from "@fastify/cookie";
+import fastifyHelmet from "@fastify/helmet";
+import fastifyNext from "@fastify/nextjs";
+import fastifyRateLimit from "@fastify/rate-limit";
 import fastifySession from "@fastify/session";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 import Fastify from "fastify";
 import fastifyAutoRoutes from "fastify-autoroutes";
-import fastifyCookie from "fastify-cookie";
-import fastifyHelmet from "fastify-helmet";
-import fastifyNext from "fastify-nextjs";
-import fastifyRateLimit from "fastify-rate-limit";
 import path from "path";
 import underPressure from "under-pressure";
 
