@@ -41,7 +41,7 @@ export default (): Resource => ({
     post: {
         handler,
         schema: { body },
-        onRequest: authenticate("admin"),
+        onRequest: authenticate("verified"),
         config: {
             rateLimit: {
                 max: 5,

@@ -17,6 +17,7 @@
             "@types": ["./types"],
             "@config": ["./config"],
             "@mongo": ["./mongo"],
+            "@redis": ["./redis"],
             "@jobs/*": ["./jobs/*"]
         }
     },

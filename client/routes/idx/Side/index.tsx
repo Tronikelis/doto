@@ -1,8 +1,12 @@
-import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Link as MuiLink, Stack, Tab, Tabs, Typography } from "@mui/material";
+import NextLink from "next/link";
 import { useState } from "react";
+import urlCat from "urlcat";
 
 import Thread from "@components/Thread";
 import TopReddit from "@components/TopReddit";
+
+import useUserMutation from "@hooks/mutations/useUserMutation";
 
 const News = () => {
     return (
@@ -15,11 +19,19 @@ const News = () => {
 };
 
 const Discuss = () => {
+    const { data } = useUserMutation();
+
     return (
         <Box>
+            {data?.attributes?.admin && (
+                <NextLink href={urlCat("/create/thread", { slug: "/" })} passHref>
+                    <MuiLink>Create thread</MuiLink>
+                </NextLink>
+            )}
             <Typography variant="h6" gutterBottom>
                 Discuss
             </Typography>
+
             <Thread />
         </Box>
     );

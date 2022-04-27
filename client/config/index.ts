@@ -13,3 +13,7 @@ export const SWRMutate = {
     revalidate: false,
     populateCache: true,
 };
+
+export const removeNewlines = /([ \t]*\n){3,}/g;
+
+export const removeSpaces = / +(?= )/g;

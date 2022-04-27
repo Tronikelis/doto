@@ -96,7 +96,7 @@ export default function User() {
                         {" )"}
                     </Typography>
 
-                    {Object.keys(data.attributes).map(key => (
+                    {Object.keys(data?.attributes || {}).map(key => (
                         <Typography key={key}>
                             {key}: {String((data as any).attributes[key])}
                         </Typography>

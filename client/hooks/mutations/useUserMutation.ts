@@ -12,7 +12,7 @@ export interface User {
     email: string;
     avatar: string;
     createdAt: string;
-    attributes: {
+    attributes?: {
         admin: boolean;
         verified: boolean;
     };
