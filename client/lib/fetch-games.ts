@@ -8,7 +8,7 @@ const minifyImageSrc = require("server/dist/utils/minify").minifyImageSrc;
 
 export default async function FetchGames() {
     const dates =
-        new Date(new Date().setMonth(new Date().getMonth() - 2)).toLocaleDateString("lt-LT") +
+        new Date(new Date().setMonth(new Date().getMonth() - 10)).toLocaleDateString("lt-LT") +
         "," +
         new Date().toLocaleDateString("lt-LT");
 
