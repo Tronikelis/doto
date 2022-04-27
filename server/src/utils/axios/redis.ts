@@ -1,7 +1,6 @@
 import { buildStorage } from "axios-cache-interceptor";
-import Redis from "ioredis";
 
-const redis = new Redis(process.env.REDIS_URL as any);
+import { redis } from "@redis";
 
 const prefix = "axios-cache";
 

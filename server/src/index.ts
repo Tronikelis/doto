@@ -12,6 +12,8 @@ import underPressure from "under-pressure";
 
 import { getMongoClient } from "@mongo";
 
+import { redis } from "@redis";
+
 dotenv.config({ path: path.resolve("../.env") });
 
 const dev = process.env.NODE_ENV !== "production";
@@ -48,6 +50,8 @@ fastify.register(fastifyRateLimit, {
         req.headers["cf-connecting-ip"]?.toString() || // cloudflare
         req.headers["x-forwarded-for"]?.toString() || // nginx
         req.ip,
+
+    redis,
 });
 
 fastify.register(fastifyCookie);
