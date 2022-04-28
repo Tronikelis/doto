@@ -1,6 +1,6 @@
 import urlCat from "urlcat";
 
-import { cacheClient } from "@utils/axios";
+import { client } from "@utils/axios";
 
 import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
@@ -16,7 +16,7 @@ const url = urlCat(BASE_URL, {
 });
 
 const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps) => {
-    const { data } = await cacheClient.post<GMGResult>(url, {
+    const { data } = await client.post<GMGResult>(url, {
         requests: [
             {
                 indexName: `prod_ProductSearch_LI_${country}`,

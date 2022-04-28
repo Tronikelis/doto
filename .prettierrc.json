@@ -16,6 +16,7 @@
         "^@routes/(.*)$",
         "^@jobs/(.*)$",
         "^@lib/(.*)$",
+        "^@redis(.*)$",
         "^[./]"
     ],
     "importOrderSeparation": true,

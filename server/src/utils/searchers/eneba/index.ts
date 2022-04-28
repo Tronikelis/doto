@@ -1,6 +1,6 @@
 import { byInternet } from "country-code-lookup";
 
-import { cacheClient } from "@utils/axios";
+import { client } from "@utils/axios";
 
 import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
@@ -63,7 +63,7 @@ const fetchPrice = async ({
         variables
     )}&extensions=${JSON.stringify(extensions)}`;
 
-    const { data } = await cacheClient.get<EnebaResult>(url);
+    const { data } = await client.get<EnebaResult>(url);
 
     const lookup = byInternet(country);
 

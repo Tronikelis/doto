@@ -33,5 +33,8 @@ const cacheAxios = axios.create({
 
 const rawgClient = setupCache(rawgAxios, options);
 const cacheClient = setupCache(cacheAxios, { ...options, ttl: 1000 * 60 * 60 * 2 });
+const client = axios.create({
+    headers: { "user-agent": headers["user-agent"] },
+});
 
-export { rawgClient, cacheClient };
+export { rawgClient, cacheClient, client };

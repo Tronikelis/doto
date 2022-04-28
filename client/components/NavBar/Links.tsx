@@ -5,7 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
-import TimelapseIcon from "@mui/icons-material/Timelapse";
+import SearchIcon from "@mui/icons-material/Search";
 import {
     Collapse,
     Divider,
@@ -41,9 +41,9 @@ const links: Link[] = [
         nested: null,
     },
     {
-        name: "Recently",
-        href: "/recently",
-        icon: <TimelapseIcon />,
+        name: "Search",
+        href: "/search",
+        icon: <SearchIcon />,
         nested: null,
     },
     {

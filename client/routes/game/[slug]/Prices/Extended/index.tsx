@@ -1,10 +1,11 @@
 import { Divider, Grid, Stack, Typography } from "@mui/material";
 import { memo } from "react";
 
+import ProviderProduct from "@components/ProviderProduct";
+
 import usePrices from "@hooks/usePrices";
 
 import { useGame } from "../../hooks";
-import ProviderProduct from "../ProviderProduct";
 
 const Extended = memo(() => {
     const { data: game } = useGame();
@@ -29,7 +30,7 @@ const Extended = memo(() => {
 
             <Grid container spacing={3}>
                 {computed?.reduced?.map(item => (
-                    <Grid item xs={12} md={6} lg={3} key={item.link}>
+                    <Grid item xs={6} md={4} lg={3} xl={2} key={item.link}>
                         <ProviderProduct {...item} />
                     </Grid>
                 ))}
