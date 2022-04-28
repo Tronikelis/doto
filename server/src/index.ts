@@ -17,7 +17,7 @@ import { redis } from "@redis";
 dotenv.config({ path: path.resolve("../.env") });
 
 const dev = process.env.NODE_ENV !== "production";
-const secret = process.env.SECRET || "12345678901234567890-1234567890234546786y5643";
+const secret = process.env.SECRET as string;
 
 const fastify = Fastify({
     ignoreTrailingSlash: true,
@@ -90,6 +90,7 @@ fastify
         fastify.next("/denuvo/*");
         fastify.next("/auth/*");
         fastify.next("/create/*");
+        fastify.next("/search");
     });
 
 fastify.register(

@@ -5,6 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
 import {
     Collapse,
     Divider,
@@ -37,6 +38,12 @@ const links: Link[] = [
         name: "Home",
         href: "/",
         icon: <HomeIcon />,
+        nested: null,
+    },
+    {
+        name: "Search",
+        href: "/search",
+        icon: <SearchIcon />,
         nested: null,
     },
     {
