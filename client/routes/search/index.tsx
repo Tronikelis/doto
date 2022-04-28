@@ -32,14 +32,14 @@ export default function Search() {
     return (
         <Container maxWidth="lg" sx={{ mt: 3 }}>
             <Typography variant="h4" gutterBottom>
-                Extended search ({currency} {country})
+                Direct search ({currency} {country})
             </Typography>
 
             <TextField
                 fullWidth
                 value={query}
                 onChange={e => setQuery(capitalize(e.target.value))}
-                label="Extended search"
+                label="Direct search"
                 variant="standard"
             />
 
