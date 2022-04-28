@@ -67,9 +67,9 @@ export default async function Fuzzy({ list, query, filter = "pc" }: FuzzyProps) 
 
         // some extra params for the highest accuracy
         const isIncluded = cleanName.includes(cleanQuery);
-        // const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
+        const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
         const notFree = price.amount && price.amount > 0;
 
-        return noBadWords && checkSequel && isIncluded && notFree;
+        return noBadWords && atStart && checkSequel && isIncluded && notFree;
     });
 }

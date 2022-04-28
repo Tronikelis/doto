@@ -1,9 +1,10 @@
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteIcon from "@mui/icons-material/Delete";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ReportIcon from "@mui/icons-material/Report";
-import { Box, Button, IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Menu, Stack, TextField, Typography } from "@mui/material";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -68,6 +69,50 @@ const ReplyBox = ({ onReply, onClose }: ReplyBoxProps) => {
     );
 };
 
+interface SecondaryActionsProps extends Pick<ActionsProps, "onReport" | "onDelete"> {
+    isDeletable: boolean;
+    loggedIn: boolean;
+}
+
+const SecondaryActions = ({
+    onReport,
+    onDelete,
+    isDeletable,
+    loggedIn,
+}: SecondaryActionsProps) => {
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+    return (
+        <Box>
+            <Menu open={!!anchorEl} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
+                <Stack flexDirection="row" p={0.5}>
+                    {isDeletable && (
+                        <IconButton size="small" color="secondary" onClick={onDelete}>
+                            <DeleteIcon fontSize="small" />
+                        </IconButton>
+                    )}
+                    <IconButton
+                        size="small"
+                        color="secondary"
+                        onClick={onReport}
+                        sx={{ ml: 0.5 }}
+                    >
+                        <ReportIcon fontSize="small" />
+                    </IconButton>
+                </Stack>
+            </Menu>
+
+            <IconButton
+                disabled={!loggedIn}
+                size="small"
+                onClick={e => setAnchorEl(e.currentTarget)}
+            >
+                <MoreHorizIcon fontSize="small" />
+            </IconButton>
+        </Box>
+    );
+};
+
 const Actions = ({
     votes = {
         downvotes: 0,
@@ -117,7 +162,7 @@ const Actions = ({
                 </IconButton>
             </Stack>
 
-            <Box>
+            <Stack flexDirection="row">
                 <IconButton
                     size="small"
                     color="secondary"
@@ -127,21 +172,13 @@ const Actions = ({
                     <ReplyIcon fontSize="small" />
                 </IconButton>
 
-                <IconButton
-                    size="small"
-                    color="secondary"
-                    disabled={!loggedIn}
-                    onClick={onReport}
-                >
-                    <ReportIcon fontSize="small" />
-                </IconButton>
-
-                {isDeletable && (
-                    <IconButton size="small" color="secondary" onClick={onDelete}>
-                        <DeleteIcon fontSize="small" />
-                    </IconButton>
-                )}
-            </Box>
+                <SecondaryActions
+                    isDeletable={isDeletable}
+                    loggedIn={loggedIn}
+                    onDelete={onDelete}
+                    onReport={onReport}
+                />
+            </Stack>
 
             {open && <ReplyBox onClose={onClose} onReply={onReply} />}
         </Stack>
