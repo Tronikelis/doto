@@ -1,7 +1,7 @@
 import { byInternet } from "country-code-lookup";
 import urlCat from "urlcat";
 
-import { cacheClient } from "@utils/axios";
+import { client } from "@utils/axios";
 
 import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
@@ -15,7 +15,7 @@ const url = urlCat(BASE_URL, {
 });
 
 const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps) => {
-    const { data } = await cacheClient.post<IGResult>(
+    const { data } = await client.post<IGResult>(
         url,
         {
             params: urlCat("", {

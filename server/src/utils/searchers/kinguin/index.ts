@@ -1,6 +1,6 @@
 import urlCat from "urlcat";
 
-import { cacheClient } from "@utils/axios";
+import { client } from "@utils/axios";
 
 import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
@@ -30,7 +30,7 @@ const fetchPrice = async ({
         phrase: query,
     });
 
-    const { data } = await cacheClient.get<KinguinResult>(url, {
+    const { data } = await client.get<KinguinResult>(url, {
         headers: { Cookie: `currency=${currency}` },
     });
 

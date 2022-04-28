@@ -1,6 +1,6 @@
 import urlCat from "urlcat";
 
-import { cacheClient } from "@utils/axios";
+import { client } from "@utils/axios";
 
 import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
@@ -20,7 +20,7 @@ const fetchPrice = async ({
     currency,
     filter,
 }: FetchPriceProps): Promise<SearchResults[]> => {
-    const { data } = await cacheClient.post<HumbleResult>(url, {
+    const { data } = await client.post<HumbleResult>(url, {
         params: urlCat("", {
             query,
             hitsPerPage: 20,

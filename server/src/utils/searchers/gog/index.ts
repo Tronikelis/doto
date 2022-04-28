@@ -1,6 +1,6 @@
 import urlCat from "urlcat";
 
-import { cacheClient } from "@utils/axios";
+import { client } from "@utils/axios";
 
 import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
@@ -12,7 +12,7 @@ const fetchPrice = async ({
     query,
     filter,
 }: FetchPriceProps): Promise<SearchResults[]> => {
-    const { data } = await cacheClient.get<GogResult>(
+    const { data } = await client.get<GogResult>(
         urlCat("https://catalog.gog.com/v1/catalog", {
             limit: 20,
             query: `like:${query}`,
