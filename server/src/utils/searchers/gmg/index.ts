@@ -15,7 +15,7 @@ const url = urlCat(BASE_URL, {
     "x-algolia-application-id": "SCZIZSP09Z",
 });
 
-const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps) => {
+const fetchPrice = async ({ country, currency, query }: FetchPriceProps) => {
     const { data } = await client.post<GMGResult>(url, {
         requests: [
             {
@@ -57,7 +57,7 @@ const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps)
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ list, query, filter });
+    return Fuzzy({ list, query });
 };
 
 export default {

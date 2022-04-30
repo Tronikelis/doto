@@ -7,7 +7,6 @@ interface Account {
     settings: {
         currency: string | null;
         country: string | null;
-        filter: string | null;
     };
 }
 
@@ -16,7 +15,6 @@ const accountSchema = new Schema<Account>({
     settings: {
         currency: { type: String, default: null, maxlength: 4 },
         country: { type: String, default: null, maxlength: 4 },
-        filter: { type: String, default: null },
     },
 });
 

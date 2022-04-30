@@ -7,7 +7,6 @@ export interface Account {
     settings: {
         currency?: string | null;
         country?: string | null;
-        filter?: string | null;
     };
 }
 
@@ -33,7 +32,6 @@ export default function useAccountMutation() {
                     settings: {
                         country: null,
                         currency: null,
-                        filter: null,
                     },
                 },
             }

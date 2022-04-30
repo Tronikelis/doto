@@ -29,8 +29,8 @@ export default function usePrices({ slug = null, query }: usePricesProps) {
         const steamUrl = game.stores.find(({ store }) => store.id === 1)?.url;
         const steamId = steamUrl && new URL(steamUrl).pathname.split("/")[2];
 
-        return urlCat("/price/search", { steamId, query: name, slug, ...account?.settings });
-    }, [account?.settings, game, query, slug]);
+        return urlCat("/price/search", { steamId, query: name, ...account?.settings });
+    }, [account?.settings, game, query]);
 
     const { data, error, isValidating } = useSWR<AxiosPriceSearch>(url);
     const loading = (!data && !error) || isValidating;

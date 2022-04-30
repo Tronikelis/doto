@@ -15,11 +15,7 @@ const url = urlCat(BASE_URL, {
     "x-algolia-api-key": "5229f8b3dec4b8ad265ad17ead42cb7f",
 });
 
-const fetchPrice = async ({
-    query,
-    currency,
-    filter,
-}: FetchPriceProps): Promise<SearchResults[]> => {
+const fetchPrice = async ({ query, currency }: FetchPriceProps): Promise<SearchResults[]> => {
     const { data } = await client.post<HumbleResult>(url, {
         params: urlCat("", {
             query,
@@ -46,7 +42,7 @@ const fetchPrice = async ({
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ query, list, filter });
+    return Fuzzy({ query, list });
 };
 
 export default {

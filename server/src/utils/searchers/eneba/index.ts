@@ -50,7 +50,6 @@ const fetchPrice = async ({
     query,
     country,
     currency,
-    filter,
 }: FetchPriceProps): Promise<SearchResults[]> => {
     const variables = {
         ...chunk,
@@ -99,7 +98,7 @@ const fetchPrice = async ({
 
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ query, list: list as any, filter }) as any as SearchResults[];
+    return Fuzzy({ query, list: list as any }) as any as SearchResults[];
 };
 
 export default {

@@ -14,5 +14,4 @@ export interface FetchPriceProps {
     currency: string;
     country: string;
     query: string;
-    filter: string;
 }
