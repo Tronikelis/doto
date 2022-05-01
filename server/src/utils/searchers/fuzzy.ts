@@ -49,14 +49,14 @@ export default async function Fuzzy({ list, query, type }: FuzzyProps) {
 
         // fuzzy type props
         const blacklisted = blacklist.some(word => cleanName.includes(word));
-        const isIncluded = cleanName.includes(cleanQuery);
         const notFree = price.amount && price.amount > 0;
 
         if (type === "fuzzy") {
-            return !blacklisted && isIncluded && notFree;
+            return !blacklisted && notFree;
         }
 
         // strict props
+        const isIncluded = cleanName.includes(cleanQuery);
         const sequel = isSequel(cleanNameNoSpaces, cleanQueryNoSpaces);
         const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
 
