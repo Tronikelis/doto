@@ -16,7 +16,7 @@ const url = urlCat(BASE_URL, {
 const apiKey =
     "YjFhOTc5NzE1ZDA0NDcxYTkxZThjMzY5ZGQ0NWMwNTViMzJhOGRkYjQzNzMxMDBkZmFkMTdhNmRjMTgzMWE0ZmZpbHRlcnM9ZGlzYWJsZWQlMjAlM0QlMjAwJTIwQU5EJTIwYXZhaWxhYmxlX3ZhbGlkX2Zyb20lMjAlM0MlM0QlMjAxNjUwODk5OTQ1JTIwQU5EKGF2YWlsYWJsZV92YWxpZF91bnRpbCUyMCUzRCUyMDAlMjBPUiUyMGF2YWlsYWJsZV92YWxpZF91bnRpbCUyMCUzRSUyMDE2NTA4OTk5NDUpJmZhY2V0RmlsdGVycz0lNUIlMjJpbmNsdWRlZF9yZWdpb25zJTNBTFQlMjIlNUQmcmVzdHJpY3RJbmRpY2VzPWZhbiUyQ2Zhbl9hbHRfcmFuayUyQ2Zhbl9uYW1lJTJDZmFuX2xhdGVzdF9kZWFscyUyQ2Zhbl9kaXNjb3VudCUyQ2Zhbl9yZWxlYXNlX2RhdGVfYXNjJTJDZmFuX3JlbGVhc2VfZGF0ZV9kZXNjJTJDZmFuX3ByaWNlX2FzYyUyQ2Zhbl9wcmljZV9kZXNjJTJDZmFuX2VuZGluZ19zb29uJTJDZmFuX21vc3Rfd2FudGVkJTJDZmFuX21hbnVhbF9wcmljZV9yYW5rJTJDZmFuX2Jlc3RfcHJpY2VfcmFuayUyQ2Zhbl91bmxpbWl0ZWQ=";
 
-const fetchPrice = async ({ currency, query }: FetchPriceProps) => {
+const fetchPrice = async ({ currency, query, type }: FetchPriceProps) => {
     const { data } = await client.post<FanaticalResult>(url, {
         params: urlCat("", {
             query,
@@ -43,7 +43,7 @@ const fetchPrice = async ({ currency, query }: FetchPriceProps) => {
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ list, query });
+    return Fuzzy({ list, query, type });
 };
 
 export default {

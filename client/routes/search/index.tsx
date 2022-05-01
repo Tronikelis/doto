@@ -19,7 +19,7 @@ export default function Search() {
     const [debouncedQuery] = useDebounce(query, 800);
 
     const { data: account } = useAccountMutation();
-    const { computed, data, loading } = usePrices({ query: debouncedQuery });
+    const { computed, data, loading } = usePrices({ query: debouncedQuery, type: "fuzzy" });
 
     const currency = account?.settings.currency || data?.currency;
     const country = account?.settings.country || data?.country;

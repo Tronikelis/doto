@@ -16,6 +16,7 @@ const querystring = Type.Object(
         country: Type.Optional(Type.String({ minLength: 1, maxLength: 4 })),
         currency: Type.Optional(Type.String({ minLength: 1, maxLength: 4 })),
         steamId: Type.Optional(Type.Integer({ minimum: 0 })),
+        type: Type.String({ pattern: /^(fuzzy|strict)$/g.source, default: "strict" }),
         query: Type.String(),
     },
     { additionalProperties: false }
@@ -26,7 +27,7 @@ const defCountry = "LT";
 const defCurrency = "EUR";
 
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
-    const { query, country, currency, steamId } = req.query;
+    const { query, country, currency, steamId, type } = req.query;
 
     const ip =
         req.headers["cf-connecting-ip"]?.toString() ||
@@ -73,6 +74,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         query,
         country: computedCountry,
         currency: computedCurrency,
+        type: type as any,
     });
 
     return {

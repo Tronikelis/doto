@@ -9,6 +9,7 @@ import {
 import Router from "next/router";
 import { HTMLAttributes, useState } from "react";
 import useSWR from "swr";
+import urlCat from "urlcat";
 import { useDebounce } from "use-debounce";
 
 import { AxiosGames, ResultGames } from "@types";
@@ -49,7 +50,11 @@ export default function Search() {
     const [debounced] = useDebounce(inputValue, 400);
 
     const { data } = useSWR<AxiosGames>(
-        debounced ? `/games/search?q=${encodeURIComponent(debounced)}` : null
+        debounced
+            ? urlCat("/games/search", {
+                  q: debounced,
+              })
+            : null
     );
 
     const loading = !!(!data && inputValue);
