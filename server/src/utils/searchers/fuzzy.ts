@@ -20,6 +20,12 @@ const blacklist = [
 
 const cleanRegex = /[^\w\s]/g;
 
+const isSequel = (string: string, query: string) => {
+    const index = string.indexOf(query) + query.length;
+    const [first] = string.slice(index).split("");
+    return isNaN(parseInt(first));
+};
+
 export default async function Fuzzy({ list, query }: FuzzyProps) {
     return list.filter(({ name, price }) => {
         const cleanName = name.toLowerCase().replace(cleanRegex, "");
@@ -28,14 +34,7 @@ export default async function Fuzzy({ list, query }: FuzzyProps) {
         const cleanNameNoSpaces = cleanName.replace(/ /g, "");
         const cleanQueryNoSpaces = cleanQuery.replace(/ /g, "");
 
-        // upgrade this somehow
-        // true if it is a number
-        const checkSequel = isNaN(
-            cleanNameNoSpaces.slice(
-                cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) + cleanQueryNoSpaces.length
-            )[0] as any
-        );
-
+        const sequel = isSequel(cleanNameNoSpaces, cleanQueryNoSpaces);
         // some extra params for the highest accuracy
         const blacklisted = blacklist.some(word => cleanName.includes(word));
         const isIncluded = cleanName.includes(cleanQuery);
@@ -43,6 +42,6 @@ export default async function Fuzzy({ list, query }: FuzzyProps) {
         const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
         const notFree = price.amount && price.amount > 0;
 
-        return !blacklisted && atStart && checkSequel && isIncluded && notFree;
+        return !blacklisted && !sequel && atStart && isIncluded && notFree;
     });
 }
