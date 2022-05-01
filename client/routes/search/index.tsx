@@ -6,6 +6,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import { NextSeo } from "next-seo";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -26,6 +27,8 @@ export default function Search() {
 
     return (
         <Container maxWidth="lg" sx={{ mt: 3 }}>
+            <NextSeo title="Direct search" />
+
             <Typography variant="h4" gutterBottom>
                 Direct search ({currency} {country})
             </Typography>
