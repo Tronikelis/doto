@@ -7,7 +7,10 @@ import Description from "./Description";
 import Media from "./Media";
 import Prices from "./Prices";
 import Reviews from "./Reviews";
+import Watchlist from "./Watchlist";
 import { useGame } from "./hooks";
+
+const spacing = 4;
 
 export default function Game() {
     const { data } = useGame();
@@ -42,7 +45,7 @@ export default function Game() {
                 }}
             />
 
-            <Grid container spacing={4}>
+            <Grid container spacing={spacing}>
                 <Grid item xs={12} lg={6}>
                     <Media />
                 </Grid>
@@ -52,7 +55,14 @@ export default function Game() {
                 </Grid>
 
                 <Grid item xs={12} md={6} lg={3}>
-                    <Reviews />
+                    <Grid container spacing={spacing}>
+                        <Grid item xs={12}>
+                            <Watchlist />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Reviews />
+                        </Grid>
+                    </Grid>
                 </Grid>
 
                 <Grid item xs={12} md={12} lg={9}>

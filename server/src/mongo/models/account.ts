@@ -1,5 +1,6 @@
 import { PopulatedDoc, Schema, model } from "mongoose";
 
+import { Game } from "./game";
 import { User } from "./user";
 
 interface Account {
@@ -8,6 +9,7 @@ interface Account {
         currency: string | null;
         country: string | null;
     };
+    watching: PopulatedDoc<Game>[];
 }
 
 const accountSchema = new Schema<Account>({
@@ -15,6 +17,15 @@ const accountSchema = new Schema<Account>({
     settings: {
         currency: { type: String, default: null, maxlength: 4 },
         country: { type: String, default: null, maxlength: 4 },
+    },
+    watching: {
+        type: [Schema.Types.ObjectId],
+        ref: "Game",
+        default: [],
+        validate: [
+            (value: any[]) => value.length <= 100,
+            "You can't watch more than 100 games",
+        ],
     },
 });
 

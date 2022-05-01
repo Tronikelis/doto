@@ -80,7 +80,7 @@ export default (): Resource => ({
         schema: { body },
         config: {
             rateLimit: {
-                max: 1,
+                max: 2,
                 timeWindow: "60 minutes",
             },
         },

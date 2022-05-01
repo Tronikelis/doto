@@ -51,11 +51,11 @@ const commentSchema = new Schema<CommentDocument>(
         },
         author: { type: Schema.Types.ObjectId, ref: "User" },
         replyTo: { type: Schema.Types.ObjectId, ref: "Comment", default: null },
-        replies: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+        replies: { type: [Schema.Types.ObjectId], ref: "Comment" },
         date: { type: Date, default: () => new Date() },
         votes: {
-            upvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-            downvotes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+            upvotes: { type: [Schema.Types.ObjectId], ref: "User" },
+            downvotes: { type: [Schema.Types.ObjectId], ref: "User" },
         },
     },
     {
@@ -88,7 +88,6 @@ commentSchema.method("ban", async function () {
     }
 
     await this.save();
-
     return this;
 });
 
