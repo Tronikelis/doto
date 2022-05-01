@@ -24,11 +24,6 @@ export default function Search() {
     const currency = account?.settings.currency || data?.currency;
     const country = account?.settings.country || data?.country;
 
-    const capitalize = (string: string) => {
-        const words = string.split(" ");
-        return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-    };
-
     return (
         <Container maxWidth="lg" sx={{ mt: 3 }}>
             <Typography variant="h4" gutterBottom>
@@ -38,7 +33,7 @@ export default function Search() {
             <TextField
                 fullWidth
                 value={query}
-                onChange={e => setQuery(capitalize(e.target.value))}
+                onChange={e => setQuery(e.target.value)}
                 label="Direct search"
                 variant="standard"
             />

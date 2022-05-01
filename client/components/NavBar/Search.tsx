@@ -54,17 +54,12 @@ export default function Search() {
 
     const loading = !!(!data && inputValue);
 
-    const capitalize = (string: string) => {
-        const words = string.split(" ");
-        return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-    };
-
     return (
         <Box flex={1} maxWidth={550} px={2}>
             <Autocomplete
                 loading={loading}
                 inputValue={inputValue}
-                onInputChange={(_, value) => setInputValue(capitalize(value))}
+                onInputChange={(_, value) => setInputValue(value)}
                 onChange={(_, value, reason) => {
                     if (reason === "selectOption") {
                         Router.push(`/game/${value?.slug}`);

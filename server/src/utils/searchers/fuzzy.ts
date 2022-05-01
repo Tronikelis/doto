@@ -23,7 +23,7 @@ const cleanRegex = /[^\w\s]/g;
 const isSequel = (string: string, query: string) => {
     const index = string.indexOf(query) + query.length;
     const [first] = string.slice(index).split("");
-    return isNaN(parseInt(first));
+    return !isNaN(parseInt(first));
 };
 
 export default async function Fuzzy({ list, query }: FuzzyProps) {
@@ -34,11 +34,11 @@ export default async function Fuzzy({ list, query }: FuzzyProps) {
         const cleanNameNoSpaces = cleanName.replace(/ /g, "");
         const cleanQueryNoSpaces = cleanQuery.replace(/ /g, "");
 
-        const sequel = isSequel(cleanNameNoSpaces, cleanQueryNoSpaces);
         // some extra params for the highest accuracy
         const blacklisted = blacklist.some(word => cleanName.includes(word));
         const isIncluded = cleanName.includes(cleanQuery);
-        // disable on extended search
+
+        const sequel = isSequel(cleanNameNoSpaces, cleanQueryNoSpaces);
         const atStart = cleanNameNoSpaces.indexOf(cleanQueryNoSpaces) === 0;
         const notFree = price.amount && price.amount > 0;
 
