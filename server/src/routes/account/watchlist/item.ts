@@ -54,6 +54,7 @@ const PUT_handler: any = async (req: Req<{ Body: body }>) => {
     !account.watching.includes(game.id) && account.watching.push(game.id);
     await account.save();
 
+    await account.populate("watching");
     return account.toJSON();
 };
 
@@ -68,14 +69,16 @@ type Querystring = Static<typeof querystring>;
 const DEL_handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { slug } = req.query;
 
+    const game = await gameModel.findOne({ slug }).orFail();
+
     const account = await accountModel
         .findOne({ user: req.session.user?.id || null })
-        .orFail()
-        .populate("watching");
+        .orFail();
 
-    account.watching.filter((game: any) => game?.slug !== slug);
+    account.watching = account.watching.filter(id => id?.toString() !== game.id);
     await account.save();
 
+    await account.populate("watching");
     return account.toJSON();
 };
 
@@ -83,9 +86,10 @@ const GET_handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { slug } = req.query;
 
     const game = await gameModel.findOne({ slug });
+    const empty = { totalCount: 0 };
 
     if (!game) {
-        return { totalCount: 0 };
+        return empty;
     }
 
     const count = await accountModel
@@ -94,7 +98,7 @@ const GET_handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         .match({ watching: game._id })
         .count("totalCount");
 
-    return count[0];
+    return count[0] ? count[0] : empty;
 };
 
 export default (): Resource => ({

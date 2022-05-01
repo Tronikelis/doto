@@ -54,7 +54,7 @@ export default function useAccountMutation() {
 
     const watchlist = {
         add: (item: Game) => {
-            const add = axios.put(urlCat("/account/watchlist/item", item)).then(x => x.data);
+            const add = axios.put("/account/watchlist/item", { item }).then(x => x.data);
 
             const optimisticData = (stale?: Account) =>
                 produce(stale, draft => {
