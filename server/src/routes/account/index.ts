@@ -8,7 +8,8 @@ import { authenticate } from "@hooks/authenticate";
 const handler: any = async (req: Req) => {
     const account = await accountModel
         .findOne({ user: req.session.user?.id || null })
-        .orFail();
+        .orFail()
+        .populate("watching");
 
     return account.toJSON();
 };

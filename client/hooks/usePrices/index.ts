@@ -10,17 +10,19 @@ import { AxiosPriceSearch, ResultWProvider } from "./types";
 
 interface usePricesProps {
     slug?: string | null;
+    type?: "strict" | "fuzzy";
     query?: string;
 }
 
-export default function usePrices({ slug = null, query }: usePricesProps) {
+export default function usePrices({ slug = null, query, type = "strict" }: usePricesProps) {
     const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
     const { data: account } = useAccountMutation();
 
     const url = useMemo(() => {
+        const querystring = { query, type, ...account?.settings };
         // standalone search
         if (query) {
-            return urlCat("/price/search", { query, ...account?.settings });
+            return urlCat("/price/search", querystring);
         }
 
         if (!game) return null;
@@ -29,8 +31,8 @@ export default function usePrices({ slug = null, query }: usePricesProps) {
         const steamUrl = game.stores.find(({ store }) => store.id === 1)?.url;
         const steamId = steamUrl && new URL(steamUrl).pathname.split("/")[2];
 
-        return urlCat("/price/search", { steamId, query: name, slug, ...account?.settings });
-    }, [account?.settings, game, query, slug]);
+        return urlCat("/price/search", { ...querystring, steamId, query: name });
+    }, [account?.settings, game, query, type]);
 
     const { data, error, isValidating } = useSWR<AxiosPriceSearch>(url);
     const loading = (!data && !error) || isValidating;

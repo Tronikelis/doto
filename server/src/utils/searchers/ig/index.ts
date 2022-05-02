@@ -14,7 +14,7 @@ const url = urlCat(BASE_URL, {
     "x-algolia-api-key": "4813969db52fc22897f8b84bac1299ad",
 });
 
-const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps) => {
+const fetchPrice = async ({ country, currency, query, type }: FetchPriceProps) => {
     const { data } = await client.post<IGResult>(
         url,
         {
@@ -58,7 +58,7 @@ const fetchPrice = async ({ country, currency, query, filter }: FetchPriceProps)
         })
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ list, query, filter });
+    return Fuzzy({ list, query, type });
 };
 
 export default {

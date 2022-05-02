@@ -10,7 +10,7 @@ const fetchPrice = async ({
     country,
     currency,
     query,
-    filter,
+    type,
 }: FetchPriceProps): Promise<SearchResults[]> => {
     const { data } = await client.get<GogResult>(
         urlCat("https://catalog.gog.com/v1/catalog", {
@@ -38,7 +38,7 @@ const fetchPrice = async ({
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ list, query, filter });
+    return Fuzzy({ list, query, type });
 };
 
 export default {

@@ -23,7 +23,7 @@ const fetchPrice = async ({
     query,
     country,
     currency,
-    filter,
+    type,
 }: FetchPriceProps): Promise<SearchResults[]> => {
     const url = urlCat(BASE_URL, {
         ...chunk,
@@ -48,7 +48,7 @@ const fetchPrice = async ({
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ query, list, filter });
+    return Fuzzy({ query, list, type });
 };
 
 export default {

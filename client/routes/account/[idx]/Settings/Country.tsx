@@ -19,11 +19,13 @@ export default function Country() {
 
     const {
         data: account,
-        actions: { updateSettings },
+        actions: {
+            settings: { update },
+        },
     } = useAccountMutation();
 
     const onSubmit = ({ country }: FormProps) => {
-        updateSettings({
+        update({
             country: country.cca2,
             currency: Object.keys(country.currencies || { USD: "" })[0],
         });

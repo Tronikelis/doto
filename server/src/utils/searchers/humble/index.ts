@@ -18,7 +18,7 @@ const url = urlCat(BASE_URL, {
 const fetchPrice = async ({
     query,
     currency,
-    filter,
+    type,
 }: FetchPriceProps): Promise<SearchResults[]> => {
     const { data } = await client.post<HumbleResult>(url, {
         params: urlCat("", {
@@ -46,7 +46,7 @@ const fetchPrice = async ({
         }))
         .sort((a, b) => a.price.amount - b.price.amount);
 
-    return Fuzzy({ query, list, filter });
+    return Fuzzy({ query, list, type });
 };
 
 export default {

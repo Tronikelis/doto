@@ -6,6 +6,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import { NextSeo } from "next-seo";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 
@@ -19,18 +20,15 @@ export default function Search() {
     const [debouncedQuery] = useDebounce(query, 800);
 
     const { data: account } = useAccountMutation();
-    const { computed, data, loading } = usePrices({ query: debouncedQuery });
+    const { computed, data, loading } = usePrices({ query: debouncedQuery, type: "fuzzy" });
 
     const currency = account?.settings.currency || data?.currency;
     const country = account?.settings.country || data?.country;
 
-    const capitalize = (string: string) => {
-        const words = string.split(" ");
-        return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-    };
-
     return (
         <Container maxWidth="lg" sx={{ mt: 3 }}>
+            <NextSeo title="Direct search" />
+
             <Typography variant="h4" gutterBottom>
                 Direct search ({currency} {country})
             </Typography>
@@ -38,7 +36,7 @@ export default function Search() {
             <TextField
                 fullWidth
                 value={query}
-                onChange={e => setQuery(capitalize(e.target.value))}
+                onChange={e => setQuery(e.target.value)}
                 label="Direct search"
                 variant="standard"
             />

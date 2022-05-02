@@ -9,6 +9,7 @@ import {
 import Router from "next/router";
 import { HTMLAttributes, useState } from "react";
 import useSWR from "swr";
+import urlCat from "urlcat";
 import { useDebounce } from "use-debounce";
 
 import { AxiosGames, ResultGames } from "@types";
@@ -46,25 +47,24 @@ const renderOption = (
 
 export default function Search() {
     const [inputValue, setInputValue] = useState("");
-    const [debounced] = useDebounce(inputValue, 400);
+    const [debounced] = useDebounce(inputValue, 500);
 
     const { data } = useSWR<AxiosGames>(
-        debounced ? `/games/search?q=${encodeURIComponent(debounced)}` : null
+        debounced
+            ? urlCat("/games/search", {
+                  q: debounced,
+              })
+            : null
     );
 
     const loading = !!(!data && inputValue);
-
-    const capitalize = (string: string) => {
-        const words = string.split(" ");
-        return words.map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
-    };
 
     return (
         <Box flex={1} maxWidth={550} px={2}>
             <Autocomplete
                 loading={loading}
                 inputValue={inputValue}
-                onInputChange={(_, value) => setInputValue(capitalize(value))}
+                onInputChange={(_, value) => setInputValue(value)}
                 onChange={(_, value, reason) => {
                     if (reason === "selectOption") {
                         Router.push(`/game/${value?.slug}`);

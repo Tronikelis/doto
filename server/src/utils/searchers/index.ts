@@ -24,18 +24,18 @@ export const search = async ({
     query,
     country = "LT",
     currency = "EUR",
-    filter,
+    type,
 }: FetchPriceProps) => {
     const cleanQuery = query.replace(cleanRegex, "");
 
-    const key = hashCode(query.toLowerCase() + country + currency + filter);
+    const key = hashCode([query.toLowerCase(), country, currency, type].join("-"));
     const redisResult = await redis.get(`${prefix}:${key}`);
 
     if (redisResult) return JSON.parse(redisResult);
 
     const promises = searchers.map(async ({ fetchPrice, provider }) => {
         try {
-            const result = await fetchPrice({ query: cleanQuery, country, currency, filter });
+            const result = await fetchPrice({ query: cleanQuery, country, currency, type });
             return { provider, result, error: null };
         } catch (error: any) {
             return { provider, result: [], error: String(error.data || error) };
