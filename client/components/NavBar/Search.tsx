@@ -47,7 +47,7 @@ const renderOption = (
 
 export default function Search() {
     const [inputValue, setInputValue] = useState("");
-    const [debounced] = useDebounce(inputValue, 400);
+    const [debounced] = useDebounce(inputValue, 500);
 
     const { data } = useSWR<AxiosGames>(
         debounced
