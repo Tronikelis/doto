@@ -20,6 +20,7 @@
 -   [x] Has excellent support for mobile 📱
 -   [x] 100% FOSS 🔓
 -   [x] No referral links 🤑
+-   [ ] Keep track of the cheapest game's price, for graphs
 -   [ ] Ability to upload photos and put them in threads or change profile picture
 -   [ ] User page with misc info
 -   [ ] Separate page dedicated to a thread
