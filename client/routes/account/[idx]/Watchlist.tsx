@@ -21,10 +21,14 @@ import usePrices from "@hooks/usePrices";
 const GameItem = memo(({ slug, title }: Account["watching"][0]) => {
     const { computed } = usePrices({ query: title });
 
+    const {
+        actions: { watchlist },
+    } = useAccountMutation();
+
     return (
         <ListItem
             secondaryAction={
-                <IconButton>
+                <IconButton onClick={() => watchlist.del(slug)}>
                     <ClearIcon />
                 </IconButton>
             }
