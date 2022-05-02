@@ -49,7 +49,7 @@ export default function WatchlistPopular() {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Title</TableCell>
-                            <TableCell align="right">Watch count</TableCell>
+                            <TableCell align="right">People watching</TableCell>
                             <TableCell align="right">Slug</TableCell>
                         </TableRow>
                     </TableHead>

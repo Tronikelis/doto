@@ -20,6 +20,9 @@
 -   [x] Has excellent support for mobile 📱
 -   [x] 100% FOSS 🔓
 -   [x] No referral links 🤑
+-   [ ] Ability to upload photos and put them in threads or change profile picture
+-   [ ] User page with misc info
+-   [ ] Separate page dedicated to a thread
 -   [ ] Has a public API 🦾
 -   [ ] Self hostable [how?](#how-to-self-host) 🏠
 
