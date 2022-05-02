@@ -32,7 +32,7 @@ export default function Watchlist() {
     }, [account?.watching, slug]);
 
     const { data, mutate } = useSWR<WatchlistItem>(
-        slug && urlCat("/account/watchlist/item", { slug })
+        slug && urlCat("/watchlist/item", { slug })
     );
 
     const add = async () => {

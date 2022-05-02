@@ -54,7 +54,7 @@ export default function useAccountMutation() {
 
     const watchlist = {
         add: (item: Game) => {
-            const add = axios.put("/account/watchlist/item", { item }).then(x => x.data);
+            const add = axios.put("/account/watchlist", { item }).then(x => x.data);
 
             const optimisticData = (stale?: Account) =>
                 produce(stale, draft => {
@@ -67,9 +67,7 @@ export default function useAccountMutation() {
             });
         },
         del: (slug: string) => {
-            const del = axios
-                .delete(urlCat("/account/watchlist/item", { slug }))
-                .then(x => x.data);
+            const del = axios.delete(urlCat("/account/watchlist", { slug })).then(x => x.data);
 
             const optimisticData = (stale?: Account) =>
                 produce(stale, draft => {

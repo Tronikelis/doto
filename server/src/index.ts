@@ -92,6 +92,7 @@ fastify
         fastify.next("/auth/*");
         fastify.next("/create/*");
         fastify.next("/search");
+        fastify.next("/watchlist/*");
     });
 
 fastify.register(
