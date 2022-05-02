@@ -45,7 +45,6 @@ export default function CreateThread() {
                         helperText={errors.title?.message}
                         {...register("title", {
                             required: "Title is required",
-                            minLength: 3,
                             maxLength: 200,
                         })}
                     />

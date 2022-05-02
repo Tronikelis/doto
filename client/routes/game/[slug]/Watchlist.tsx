@@ -67,7 +67,9 @@ export default function Watchlist() {
             <Divider />
 
             <Box alignSelf="flex-end" mt={1}>
-                <Button onClick={onClick}>{isWatching ? "Unwatch" : "Watch"}</Button>
+                <Button disabled={!account} onClick={onClick}>
+                    {isWatching ? "Unwatch" : "Watch"}
+                </Button>
             </Box>
         </Stack>
     );
