@@ -34,7 +34,7 @@ const GameItem = memo(({ slug, title }: Account["watching"][0]) => {
                 <ListItemButton LinkComponent="a">
                     <ListItemAvatar>
                         <Avatar>
-                            <ResponsiveImage src={computed?.total.lowest.image} />
+                            <ResponsiveImage src={computed?.total.lowest?.image} />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText
@@ -46,7 +46,7 @@ const GameItem = memo(({ slug, title }: Account["watching"][0]) => {
                                     color="success.main"
                                     component="span"
                                 >
-                                    ↓{computed?.total.lowest.price.amount}
+                                    ↓{computed?.total.lowest?.price.amount}
                                 </Typography>
                             </Typography>
                         }
