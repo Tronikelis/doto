@@ -91,9 +91,9 @@ export default function User() {
                 <Stack>
                     <Typography gutterBottom>
                         created on: {new Date(data.createdAt).toLocaleDateString()}
-                        {" ( "}
+                        {" ("}
                         <TimeAgo datetime={new Date(data.createdAt)} />
-                        {" )"}
+                        {")"}
                     </Typography>
 
                     {Object.keys(data?.attributes || {}).map(key => (
