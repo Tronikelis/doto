@@ -96,7 +96,8 @@ const GET_handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         .aggregate()
         .unwind("$watching")
         .match({ watching: game._id })
-        .count("totalCount");
+        .count("totalCount")
+        .allowDiskUse(true);
 
     return count[0] ? count[0] : empty;
 };

@@ -6,6 +6,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
 import {
     Collapse,
     Divider,
@@ -41,14 +42,20 @@ const links: Link[] = [
         nested: null,
     },
     {
-        name: "Search",
+        name: "Direct search",
         href: "/search",
         icon: <SearchIcon />,
         nested: null,
     },
     {
-        name: "Denuvo",
-        href: "/denuvo/updates",
+        name: "Most watched",
+        href: "/watchlist/popular",
+        icon: <WhatshotIcon />,
+        nested: null,
+    },
+    {
+        name: "Denuvo updates",
+        href: "/denuvo",
         icon: <DangerousIcon />,
         nested: null,
     },
