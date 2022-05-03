@@ -118,16 +118,16 @@ const SecondaryActions = ({
                 anchorEl={anchorEl}
                 onClose={() => setAnchorEl(null)}
             >
-                <List>
+                <List disablePadding>
                     {isDeletable && (
-                        <ListItem component={ListItemButton} disablePadding onClick={onDelete}>
+                        <ListItem component={ListItemButton} onClick={onDelete}>
                             <ListItemIcon>
                                 <DeleteIcon />
                             </ListItemIcon>
                             <ListItemText primary="Delete" />
                         </ListItem>
                     )}
-                    <ListItem component={ListItemButton} disablePadding onClick={onReport}>
+                    <ListItem component={ListItemButton} onClick={onReport}>
                         <ListItemIcon>
                             <ReportIcon />
                         </ListItemIcon>
