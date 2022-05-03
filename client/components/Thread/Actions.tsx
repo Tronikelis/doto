@@ -4,7 +4,20 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ReplyIcon from "@mui/icons-material/Reply";
 import ReportIcon from "@mui/icons-material/Report";
-import { Box, Button, IconButton, Menu, Stack, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    IconButton,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -43,10 +56,18 @@ const ReplyBox = ({ onReply, onClose }: ReplyBoxProps) => {
         comment.trim().replace(removeNewlines, "\n").replace(removeSpaces, "");
 
     return (
-        <Stack px={1} py={2} component="form" alignItems="flex-end" onSubmit={onSubmit}>
+        <Stack
+            width="100%"
+            px={1}
+            py={2}
+            component="form"
+            alignItems="flex-end"
+            onSubmit={onSubmit}
+        >
             <TextField
                 label="Your reply"
                 variant="standard"
+                fullWidth
                 {...register("comment", {
                     required: "Write a comment",
                     maxLength: 5_000,
@@ -84,22 +105,35 @@ const SecondaryActions = ({
 
     return (
         <Box>
-            <Menu open={!!anchorEl} anchorEl={anchorEl} onClose={() => setAnchorEl(null)}>
-                <Stack flexDirection="row" p={0.5}>
+            <Menu
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                }}
+                transformOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+                open={!!anchorEl}
+                anchorEl={anchorEl}
+                onClose={() => setAnchorEl(null)}
+            >
+                <List>
                     {isDeletable && (
-                        <IconButton size="small" color="secondary" onClick={onDelete}>
-                            <DeleteIcon fontSize="small" />
-                        </IconButton>
+                        <ListItem component={ListItemButton} disablePadding onClick={onDelete}>
+                            <ListItemIcon>
+                                <DeleteIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Delete" />
+                        </ListItem>
                     )}
-                    <IconButton
-                        size="small"
-                        color="secondary"
-                        onClick={onReport}
-                        sx={{ ml: 0.5 }}
-                    >
-                        <ReportIcon fontSize="small" />
-                    </IconButton>
-                </Stack>
+                    <ListItem component={ListItemButton} disablePadding onClick={onReport}>
+                        <ListItemIcon>
+                            <ReportIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Report" />
+                    </ListItem>
+                </List>
             </Menu>
 
             <IconButton

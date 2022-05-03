@@ -16,7 +16,9 @@ const querystring = Type.Object(
         country: Type.Optional(Type.String({ minLength: 1, maxLength: 4 })),
         currency: Type.Optional(Type.String({ minLength: 1, maxLength: 4 })),
         steamId: Type.Optional(Type.Integer({ minimum: 0 })),
-        type: Type.String({ pattern: /^(fuzzy|strict)$/g.source, default: "strict" }),
+        type: Type.Union([Type.Literal("fuzzy"), Type.Literal("strict")], {
+            default: "strict",
+        }),
         query: Type.String(),
     },
     { additionalProperties: false }
