@@ -24,3 +24,4 @@ export * from "./models/thread/comment";
 export * from "./models/report";
 export * from "./models/account";
 export * from "./models/game";
+export * from "./models/notification";
