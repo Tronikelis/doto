@@ -27,12 +27,11 @@ export const authenticate = (type?: Authentication): onRequestHookHandler => {
         }
 
         default: {
-            return (req, res, done) => {
-                if (!req.session.user?.id) {
-                    res.status(401).send("You need to be authorized for this route");
-                    return;
+            return async req => {
+                const user = await userModel.findById(req.session.user?.id || null);
+                if (!user) {
+                    throw new ErrorBuilder().msg("You need to be logged in").status(401);
                 }
-                done();
             };
         }
     }
