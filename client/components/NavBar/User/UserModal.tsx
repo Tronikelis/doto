@@ -4,13 +4,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import {
     Avatar,
+    Box,
     Divider,
     IconButton,
     ListItemIcon,
     Menu,
     MenuItem,
     MenuProps,
-    Stack,
     Typography,
 } from "@mui/material";
 import Router from "next/router";
@@ -39,9 +39,9 @@ const UserMenu = (props: MenuProps) => {
 
     return (
         <Menu
-            {...props}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            {...props}
         >
             <Typography align="center">{data?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
@@ -83,14 +83,14 @@ const UserMenu = (props: MenuProps) => {
     );
 };
 
-export default function User() {
+export default function UserModal() {
     const { data } = useUserMutation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = !!anchorEl;
 
     return (
-        <Stack flexDirection="row" justifyContent="center" alignItems="center">
+        <Box>
             <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
                 <Avatar alt={data?.nickname}>
                     {data?.avatar && <ResponsiveImage src={data.avatar} />}
@@ -98,6 +98,6 @@ export default function User() {
             </IconButton>
 
             <UserMenu open={open} anchorEl={anchorEl} onClose={() => setAnchorEl(null)} />
-        </Stack>
+        </Box>
     );
 }
