@@ -6,11 +6,13 @@ import { reportModel } from "@mongo";
 
 import { authenticate } from "@hooks/authenticate";
 
-const pattern = /^(user|comment|thread)$/g;
-
 const body = Type.Object(
     {
-        type: Type.String({ pattern: pattern.source }),
+        type: Type.Union([
+            Type.Literal("user"),
+            Type.Literal("comment"),
+            Type.Literal("thread"),
+        ]),
         typeId: Type.String(),
         summary: Type.String({ maxLength: 500 }),
     },

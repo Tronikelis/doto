@@ -8,7 +8,7 @@ import { authenticate } from "@hooks/authenticate";
 
 const body = Type.Object(
     {
-        vote: Type.String({ pattern: /^(upvote|downvote)$/g.source }),
+        vote: Type.Union([Type.Literal("upvote"), Type.Literal("downvote")]),
         id: Type.String(),
     },
     { additionalProperties: false }
@@ -51,6 +51,6 @@ export default (): Resource => ({
     put: {
         handler,
         schema: { body },
-        onRequest: authenticate(),
+        onRequest: authenticate("user"),
     },
 });

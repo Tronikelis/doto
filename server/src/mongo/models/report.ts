@@ -13,7 +13,7 @@ interface Report {
 
 const reportSchema = new Schema<Report>({
     by: { type: Schema.Types.ObjectId, required: true, ref: "User" },
-    type: { type: String, required: true },
+    type: { type: String, required: true, enum: ["user", "comment", "thread"] },
     typeId: { type: Schema.Types.ObjectId, required: true },
     summary: { type: String, required: true },
     date: { type: Date, default: () => new Date() },

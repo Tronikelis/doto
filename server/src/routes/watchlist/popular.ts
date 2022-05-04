@@ -30,6 +30,8 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
     return {
         next: page * count < games,
+        page,
+        count,
         data,
     };
 };

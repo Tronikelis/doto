@@ -53,21 +53,11 @@ export default function useReplyMutation(props: useReplyMutation, config?: SWRCo
             .then(x => x.data);
 
         mutate(async comments => {
-            const data = await send;
+            const response = await send;
 
-            if (!comments) {
-                return [
-                    {
-                        count: props.count,
-                        page: 1,
-                        next: false,
-                        data: [data],
-                    },
-                ];
-            }
-
-            return produce(comments, draft => {
-                draft[0].data.unshift(data);
+            // comments OR data because comments doesn't pick up fallback data
+            return produce(comments || data, (draft: AxiosReplies[]) => {
+                draft[0].data.unshift(response);
             });
         }, false);
     };

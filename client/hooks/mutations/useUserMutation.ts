@@ -1,5 +1,4 @@
 import axios from "axios";
-import produce from "immer";
 import useSWR from "swr";
 
 import { SWRMutate } from "@config";
@@ -45,18 +44,6 @@ export default function useUserMutation() {
         return data || "This nickname is already taken, sorry";
     };
 
-    const changeAvatar = (img: string) => {
-        return mutate(
-            axios.put("/user/avatar", { img }).then(x => x.data),
-            {
-                ...SWRMutate,
-                optimisticData: produce(data, draft => {
-                    (draft as any).avatar = data;
-                }),
-            }
-        );
-    };
-
     return {
         data,
         actions: {
@@ -64,7 +51,6 @@ export default function useUserMutation() {
             logout,
             register,
             validateNickname,
-            changeAvatar,
         },
     };
 }

@@ -32,7 +32,7 @@ export default function Watchlist() {
     }, [account?.watching, slug]);
 
     const { data, mutate } = useSWR<WatchlistItem>(
-        slug && urlCat("/account/watchlist/item", { slug })
+        slug && urlCat("/watchlist/item", { slug })
     );
 
     const add = async () => {
@@ -67,7 +67,9 @@ export default function Watchlist() {
             <Divider />
 
             <Box alignSelf="flex-end" mt={1}>
-                <Button onClick={onClick}>{isWatching ? "Unwatch" : "Watch"}</Button>
+                <Button disabled={!account} onClick={onClick}>
+                    {isWatching ? "Unwatch" : "Watch"}
+                </Button>
             </Box>
         </Stack>
     );
