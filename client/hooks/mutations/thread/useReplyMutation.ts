@@ -14,6 +14,7 @@ interface useReplyMutation {
 interface OnReplyProps {
     description: string;
     id?: string;
+    slug: string;
 }
 
 const getKey = ({ count, id }: useReplyMutation) => {
@@ -44,11 +45,12 @@ export default function useReplyMutation(props: useReplyMutation, config?: SWRCo
         setSize(x => x + 1);
     };
 
-    const reply = ({ description, id }: OnReplyProps) => {
+    const reply = ({ description, id, slug }: OnReplyProps) => {
         const send = axios
             .post("/thread/reply/create", {
                 replyTo: id,
                 description,
+                slug,
             })
             .then(x => x.data);
 

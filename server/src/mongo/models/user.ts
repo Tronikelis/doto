@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import { commentModel } from "@mongo";
+import { accountModel, commentModel, notificationModel } from "@mongo";
 
 interface UserAttributes {
     verified: boolean;
@@ -34,30 +34,35 @@ const userSchema = new Schema<User>({
 });
 
 userSchema.method("ban", async function () {
-    const commentBan = commentModel.updateMany(
-        { author: this.id, root: null },
-        {
-            $set: {
-                description: "[deleted]",
-            },
-        }
-    );
+    const commentBan = commentModel
+        .updateMany(
+            { author: this.id, root: null },
+            {
+                $set: {
+                    description: "[deleted]",
+                },
+            }
+        )
+        .exec();
 
-    const rootBan = commentModel.updateMany(
-        { author: this.id, root: { $ne: null } },
-        {
-            $set: {
-                description: "[deleted]",
-                "root.title": "[deleted]",
-            },
-        }
-    );
+    const rootBan = commentModel
+        .updateMany(
+            { author: this.id, root: { $ne: null } },
+            {
+                $set: {
+                    description: "[deleted]",
+                    "root.title": "[deleted]",
+                },
+            }
+        )
+        .exec();
 
-    const deleteUser = this.remove();
+    // cleanup
+    const deleteUser = this.deleteMany({ ip: this.ip }).exec();
+    const deleteAccount = accountModel.deleteOne({ user: this.id }).exec();
+    const deleteNotifications = notificationModel.deleteMany({ receiver: this.id }).exec();
 
-    // add to ip blacklist
-
-    await Promise.all([commentBan, deleteUser, rootBan]);
+    await Promise.all([commentBan, deleteUser, rootBan, deleteAccount, deleteNotifications]);
 });
 
 export const userModel = model("User", userSchema);

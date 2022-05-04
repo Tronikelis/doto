@@ -19,6 +19,7 @@ export interface Comment {
         downvotes: number;
         voted: any;
     };
+    rootId?: string;
     root?: {
         title: string;
         slug: string;
@@ -34,6 +35,7 @@ interface CommentDocument extends Comment, Document {
 const commentSchema = new Schema<CommentDocument>(
     {
         description: { type: String },
+        rootId: { type: Schema.Types.ObjectId, ref: "Comment", default: null },
         root: {
             type: {
                 title: { type: String },

@@ -10,7 +10,7 @@
 
 ⭐ Thanks to everyone who starred the project, it means a lot
 
-## Planned features
+## Planned features (semi sorted by priority)
 
 -   [x] Uses the beautiful [nord](https://www.nordtheme.com/) theme ⛰️
 -   [x] Built on modern web technologies 👨‍💻
@@ -20,10 +20,11 @@
 -   [x] Has excellent support for mobile 📱
 -   [x] 100% FOSS 🔓
 -   [x] No referral links 🤑
+-   [ ] Separate page dedicated to a thread
+-   [ ] Simple notification system
 -   [ ] Keep track of the cheapest game's price, for graphs
 -   [ ] Ability to upload photos and put them in threads or change profile picture
 -   [ ] User page with misc info
--   [ ] Separate page dedicated to a thread
 -   [ ] Has a public API 🦾
 -   [ ] Self hostable [how?](#how-to-self-host) 🏠
 
