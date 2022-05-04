@@ -12,6 +12,7 @@ interface Notification {
     type: "reply" | "news";
     title: string;
     summary?: string;
+    href?: string;
 }
 
 const notificationSchema = new Schema<Notification>({
@@ -24,6 +25,7 @@ const notificationSchema = new Schema<Notification>({
     type: { type: String, enum: ["reply", "news"], required: true },
     title: { type: String, required: true },
     summary: { type: String, default: null },
+    href: { type: String, default: null },
 });
 
 export const notificationModel = model("Notification", notificationSchema);
