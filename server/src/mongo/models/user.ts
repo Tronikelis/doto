@@ -39,7 +39,8 @@ userSchema.method("ban", async function () {
             { author: this.id, root: null },
             {
                 $set: {
-                    description: "[deleted]",
+                    author: null,
+                    description: null,
                 },
             }
         )
@@ -50,8 +51,10 @@ userSchema.method("ban", async function () {
             { author: this.id, root: { $ne: null } },
             {
                 $set: {
-                    description: "[deleted]",
-                    "root.title": "[deleted]",
+                    author: null,
+                    description: null,
+                    "root.title": null,
+                    "root.image": null,
                 },
             }
         )
