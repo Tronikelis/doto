@@ -20,7 +20,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { id } = jwt.decode(key) as { id: string };
 
     try {
-        jwt.verify(key, process.env.SECRET || "");
+        jwt.verify(key, process.env.SECRET as string);
     } catch {
         throw new ErrorBuilder().msg("Key not valid").status(403);
     }

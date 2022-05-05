@@ -8,8 +8,8 @@ export interface AxiosNotifications {
 }
 
 export interface Datum {
-    sender: Receiver;
-    receiver: Receiver;
+    sender: Receiver | null;
+    receiver: Receiver | null;
     read: boolean;
     type: string;
     title: string;

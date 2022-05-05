@@ -57,7 +57,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     await accountModel.create({ user: user.id });
 
-    const key = jwt.sign({ id: user.id }, process.env.SECRET || "x");
+    const key = jwt.sign({ id: user.id }, process.env.SECRET as string);
     const url = urlCat(process.env.BASE_URL || "", "/api/v1/auth/account/verify", {
         key,
     });

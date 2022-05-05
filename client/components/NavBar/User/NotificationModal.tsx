@@ -4,6 +4,7 @@ import {
     Avatar,
     Badge,
     Box,
+    CircularProgress,
     Divider,
     IconButton,
     List,
@@ -14,8 +15,10 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import axios from "axios";
 import Router from "next/router";
 import { useMemo, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
 import TimeAgo from "timeago-react";
 import urlCat from "urlcat";
@@ -24,12 +27,16 @@ import ResponsiveImage from "@components/ResponsiveImage";
 
 import { AxiosNotifications, Datum } from "./types";
 
-const TopBar = () => {
+interface TopBarProps {
+    onReadAll: () => void;
+}
+
+const TopBar = ({ onReadAll }: TopBarProps) => {
     return (
         <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
             <Typography>Notifications</Typography>
 
-            <IconButton size="small">
+            <IconButton size="small" onClick={onReadAll}>
                 <MarkEmailReadIcon fontSize="small" />
             </IconButton>
         </Stack>
@@ -39,9 +46,17 @@ const TopBar = () => {
 export default function NotificationModal() {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
-    const { data } = useSWRInfinite<AxiosNotifications>((index, prev) => {
+    const { data, mutate, setSize } = useSWRInfinite<AxiosNotifications>((index, prev) => {
         if (prev && !prev.next) return null;
-        return urlCat("/user/notifications", { page: index + 1, count: 25 });
+        return urlCat("/user/notifications", { page: index + 1 });
+    });
+
+    const more = data && data[data.length - 1].next;
+
+    const { ref } = useInView({
+        onChange: inView => {
+            inView && setSize(x => x + 1);
+        },
     });
 
     const unread = useMemo(() => {
@@ -49,14 +64,20 @@ export default function NotificationModal() {
         return items?.filter(x => !x.read).length;
     }, [data]);
 
-    const onClick = (id: string, href: string) => {
-        // read the notification here
+    const onRead = async (id: string, href: string) => {
         Router.push(href);
+        await axios.post("/user/notifications/read", { id });
+        mutate();
+    };
+
+    const onReadAll = async () => {
+        await axios.post("/user/notifications/readall");
+        mutate();
     };
 
     return (
         <Box>
-            <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
+            <IconButton disabled={!data} onClick={e => setAnchorEl(e.currentTarget)}>
                 <Badge badgeContent={unread} color="error">
                     <NotificationsIcon />
                 </Badge>
@@ -70,8 +91,8 @@ export default function NotificationModal() {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 sx={{ maxHeight: 650 }}
             >
-                <Stack mx={2}>
-                    <TopBar />
+                <Stack mx={2} justifyContent="center">
+                    <TopBar onReadAll={onReadAll} />
                     <Divider sx={{ my: 1 }} />
 
                     {data && unread < 1 && (
@@ -85,18 +106,19 @@ export default function NotificationModal() {
                                     key={id}
                                     alignItems="flex-start"
                                     sx={{ opacity: read ? 0.5 : 1 }}
-                                    onClick={() => onClick(id, href)}
+                                    onClick={() => onRead(id, href)}
                                 >
                                     <ListItemAvatar>
                                         <Avatar>
-                                            <ResponsiveImage src={sender.avatar} />
+                                            <ResponsiveImage src={sender?.avatar} />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
                                         primary={
                                             <Typography>
-                                                {title}
-                                                {" - "}
+                                                {`${
+                                                    sender?.nickname || "[deleted]"
+                                                }: ${title} - `}
                                                 <Typography
                                                     component="span"
                                                     color="text.secondary"
@@ -105,12 +127,16 @@ export default function NotificationModal() {
                                                 </Typography>
                                             </Typography>
                                         }
-                                        secondary={summary + "..."}
+                                        secondary={`${summary}...`}
                                     />
                                 </ListItemButton>
                             ))
                         )}
                     </List>
+
+                    {more && (
+                        <CircularProgress ref={ref} sx={{ alignSelf: "center", mb: 1 }} />
+                    )}
                 </Stack>
             </Menu>
         </Box>

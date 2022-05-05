@@ -43,9 +43,9 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         notificationModel.create({
             href: root?.root?.slug,
             receiver: replyingTo.author,
-            sender: userId,
+            sender: user.id,
             type: "reply",
-            title: `${user.nickname} replied to your comment`,
+            title: "reply to your post",
             summary: description.slice(0, 200),
         });
     }
