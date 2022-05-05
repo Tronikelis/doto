@@ -64,7 +64,6 @@ const Thread = () => {
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
                     <Typography component="span">
-                        {"u/"}
                         {comment?.author?.nickname || "[deleted]"}
                         {" - "}
                     </Typography>

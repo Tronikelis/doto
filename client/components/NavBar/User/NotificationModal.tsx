@@ -1,3 +1,4 @@
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import {
     Avatar,
@@ -18,11 +19,21 @@ import useSWRInfinite from "swr/infinite";
 import TimeAgo from "timeago-react";
 import urlCat from "urlcat";
 
-import { SWRImmutable } from "@config";
-
 import ResponsiveImage from "@components/ResponsiveImage";
 
 import { AxiosNotifications, Datum } from "./types";
+
+const TopBar = () => {
+    return (
+        <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+            <Typography>Notifications</Typography>
+
+            <IconButton size="small">
+                <MarkEmailReadIcon fontSize="small" />
+            </IconButton>
+        </Stack>
+    );
+};
 
 export default function NotificationModal() {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -30,7 +41,7 @@ export default function NotificationModal() {
     const { data } = useSWRInfinite<AxiosNotifications>((index, prev) => {
         if (prev && !prev.next) return null;
         return urlCat("/user/notifications", { page: index + 1, count: 25 });
-    }, SWRImmutable);
+    });
 
     const unread = useMemo(() => {
         const items = data?.reduce((prev: any, { data }) => [...prev, ...data], []) as Datum[];
@@ -54,7 +65,7 @@ export default function NotificationModal() {
                 sx={{ maxHeight: 650 }}
             >
                 <Stack mx={2}>
-                    <Typography align="center">Notifications</Typography>
+                    <TopBar />
                     <Divider sx={{ my: 1 }} />
 
                     {data && unread < 1 && (

@@ -70,7 +70,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
     const more = useMemo(() => {
         if (!isPopulated) return "replies";
         if (next && isPopulated) return "more";
-        return "";
+        return null;
     }, [next, isPopulated]);
 
     const onReply = (description: string) =>
@@ -89,7 +89,6 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                 <Box ml={ml}>
                     <Typography color="text.secondary">
                         <Typography fontWeight={600} component="span">
-                            {"u/"}
                             {comment?.author?.nickname || "[deleted]"}
                         </Typography>
                         <Typography variant="body2" component="span">

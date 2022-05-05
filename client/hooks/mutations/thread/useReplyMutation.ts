@@ -6,6 +6,8 @@ import urlCat from "urlcat";
 
 import { AxiosReplies } from "@types";
 
+import { SWRImmutable } from "@config";
+
 interface useReplyMutation {
     count: number;
     id?: string;
@@ -36,7 +38,7 @@ export default function useReplyMutation(props: useReplyMutation, config?: SWRCo
     const { data, error, setSize, isValidating, mutate } = useSWRInfinite<AxiosReplies>(
         getKey(props),
         null,
-        config
+        { ...SWRImmutable, ...config }
     );
 
     const loading = (!error && !data) || isValidating;
