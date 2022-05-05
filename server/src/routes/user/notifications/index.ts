@@ -24,7 +24,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         .find({ receiver })
         .skip((page - 1) * count)
         .limit(count)
-        .sort("-date")
+        .sort({ read: 1, date: -1 })
         .populate("sender", ["nickname", "avatar"])
         .populate("receiver", ["nickname", "avatar"]);
 

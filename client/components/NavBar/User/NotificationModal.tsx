@@ -7,13 +7,14 @@ import {
     Divider,
     IconButton,
     List,
-    ListItem,
     ListItemAvatar,
+    ListItemButton,
     ListItemText,
     Menu,
     Stack,
     Typography,
 } from "@mui/material";
+import Router from "next/router";
 import { useMemo, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import TimeAgo from "timeago-react";
@@ -48,10 +49,15 @@ export default function NotificationModal() {
         return items?.filter(x => !x.read).length;
     }, [data]);
 
+    const onClick = (id: string, href: string) => {
+        // read the notification here
+        Router.push(href);
+    };
+
     return (
         <Box>
             <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
-                <Badge badgeContent={unread} color="primary">
+                <Badge badgeContent={unread} color="error">
                     <NotificationsIcon />
                 </Badge>
             </IconButton>
@@ -74,8 +80,13 @@ export default function NotificationModal() {
 
                     <List disablePadding sx={{ width: "100%", maxWidth: 360 }}>
                         {data?.map(({ data }) =>
-                            data.map(({ id, title, date, summary, sender }) => (
-                                <ListItem key={id} alignItems="flex-start">
+                            data.map(({ id, title, date, summary, sender, read, href }) => (
+                                <ListItemButton
+                                    key={id}
+                                    alignItems="flex-start"
+                                    sx={{ opacity: read ? 0.5 : 1 }}
+                                    onClick={() => onClick(id, href)}
+                                >
                                     <ListItemAvatar>
                                         <Avatar>
                                             <ResponsiveImage src={sender.avatar} />
@@ -96,7 +107,7 @@ export default function NotificationModal() {
                                         }
                                         secondary={summary + "..."}
                                     />
-                                </ListItem>
+                                </ListItemButton>
                             ))
                         )}
                     </List>
