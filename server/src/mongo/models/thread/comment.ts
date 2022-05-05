@@ -24,6 +24,7 @@ export interface Comment {
         title: string;
         slug: string;
         image?: string;
+        variant: "home" | "explore";
     };
 }
 
@@ -47,7 +48,8 @@ const commentSchema = new Schema<CommentDocument>(
                         partialFilterExpression: { "root.slug": { $type: "string" } },
                     },
                 },
-                image: { type: String },
+                image: { type: String, default: null },
+                variant: { type: String, required: true, enum: ["home", "explore"] },
             },
             default: null,
         },

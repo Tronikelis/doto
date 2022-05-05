@@ -1,16 +1,21 @@
 import { Static, Type } from "@sinclair/typebox";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
+import { nanoid } from "nanoid";
 
-import { commentModel } from "@mongo";
+import { commentModel, userModel } from "@mongo";
 
 import { authenticate } from "@hooks/authenticate";
+
+import ErrorBuilder from "@utils/errorBuilder";
 
 const body = Type.Object(
     {
         title: Type.String({ minLength: 1, maxLength: 200 }),
         description: Type.String({ minLength: 1, maxLength: 10_000 }),
-        slug: Type.String(),
+        variant: Type.Union([Type.Literal("home"), Type.Literal("explore")], {
+            default: "explore",
+        }),
     },
     { additionalProperties: false }
 );
@@ -18,8 +23,16 @@ const body = Type.Object(
 type Body = Static<typeof body>;
 
 const handler: any = async (req: Req<{ Body: Body }>) => {
-    const { description, title, slug } = req.body;
+    const { description, title, variant } = req.body;
     const userId = req.session.user?.id as string;
+
+    const user = await userModel.findById(userId).orFail();
+
+    if (variant === "home" && !user.attributes.admin) {
+        throw new ErrorBuilder().msg("Only admins can create home posts").status(400);
+    }
+
+    const slug = `${title}-${nanoid()}`.replace(/ /g, "-").toLowerCase();
 
     const root = await commentModel.create({
         author: req.session.user?.id,
@@ -27,6 +40,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         root: {
             title,
             slug,
+            variant,
         },
     });
 
@@ -39,7 +53,7 @@ export default (): Resource => ({
     post: {
         handler,
         schema: { body },
-        onRequest: authenticate("admin"),
+        onRequest: authenticate("verified"),
         config: {
             rateLimit: {
                 max: 5,

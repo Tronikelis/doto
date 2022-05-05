@@ -642,3 +642,10 @@ export interface Reply {
         image?: string;
     };
 }
+
+export interface AxiosThreads {
+    count: string;
+    page: string;
+    next: boolean;
+    data: AxiosThread[];
+}

@@ -4,6 +4,8 @@ import { Resource } from "fastify-autoroutes";
 
 import { commentModel } from "@mongo";
 
+import ErrorBuilder from "@utils/errorBuilder";
+
 const querystring = Type.Object(
     {
         slug: Type.Optional(Type.String()),
@@ -18,8 +20,12 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { slug, id } = req.query;
     const userId = req.session.user?.id as string;
 
+    if (!slug && !id) {
+        throw new ErrorBuilder().msg("Pass an id/slug").status(404);
+    }
+
     const comment = await commentModel
-        .findOne({ $or: [{ id }, { "root.slug": slug }] })
+        .findOne({ $or: [{ _id: id }, { "root.slug": slug }] })
         .orFail()
         .populate({ path: "author", select: ["nickname", "avatar"] })
         .select("-replies");

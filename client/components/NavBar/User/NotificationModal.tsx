@@ -65,7 +65,7 @@ export default function NotificationModal() {
     }, [data]);
 
     const onRead = async (id: string, href: string) => {
-        Router.push(href);
+        Router.push(urlCat("/thread/:href", { href }));
         await axios.post("/user/notifications/read", { id });
         mutate();
     };

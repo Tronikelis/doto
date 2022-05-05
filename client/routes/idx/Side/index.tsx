@@ -1,12 +1,12 @@
-import { Box, Link as MuiLink, Stack, Tab, Tabs, Typography } from "@mui/material";
-import NextLink from "next/link";
+import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import useSWR from "swr/immutable";
 import urlCat from "urlcat";
+
+import { AxiosThreads } from "@types";
 
 import Thread from "@components/Thread";
 import TopReddit from "@components/TopReddit";
-
-import useUserMutation from "@hooks/mutations/useUserMutation";
 
 const News = () => {
     return (
@@ -19,20 +19,18 @@ const News = () => {
 };
 
 const Discuss = () => {
-    const { data } = useUserMutation();
+    const { data } = useSWR<AxiosThreads>(urlCat("/threads", { variant: "home" }));
 
     return (
         <Box>
-            {data?.attributes?.admin && (
-                <NextLink href={urlCat("/create/thread", { slug: "/" })} passHref>
-                    <MuiLink>Create thread</MuiLink>
-                </NextLink>
-            )}
             <Typography variant="h6" gutterBottom>
                 Discuss
             </Typography>
-
-            <Thread />
+            <Stack spacing={6}>
+                {data?.data.map(({ id, root }) => (
+                    <Thread slug={root?.slug} key={id} />
+                ))}
+            </Stack>
         </Box>
     );
 };
