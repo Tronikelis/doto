@@ -8,13 +8,19 @@ export interface AxiosNotifications {
 }
 
 export interface Datum {
-    sender: string;
-    receiver: string;
+    sender: Receiver;
+    receiver: Receiver;
     read: boolean;
     type: string;
     title: string;
     summary: null;
     href: string;
     date: string;
+    id: string;
+}
+
+export interface Receiver {
+    avatar: string;
+    nickname: string;
     id: string;
 }

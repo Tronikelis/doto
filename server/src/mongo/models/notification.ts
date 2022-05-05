@@ -14,8 +14,8 @@ interface Notification {
 }
 
 const notificationSchema = new Schema<Notification>({
-    sender: { type: Schema.Types.ObjectId, default: null },
-    receiver: { type: Schema.Types.ObjectId, required: true },
+    sender: { type: Schema.Types.ObjectId, default: null, ref: "User" },
+    receiver: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     read: { type: Boolean, default: false },
     type: { type: String, enum: ["reply", "news"], required: true },
     title: { type: String, required: true },

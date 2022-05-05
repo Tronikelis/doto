@@ -46,6 +46,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
             sender: userId,
             type: "reply",
             title: `${user.nickname} replied to your comment`,
+            summary: description.slice(0, 200),
         });
     }
 

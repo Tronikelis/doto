@@ -23,7 +23,9 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const data = await notificationModel
         .find({ receiver })
         .skip((page - 1) * count)
-        .limit(count);
+        .limit(count)
+        .populate("sender", ["nickname", "avatar"])
+        .populate("receiver", ["nickname", "avatar"]);
 
     const amount = await notificationModel.countDocuments({ receiver });
 
