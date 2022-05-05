@@ -88,7 +88,7 @@ fastify
         fastify.next("/game/:id");
         fastify.next("/account");
         fastify.next("/recently");
-        fastify.next("/denuvo/*");
+        fastify.next("/denuvo");
         fastify.next("/auth/*");
         fastify.next("/create/*");
         fastify.next("/search");

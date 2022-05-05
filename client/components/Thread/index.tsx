@@ -33,7 +33,6 @@ const CommentContainer = memo(({ comments = [] }: CommentContainerProps) => {
 }, dequal);
 
 const Thread = () => {
-    const { asPath } = useRouter();
     const { count, slug } = useContext(ThreadContext);
 
     const {
@@ -42,7 +41,7 @@ const Thread = () => {
         onReport,
         isDeleted,
         onDelete,
-    } = useCommentMutation({ slug: slug || asPath });
+    } = useCommentMutation({ slug });
 
     const {
         data: replies,
@@ -57,14 +56,14 @@ const Thread = () => {
         [replies]
     ) as Reply[];
 
-    const onReply = (description: string) => reply({ description, id: comment?.id || "" });
+    const onReply = (description: string) =>
+        reply({ description, id: comment?.id || "", slug });
 
     return (
         <Card>
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
                     <Typography component="span">
-                        {"u/"}
                         {comment?.author?.nickname || "[deleted]"}
                         {" - "}
                     </Typography>
@@ -114,8 +113,10 @@ const Thread = () => {
 };
 
 const Root = memo(({ count = 25, slug }: ThreadProps) => {
+    const { asPath } = useRouter();
+
     return (
-        <ThreadProvider count={count} slug={slug}>
+        <ThreadProvider count={count} slug={slug || asPath}>
             <Thread />
         </ThreadProvider>
     );

@@ -6,6 +6,8 @@ import urlCat from "urlcat";
 
 import { AxiosReplies } from "@types";
 
+import { SWRImmutable } from "@config";
+
 interface useReplyMutation {
     count: number;
     id?: string;
@@ -14,6 +16,7 @@ interface useReplyMutation {
 interface OnReplyProps {
     description: string;
     id?: string;
+    slug: string;
 }
 
 const getKey = ({ count, id }: useReplyMutation) => {
@@ -35,7 +38,7 @@ export default function useReplyMutation(props: useReplyMutation, config?: SWRCo
     const { data, error, setSize, isValidating, mutate } = useSWRInfinite<AxiosReplies>(
         getKey(props),
         null,
-        config
+        { ...SWRImmutable, ...config }
     );
 
     const loading = (!error && !data) || isValidating;
@@ -44,11 +47,12 @@ export default function useReplyMutation(props: useReplyMutation, config?: SWRCo
         setSize(x => x + 1);
     };
 
-    const reply = ({ description, id }: OnReplyProps) => {
+    const reply = ({ description, id, slug }: OnReplyProps) => {
         const send = axios
             .post("/thread/reply/create", {
                 replyTo: id,
                 description,
+                slug,
             })
             .then(x => x.data);
 

@@ -30,7 +30,7 @@ const config: SWRConfiguration = {
 };
 
 const CommentBox = memo(({ fallback }: CommentBoxProps) => {
-    const { count } = useContext(ThreadContext);
+    const { count, slug } = useContext(ThreadContext);
 
     const {
         data: replies,
@@ -70,10 +70,11 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
     const more = useMemo(() => {
         if (!isPopulated) return "replies";
         if (next && isPopulated) return "more";
-        return "";
+        return null;
     }, [next, isPopulated]);
 
-    const onReply = (description: string) => reply({ description, id: comment?.id || "" });
+    const onReply = (description: string) =>
+        reply({ description, id: comment?.id || "", slug });
 
     return (
         <Stack mt={2.5}>
@@ -88,7 +89,6 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                 <Box ml={ml}>
                     <Typography color="text.secondary">
                         <Typography fontWeight={600} component="span">
-                            {"u/"}
                             {comment?.author?.nickname || "[deleted]"}
                         </Typography>
                         <Typography variant="body2" component="span">
