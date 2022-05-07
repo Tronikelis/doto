@@ -44,9 +44,16 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         },
     });
 
-    await root.populate({ path: "author", select: ["nickname", "avatar"] });
+    await root.populate("author", ["nickname", "avatar"]);
 
-    return root.genFormattedVotes(userId).toJSON();
+    return {
+        ...root.toJSON(),
+        votes: {
+            upvotes: 0,
+            downvotes: 0,
+            voted: null,
+        },
+    };
 };
 
 export default (): Resource => ({

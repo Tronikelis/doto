@@ -7,7 +7,7 @@ import { Datum, DeepReplies, MongoAggregationComments } from "../thread/reply/.t
 const handler: any = async () => {
     const userId = "626e7569b48beadf4e36f22b";
     const count = 25;
-    const page = 1;
+    const page = 10;
 
     const comments = await commentModel
         .aggregate<MongoAggregationComments>([
@@ -67,7 +67,8 @@ const handler: any = async () => {
                                                 default: null,
                                             },
                                         },
-                                        replies: { $gt: [{ $size: "$$reply.replies" }, 0] },
+                                        replies: [],
+                                        hasReplies: { $gt: [{ $size: "$$reply.replies" }, 0] },
                                     },
                                 ],
                             },
@@ -110,12 +111,22 @@ const handler: any = async () => {
             {
                 $addFields: {
                     data: {
-                        $slice: ["$data", (page - 1) * count, count],
+                        $cond: {
+                            if: { $eq: ["$_id", 1] },
+                            then: {
+                                $slice: ["$data", (page - 1) * count, count * page],
+                            },
+                            else: {
+                                $slice: ["$data", 0, count],
+                            },
+                        },
                     },
                 },
             },
         ])
         .allowDiskUse(true);
+
+    console.log({ comments });
 
     await commentModel.populate(comments, {
         model: "User",

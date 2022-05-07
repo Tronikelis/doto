@@ -68,6 +68,8 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
             },
 
             // format votes
+            // turns votes into array lengths
+            // checks if the userId has already voted
             {
                 $addFields: {
                     deepReplies: {
@@ -107,7 +109,8 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
                                                 },
                                             },
                                         },
-                                        replies: { $gt: [{ $size: "$$reply.replies" }, 0] },
+                                        hasReplies: { $gt: [{ $size: "$$reply.replies" }, 0] },
+                                        replies: [],
                                     },
                                 ],
                             },
@@ -122,19 +125,27 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
                     deepReplies: 1,
                 },
             },
+
+            // turns one doc with a huge array of replies into separate docs containing deepReply
             {
                 $unwind: "$deepReplies",
             },
+
+            // simple rename _id => id
             {
                 $addFields: {
                     "deepReplies.id": "$deepReplies._id",
                 },
             },
+
+            // change this to custom ranking sort later
             {
                 $sort: {
                     "deepReplies.date": -1,
                 },
             },
+
+            // group all replies into depths (we need pagination on the first depth)
             {
                 $group: {
                     _id: "$deepReplies.depth",
@@ -142,15 +153,29 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
                     data: { $push: "$$ROOT" },
                 },
             },
+
+            // just for debugging clarity
             {
                 $sort: {
                     _id: 1,
                 },
             },
+
+            // pagination is done here
+            // paginate only the first/root replies
+            // leave the rest at slice(0, count)
             {
                 $addFields: {
                     data: {
-                        $slice: ["$data", (page - 1) * count, count],
+                        $cond: {
+                            if: { $eq: ["$_id", 1] },
+                            then: {
+                                $slice: ["$data", (page - 1) * count, count * page],
+                            },
+                            else: {
+                                $slice: ["$data", 0, count],
+                            },
+                        },
                     },
                 },
             },
@@ -175,7 +200,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
     // generate a tree structure -> reducedComments <=> replyTo
     // basically recursively traverses every comments reply
-    // and populates the replies with the reducedComments that replyTo === own _id
+    // and populates the replies with the reducedComments that replyTo === own id
     const generate = (reply: DeepReplies) => {
         const id = reply.id.toString();
 

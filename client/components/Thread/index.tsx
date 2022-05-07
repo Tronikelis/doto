@@ -113,10 +113,10 @@ const Thread = () => {
 };
 
 const Root = memo(({ count = 25, slug }: ThreadProps) => {
-    const { asPath } = useRouter();
+    const { query } = useRouter();
 
     return (
-        <ThreadProvider count={count} slug={slug || asPath}>
+        <ThreadProvider count={count} slug={slug || String(query.slug)}>
             <Thread />
         </ThreadProvider>
     );

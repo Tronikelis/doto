@@ -2,8 +2,6 @@ import { Document, ObjectId, PopulatedDoc, Schema, model } from "mongoose";
 
 import { User } from "@mongo";
 
-import formatVotesMethod from "@utils/mongo/formatVotes";
-
 export interface Comment {
     author: PopulatedDoc<User>;
     description: string;
@@ -49,7 +47,12 @@ const commentSchema = new Schema<CommentDocument>(
                     },
                 },
                 image: { type: String, default: null },
-                variant: { type: String, required: true, enum: ["home", "explore"] },
+                variant: {
+                    type: String,
+                    required: true,
+                    enum: ["home", "explore"],
+                    index: true,
+                },
             },
             default: null,
         },
@@ -66,21 +69,6 @@ const commentSchema = new Schema<CommentDocument>(
         toJSON: { virtuals: true },
     }
 );
-
-commentSchema
-    .virtual("formattedVotes")
-    .set(function (x: any) {
-        // @ts-ignore
-        return (this._formattedVotes = x);
-    })
-    .get(function () {
-        // @ts-ignore
-        return this._formattedVotes;
-    });
-
-commentSchema.method("genFormattedVotes", function (userId: string) {
-    return formatVotesMethod(this, userId);
-});
 
 commentSchema.method("ban", async function () {
     this.description = null;

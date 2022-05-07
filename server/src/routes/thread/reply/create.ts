@@ -51,7 +51,15 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     }
 
     await reply.populate({ path: "author", select: ["nickname", "avatar"] });
-    return reply.genFormattedVotes(userId).toJSON();
+
+    return {
+        ...reply.toJSON(),
+        votes: {
+            upvotes: 0,
+            downvotes: 0,
+            voted: null,
+        },
+    };
 };
 
 export default (): Resource => ({

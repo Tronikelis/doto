@@ -1,10 +1,12 @@
 import { Static, Type } from "@sinclair/typebox";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
+import { Types } from "mongoose";
 
 import { commentModel } from "@mongo";
 
 import ErrorBuilder from "@utils/errorBuilder";
+import { fieldAggregation } from "@utils/mongo/aggregations";
 
 const querystring = Type.Object(
     {
@@ -24,13 +26,24 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         throw new ErrorBuilder().msg("Pass an id/slug").status(404);
     }
 
-    const comment = await commentModel
-        .findOne({ $or: [{ _id: id }, { "root.slug": slug }] })
-        .orFail()
-        .populate({ path: "author", select: ["nickname", "avatar"] })
-        .select("-replies");
+    const comment = await commentModel.aggregate([
+        { $match: { $or: [{ _id: new Types.ObjectId(id) }, { "root.slug": slug }] } },
+        {
+            $addFields: fieldAggregation("$", userId),
+        },
+    ]);
 
-    return comment.genFormattedVotes(userId).toJSON();
+    if (comment.length < 1) {
+        throw new ErrorBuilder().msg("Didn't find anything").status(404);
+    }
+
+    await commentModel.populate(comment, {
+        path: "author",
+        model: "User",
+        select: ["nickname", "avatar"],
+    });
+
+    return comment[0];
 };
 
 export default (): Resource => ({

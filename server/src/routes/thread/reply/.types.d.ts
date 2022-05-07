@@ -22,7 +22,8 @@ export interface DeepReplies {
     root: Root | null;
     author: Author;
     replyTo: null | string;
-    replies: boolean;
+    replies: [];
+    hasReplies: boolean;
     votes: Votes;
     date: string;
     depth: number;

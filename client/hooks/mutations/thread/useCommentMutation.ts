@@ -47,15 +47,9 @@ export default function useCommentMutation({ fallbackData, slug }: useCommentMut
             }
         });
 
-        const populateCache = (added: any) =>
-            produce(data, draft => {
-                draft.votes = added;
-            });
-
         mutate(send, {
             ...SWRMutate,
             optimisticData,
-            populateCache,
         });
     };
 

@@ -53,30 +53,13 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         onDelete,
     } = useCommentMutation({ fallbackData: fallback });
 
-    const isPopulated = typeof replies?.[0].data !== "boolean";
-
     const comments = useMemo(() => {
-        if (!isPopulated) return [];
+        if (!replies) return [];
         return replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []);
-    }, [isPopulated, replies]) as Reply[];
-
-    const next = useMemo(() => {
-        if (!replies) return false;
-
-        const last = replies[replies.length - 1];
-        return last.next || last.data.length >= count;
-    }, [count, replies]);
-
-    const more = useMemo(() => {
-        if (!isPopulated) return "replies";
-        if (next && isPopulated) return "more";
-        return null;
-    }, [next, isPopulated]);
+    }, [replies]) as Reply[];
 
     const onReply = (description: string) =>
         reply({ description, id: comment?.id || "", slug });
-
-    if (typeof replies?.[0].data === "boolean") return <Typography>More</Typography>;
 
     return (
         <Stack mt={2.5}>
@@ -122,7 +105,6 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
             </Stack>
 
             {/** use "comments" vars here */}
-
             <Stack flexDirection="row">
                 <Box>
                     <ThreadLine />
@@ -130,25 +112,9 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
 
                 <Box>
                     {/** recursively add comments */}
-                    {isPopulated &&
-                        comments.map(comment => (
-                            <CommentBox fallback={comment} key={comment.id} />
-                        ))}
-
-                    {more && (
-                        <Link
-                            ml={ml}
-                            mt={1}
-                            underline="hover"
-                            variant="body2"
-                            color="primary.main"
-                            sx={{ cursor: "pointer" }}
-                            onClick={() => loadMore()}
-                        >
-                            {loading ? "Loading" : `Load ${more}`}
-                            {" ↓"}
-                        </Link>
-                    )}
+                    {comments.map(comment => (
+                        <CommentBox fallback={comment} key={comment.id} />
+                    ))}
                 </Box>
             </Stack>
         </Stack>

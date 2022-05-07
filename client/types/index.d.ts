@@ -611,7 +611,8 @@ export interface Reply {
     } | null;
     author: Author;
     replyTo: ReplyTo;
-    replies: Reply[] | boolean;
+    replies: Reply[];
+    hasReplies: boolean;
     votes: Votes;
     date: string;
     depth: number;
