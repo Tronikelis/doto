@@ -85,7 +85,7 @@ const Thread = () => {
                         onUpvote={() => onVote("upvote")}
                         onDownvote={() => onVote("downvote")}
                         onDelete={onDelete}
-                        votes={comment?.formattedVotes}
+                        votes={comment?.votes}
                         authorId={comment?.author?.id}
                     />
                 )}

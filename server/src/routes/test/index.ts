@@ -2,7 +2,7 @@ import { Resource } from "fastify-autoroutes";
 
 import { commentModel } from "@mongo";
 
-import { Datum, DeepReplies, MongoAggregationComments } from "./.types";
+import { Datum, DeepReplies, MongoAggregationComments } from "../thread/reply/.types";
 
 const handler: any = async () => {
     const userId = "626e7569b48beadf4e36f22b";
@@ -86,6 +86,11 @@ const handler: any = async () => {
                 $unwind: "$deepReplies",
             },
             {
+                $addFields: {
+                    "deepReplies.id": "$deepReplies._id",
+                },
+            },
+            {
                 $sort: {
                     "deepReplies.date": -1,
                 },
@@ -128,7 +133,7 @@ const handler: any = async () => {
     // basically recursively traverses every comments reply
     // and populates the replies with the reducedComments that replyTo === own _id
     const generate = (reply: DeepReplies) => {
-        const id = reply._id.toString();
+        const id = reply.id.toString();
         const replies = reducedComments
             .filter(({ deepReplies }) => deepReplies.replyTo?.toString() === id)
             .reduce((prev: any, curr) => [...prev, curr.deepReplies], []) as DeepReplies[];

@@ -53,10 +53,12 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         onDelete,
     } = useCommentMutation({ fallbackData: fallback });
 
-    const comments = useMemo(
-        () => replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []),
-        [replies]
-    ) as Reply[];
+    const isPopulated = typeof replies?.[0].data !== "boolean";
+
+    const comments = useMemo(() => {
+        if (!isPopulated) return [];
+        return replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []);
+    }, [isPopulated, replies]) as Reply[];
 
     const next = useMemo(() => {
         if (!replies) return false;
@@ -64,8 +66,6 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         const last = replies[replies.length - 1];
         return last.next || last.data.length >= count;
     }, [count, replies]);
-
-    const isPopulated = typeof comments[0] !== "string";
 
     const more = useMemo(() => {
         if (!isPopulated) return "replies";
@@ -75,6 +75,8 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
 
     const onReply = (description: string) =>
         reply({ description, id: comment?.id || "", slug });
+
+    if (typeof replies?.[0].data === "boolean") return <Typography>More</Typography>;
 
     return (
         <Stack mt={2.5}>
@@ -112,7 +114,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                             onUpvote={() => onVote("upvote")}
                             onDownvote={() => onVote("downvote")}
                             onDelete={onDelete}
-                            votes={comment?.formattedVotes}
+                            votes={comment?.votes}
                             authorId={comment?.author?.id}
                         />
                     )}
@@ -120,36 +122,35 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
             </Stack>
 
             {/** use "comments" vars here */}
-            {comments.length > 0 && (
-                <Stack flexDirection="row">
-                    <Box>
-                        <ThreadLine />
-                    </Box>
 
-                    <Box>
-                        {/** recursively add comments */}
-                        {isPopulated &&
-                            comments.map(comment => (
-                                <CommentBox fallback={comment} key={comment.id} />
-                            ))}
+            <Stack flexDirection="row">
+                <Box>
+                    <ThreadLine />
+                </Box>
 
-                        {more && (
-                            <Link
-                                ml={ml}
-                                mt={1}
-                                underline="hover"
-                                variant="body2"
-                                color="primary.main"
-                                sx={{ cursor: "pointer" }}
-                                onClick={() => loadMore()}
-                            >
-                                {loading ? "Loading" : `Load ${more}`}
-                                {" ↓"}
-                            </Link>
-                        )}
-                    </Box>
-                </Stack>
-            )}
+                <Box>
+                    {/** recursively add comments */}
+                    {isPopulated &&
+                        comments.map(comment => (
+                            <CommentBox fallback={comment} key={comment.id} />
+                        ))}
+
+                    {more && (
+                        <Link
+                            ml={ml}
+                            mt={1}
+                            underline="hover"
+                            variant="body2"
+                            color="primary.main"
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => loadMore()}
+                        >
+                            {loading ? "Loading" : `Load ${more}`}
+                            {" ↓"}
+                        </Link>
+                    )}
+                </Box>
+            </Stack>
         </Stack>
     );
 }, dequal);

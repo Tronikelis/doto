@@ -16,7 +16,7 @@ export enum IDEnum {
 }
 
 export interface DeepReplies {
-    _id: string;
+    id: string;
     description: string;
     rootId: IDEnum | null;
     root: Root | null;
@@ -25,9 +25,7 @@ export interface DeepReplies {
     replies: boolean;
     votes: Votes;
     date: string;
-    __v: number;
     depth: number;
-    voted: null | string;
 }
 
 export interface Author {
@@ -49,10 +47,11 @@ export interface Root {
     slug: string;
     image: null;
     variant: string;
-    _id: string;
+    id: string;
 }
 
 export interface Votes {
     upvotes: number;
     downvotes: number;
+    voted: null | string;
 }

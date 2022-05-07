@@ -35,21 +35,21 @@ export default function useCommentMutation({ fallbackData, slug }: useCommentMut
         const send = axios.put("/thread/reply/vote", { vote, id: data?.id }).then(x => x.data);
 
         const optimisticData = produce(data, draft => {
-            switch (draft.formattedVotes.voted) {
+            switch (draft.votes.voted) {
                 case "upvote":
-                    draft.formattedVotes.upvotes--;
-                    vote === "upvote" && draft.formattedVotes.upvotes++;
+                    draft.votes.upvotes--;
+                    vote === "upvote" && draft.votes.upvotes++;
                     break;
                 case "downvote":
-                    draft.formattedVotes.downvotes--;
-                    vote === "downvote" && draft.formattedVotes.downvotes++;
+                    draft.votes.downvotes--;
+                    vote === "downvote" && draft.votes.downvotes++;
                     break;
             }
         });
 
         const populateCache = (added: any) =>
             produce(data, draft => {
-                draft.formattedVotes = added;
+                draft.votes = added;
             });
 
         mutate(send, {
