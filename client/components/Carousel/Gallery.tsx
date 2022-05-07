@@ -51,7 +51,18 @@ function Gallery({ images = [] }: GalleryProps) {
                                     borderRadius: ({ shape }) => `${shape.borderRadius}px`,
                                 }}
                             >
-                                <ResponsiveImage src={image} />
+                                <ResponsiveImage
+                                    props={{
+                                        sx: {
+                                            transition: ({ transitions }) =>
+                                                `all 0.2s ${transitions.easing.sharp}`,
+                                            "&:hover": {
+                                                opacity: 0.75,
+                                            },
+                                        },
+                                    }}
+                                    src={image}
+                                />
                             </Box>
                         </Box>
                     ))}
