@@ -6,6 +6,7 @@ import { Types } from "mongoose";
 import { commentModel } from "@mongo";
 
 import ErrorBuilder from "@utils/errorBuilder";
+import { fieldAggregation } from "@utils/mongo/aggregations";
 
 import { Datum, DeepReplies, MongoAggregationComments } from "./.types";
 
@@ -23,31 +24,6 @@ type Querystring = Static<typeof querystring>;
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { id, count, page } = req.query;
     const userId = req.session.user?.id as string;
-
-    // const { options, populate, select } = genDeepCommentPopulation(count, page);
-
-    // const comment = await commentModel
-    //     .findById(id)
-    //     .orFail()
-    //     .populate({
-    //         path: "replies",
-    //         options,
-    //         populate,
-    //     })
-    //     .populate({ path: "author", select });
-
-    // const replyCount = await commentModel.countDocuments({
-    //     replyTo: comment.id,
-    // });
-
-    // comment.genFormattedVotes(userId);
-
-    // return {
-    //     page,
-    //     count,
-    //     next: page * count < replyCount,
-    //     data: comment.replies,
-    // };
 
     const comments = await commentModel
         .aggregate<MongoAggregationComments>([
@@ -79,39 +55,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
                             in: {
                                 $mergeObjects: [
                                     "$$reply",
-                                    {
-                                        votes: {
-                                            upvotes: { $size: "$$reply.votes.upvotes" },
-                                            downvotes: { $size: "$$reply.votes.downvotes" },
-                                            voted: {
-                                                $switch: {
-                                                    branches: [
-                                                        {
-                                                            case: {
-                                                                $in: [
-                                                                    { $toObjectId: userId },
-                                                                    "$$reply.votes.upvotes",
-                                                                ],
-                                                            },
-                                                            then: "upvote",
-                                                        },
-                                                        {
-                                                            case: {
-                                                                $in: [
-                                                                    { $toObjectId: userId },
-                                                                    "$$reply.votes.downvotes",
-                                                                ],
-                                                            },
-                                                            then: "downvote",
-                                                        },
-                                                    ],
-                                                    default: null,
-                                                },
-                                            },
-                                        },
-                                        hasReplies: { $gt: [{ $size: "$$reply.replies" }, 0] },
-                                        replies: [],
-                                    },
+                                    fieldAggregation("$$reply.", userId),
                                 ],
                             },
                         },
@@ -129,13 +73,6 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
             // turns one doc with a huge array of replies into separate docs containing deepReply
             {
                 $unwind: "$deepReplies",
-            },
-
-            // simple rename _id => id
-            {
-                $addFields: {
-                    "deepReplies.id": "$deepReplies._id",
-                },
             },
 
             // change this to custom ranking sort later
@@ -221,7 +158,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     return {
         count,
         page,
-        next: count < total,
+        next: count * page < total,
         data: root.replies,
     };
 };

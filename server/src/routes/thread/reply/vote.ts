@@ -24,32 +24,6 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     const { vote, id } = req.body;
     const userId = req.session.user?.id as any;
 
-    // const thread = await commentModel
-    //     .findById(id)
-    //     .orFail()
-    //     .populate({ path: "author", select: ["nickname", "avatar"] });
-
-    // // remove the downvote if it exists
-    // thread.votes.downvotes = thread.votes.downvotes.filter(id => id?.toString() !== userId);
-
-    // // remove the vote if it already has been upvoted
-    // thread.votes.upvotes = thread.votes.upvotes.filter(id => id?.toString() !== userId);
-
-    // switch (vote) {
-    //     case "upvote": {
-    //         thread.votes.upvotes.push(userId);
-    //         await thread.save();
-    //         break;
-    //     }
-    //     case "downvote": {
-    //         thread.votes.downvotes.push(userId);
-    //         await thread.save();
-    //         break;
-    //     }
-    // }
-
-    // return (thread.genFormattedVotes(userId) as any).formattedVotes;
-
     switch (vote) {
         case "upvote":
             await commentModel

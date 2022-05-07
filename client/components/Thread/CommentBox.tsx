@@ -37,6 +37,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         loadMore,
         loading,
         reply,
+        next,
     } = useReplyMutation(
         { id: fallback.id, count },
         {
@@ -60,6 +61,12 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
 
     const onReply = (description: string) =>
         reply({ description, id: comment?.id || "", slug });
+
+    const more = useMemo(() => {
+        if (!replies) return null;
+        // more if next is true (pagination) or (comment has replies but they are not populated)
+        return next || (comment?.hasReplies && comments.length < 1);
+    }, [comment?.hasReplies, comments.length, next, replies]);
 
     return (
         <Stack mt={2.5}>
@@ -105,18 +112,35 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
             </Stack>
 
             {/** use "comments" vars here */}
-            <Stack flexDirection="row">
-                <Box>
-                    <ThreadLine />
-                </Box>
+            {comments.length > 0 && (
+                <Stack flexDirection="row">
+                    <Box>
+                        <ThreadLine />
+                    </Box>
 
-                <Box>
-                    {/** recursively add comments */}
-                    {comments.map(comment => (
-                        <CommentBox fallback={comment} key={comment.id} />
-                    ))}
-                </Box>
-            </Stack>
+                    <Box>
+                        {/** recursively add comments */}
+                        {comments.map(comment => (
+                            <CommentBox fallback={comment} key={comment.id} />
+                        ))}
+                    </Box>
+                </Stack>
+            )}
+
+            {more && (
+                <Link
+                    ml={ml * 1.5}
+                    mt={1}
+                    underline="hover"
+                    variant="body2"
+                    color="primary.main"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => loadMore()}
+                >
+                    {loading ? "Loading" : "Load more"}
+                    {" ↓"}
+                </Link>
+            )}
         </Stack>
     );
 }, dequal);
