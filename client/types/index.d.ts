@@ -623,3 +623,10 @@ export interface Votes {
     downvotes: number;
     voted: null | "upvote" | "downvote";
 }
+
+export interface AxiosThreads {
+    count: string;
+    page: string;
+    next: boolean;
+    data: Reply[];
+}
