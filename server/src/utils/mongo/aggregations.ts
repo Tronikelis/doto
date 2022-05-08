@@ -67,37 +67,32 @@ export const ratingAggregation = (name: string) => {
                 },
             },
             in: {
-                $round: [
+                $add: [
                     {
-                        $add: [
-                            {
-                                $let: {
-                                    vars: {
-                                        sign: {
-                                            $switch: {
-                                                branches: [
-                                                    {
-                                                        case: { $gte: ["$$score", 0] },
-                                                        then: sign,
-                                                    },
-                                                    {
-                                                        case: { $lt: ["$$score", 0] },
-                                                        then: -sign,
-                                                    },
-                                                ],
-                                                default: 0,
+                        $let: {
+                            vars: {
+                                sign: {
+                                    $switch: {
+                                        branches: [
+                                            {
+                                                case: { $gte: ["$$score", 0] },
+                                                then: sign,
                                             },
-                                        },
+                                            {
+                                                case: { $lt: ["$$score", 0] },
+                                                then: -sign,
+                                            },
+                                        ],
+                                        default: 0,
                                     },
-                                    in: { $multiply: ["$$sign", "$$order"] },
                                 },
                             },
-                            {
-                                $divide: ["$$seconds", interval],
-                            },
-                        ],
+                            in: { $multiply: ["$$sign", "$$order"] },
+                        },
                     },
-                    2,
+                    {
+                        $divide: ["$$seconds", interval],
+                    },
                 ],
             },
         },
