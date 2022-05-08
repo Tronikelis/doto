@@ -30,7 +30,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         commentModel.findOne({ "root.slug": slug }).select("-replies").orFail(),
     ]);
 
-    if (replyingTo.rootId?.toString() !== root.id) {
+    if (replyingTo.rootId && replyingTo.rootId?.toString() !== root.id) {
         throw new ErrorBuilder().msg("Replying to comment is from another thread").status(400);
     }
 

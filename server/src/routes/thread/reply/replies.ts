@@ -6,7 +6,7 @@ import { Types } from "mongoose";
 import { commentModel } from "@mongo";
 
 import ErrorBuilder from "@utils/errorBuilder";
-import { fieldAggregation } from "@utils/mongo/aggregations";
+import { fieldAggregation, ratingAggregation } from "@utils/mongo/aggregations";
 
 import { Datum, DeepReplies, MongoAggregationComments } from "./.types";
 
@@ -75,10 +75,15 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
                 $unwind: "$deepReplies",
             },
 
-            // change this to custom ranking sort later
+            {
+                $addFields: {
+                    "deepReplies.rating": ratingAggregation("$deepReplies"),
+                },
+            },
+
             {
                 $sort: {
-                    "deepReplies.date": -1,
+                    "deepReplies.rating": -1,
                 },
             },
 
