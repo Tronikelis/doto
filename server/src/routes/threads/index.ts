@@ -4,6 +4,8 @@ import { Resource } from "fastify-autoroutes";
 
 import { commentModel } from "@mongo";
 
+import { fieldAggregation, ratingAggregation } from "@utils/mongo/aggregations";
+
 const querystring = Type.Object(
     {
         page: Type.Integer({ minimum: 1, default: 1 }),
@@ -19,15 +21,24 @@ type Querystring = Static<typeof querystring>;
 
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { count, page, variant } = req.query;
+    const userId = req.session.user?.id || "";
 
-    const data = await commentModel
-        .find({ "root.variant": variant })
-        .skip((page - 1) * count)
-        .limit(count)
-        .sort("-date")
-        // everything else is irrelevant
-        .select(["root", "description", "date", "author"])
-        .populate("author", ["nickname", "avatar"]);
+    const data = await commentModel.aggregate([
+        { $match: { "root.variant": variant } },
+        { $addFields: fieldAggregation("$", userId) },
+        {
+            $addFields: {
+                rating: ratingAggregation("$"),
+            },
+        },
+        {
+            $sort: {
+                rating: -1,
+            },
+        },
+        { $skip: (page - 1) * count },
+        { $limit: count },
+    ]);
 
     const amount = await commentModel.countDocuments({
         "root.variant": variant,

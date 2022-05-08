@@ -77,7 +77,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
             {
                 $addFields: {
-                    "deepReplies.rating": ratingAggregation("$deepReplies"),
+                    "deepReplies.rating": ratingAggregation("$deepReplies."),
                 },
             },
 

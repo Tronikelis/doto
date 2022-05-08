@@ -42,10 +42,10 @@ export const ratingAggregation = (name: string) => {
         $let: {
             vars: {
                 score: {
-                    $subtract: [`${name}.votes.upvotes`, `${name}.votes.downvotes`],
+                    $subtract: [`${name}votes.upvotes`, `${name}votes.downvotes`],
                 },
                 seconds: {
-                    $subtract: [{ $subtract: [`${name}.date`, new Date(0)] }, seconds],
+                    $subtract: [{ $subtract: [`${name}date`, new Date(0)] }, seconds],
                 },
                 order: {
                     $log: [
@@ -54,8 +54,8 @@ export const ratingAggregation = (name: string) => {
                                 {
                                     $abs: {
                                         $subtract: [
-                                            `${name}.votes.upvotes`,
-                                            `${name}.votes.downvotes`,
+                                            `${name}votes.upvotes`,
+                                            `${name}votes.downvotes`,
                                         ],
                                     },
                                 },
