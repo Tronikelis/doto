@@ -33,7 +33,7 @@ const seconds = 1134028003;
 // increase to decrease the importance of a post's recency
 const interval = 69000;
 // increase to amplify score impact
-const sign = 1.75;
+const sign = 5;
 
 // thanks to:
 // https://hackernoon.com/from-reddits-hot-ranking-algorithm-to-my-satisfying-blend-or-top-ranked-and-new-by2h35tm
@@ -79,7 +79,7 @@ export const ratingAggregation = (name: string) => {
                                                 then: sign,
                                             },
                                             {
-                                                case: { $lt: ["$$score", 0] },
+                                                case: { $lte: ["$$score", 0] },
                                                 then: -sign,
                                             },
                                         ],
