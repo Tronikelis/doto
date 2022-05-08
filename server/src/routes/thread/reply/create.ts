@@ -24,8 +24,8 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     const [user, replyingTo, root] = await Promise.all([
         userModel.findById(req.session.user?.id || null).orFail(),
-        commentModel.findById(replyTo).orFail(),
-        commentModel.findOne({ "root.slug": slug }).orFail(),
+        commentModel.findById(replyTo).select("-replies").orFail(),
+        commentModel.findOne({ "root.slug": slug }).select("-replies").orFail(),
     ]);
 
     const reply = await commentModel.create({
@@ -35,8 +35,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         replyTo,
     });
 
-    replyingTo.replies.push(reply.id);
-    await replyingTo.save();
+    await replyingTo.update({ $addToSet: { replies: reply.id } }).exec();
 
     // push a notification to the receiver
     if (replyingTo.author?.toString() !== userId) {

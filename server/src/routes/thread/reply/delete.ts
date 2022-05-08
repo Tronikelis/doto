@@ -23,7 +23,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
     const [user, reply] = await Promise.all([
         userModel.findById(userId).orFail(),
-        commentModel.findById(id).orFail().select("-replies"),
+        commentModel.findById(id).select("-replies").orFail(),
     ]);
 
     if (user.attributes.admin) {
