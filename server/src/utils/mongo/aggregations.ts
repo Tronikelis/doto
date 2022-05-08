@@ -97,7 +97,7 @@ export const ratingAggregation = (name: string) => {
                             },
                         ],
                     },
-                    1,
+                    2,
                 ],
             },
         },
