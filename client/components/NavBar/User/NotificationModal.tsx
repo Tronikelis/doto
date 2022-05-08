@@ -25,6 +25,8 @@ import urlCat from "urlcat";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
+import useLoggedIn from "@hooks/useLoggedIn";
+
 import { AxiosNotifications, Datum } from "./types";
 
 interface TopBarProps {
@@ -45,12 +47,12 @@ const TopBar = ({ onReadAll }: TopBarProps) => {
 
 export default function NotificationModal() {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const loggedIn = useLoggedIn();
 
     const { data, mutate, setSize } = useSWRInfinite<AxiosNotifications>((index, prev) => {
         if (prev && !prev.next) return null;
         return urlCat("/user/notifications", { page: index + 1 });
     });
-
     const more = data && data[data.length - 1].next;
 
     const { ref } = useInView({
@@ -77,7 +79,7 @@ export default function NotificationModal() {
 
     return (
         <Box>
-            <IconButton disabled={!data} onClick={e => setAnchorEl(e.currentTarget)}>
+            <IconButton disabled={!loggedIn} onClick={e => setAnchorEl(e.currentTarget)}>
                 <Badge badgeContent={unread} color="error">
                     <NotificationsIcon />
                 </Badge>
