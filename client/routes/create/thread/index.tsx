@@ -9,6 +9,7 @@ import {
     Typography,
 } from "@mui/material";
 import axios from "axios";
+import { NextSeo } from "next-seo";
 import { useForm } from "react-hook-form";
 
 import { removeNewlines, removeSpaces } from "@config";
@@ -42,6 +43,8 @@ export default function CreateThread() {
 
     return (
         <Container maxWidth="md" sx={{ mt: 3 }}>
+            <NextSeo title="Create a thread" />
+
             <Typography variant="h4" gutterBottom align="center">
                 Create a thread
             </Typography>
