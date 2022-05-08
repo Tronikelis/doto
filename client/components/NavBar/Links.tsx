@@ -139,12 +139,12 @@ export default function Links() {
 
     useEffect(() => {
         const callback = ({ key }: KeyboardEvent) => {
-            if (key !== "Control") return;
+            if (key !== "Escape") return;
             setOpen(x => !x);
         };
 
-        document.addEventListener("keyup", callback);
-        return () => document.removeEventListener("keyup", callback);
+        document.addEventListener("keydown", callback);
+        return () => document.removeEventListener("keydown", callback);
     }, []);
 
     return (
@@ -155,7 +155,7 @@ export default function Links() {
 
             {!isMobile && (
                 <Typography variant="body2" color="text.secondary">
-                    (CTRL)
+                    (ESC)
                 </Typography>
             )}
 
