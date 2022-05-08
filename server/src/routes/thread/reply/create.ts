@@ -6,6 +6,8 @@ import { commentModel, notificationModel, userModel } from "@mongo";
 
 import { authenticate } from "@hooks/authenticate";
 
+import ErrorBuilder from "@utils/errorBuilder";
+
 const body = Type.Object(
     {
         replyTo: Type.String(),
@@ -27,6 +29,10 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         commentModel.findById(replyTo).select("-replies").orFail(),
         commentModel.findOne({ "root.slug": slug }).select("-replies").orFail(),
     ]);
+
+    if (replyingTo.rootId?.toString() !== root.id) {
+        throw new ErrorBuilder().msg("Replying to comment is from another thread").status(400);
+    }
 
     const reply = await commentModel.create({
         rootId: root.id,
