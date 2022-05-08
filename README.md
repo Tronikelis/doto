@@ -49,6 +49,14 @@ Send me more if you have them
 
 Provider [statuses]
 
+## Screenshots
+
+![home](https://i.imgur.com/QQmkGR3.jpeg)
+
+![game page](https://i.imgur.com/qeNlQns.png)
+
+![direct search](https://i.imgur.com/2sWFFRg.png)
+
 ## Contact
 
 Send me an email => `contactdonatas@gmail.com`
