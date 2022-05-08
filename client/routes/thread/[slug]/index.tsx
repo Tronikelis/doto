@@ -14,7 +14,7 @@ export default function ThreadSlug() {
     const { data } = useCommentMutation({ slug: slug && String(slug) });
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 3 }}>
+        <Container maxWidth="md" sx={{ mt: 3 }}>
             <NextSeo title={data?.root?.title} />
             {slug && <Thread slug={String(slug)} />}
         </Container>

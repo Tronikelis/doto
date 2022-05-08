@@ -1,6 +1,10 @@
 import { Box, BoxProps } from "@mui/material";
 
-export default function ThreadLine({ sx, ...props }: BoxProps) {
+interface ThreadLineProps extends BoxProps {
+    depthColor?: string;
+}
+
+export default function ThreadLine({ depthColor, sx, ...props }: ThreadLineProps) {
     return (
         <Box
             sx={{
@@ -16,7 +20,9 @@ export default function ThreadLine({ sx, ...props }: BoxProps) {
         >
             <Box
                 component="i"
-                borderRight={({ palette }) => `2px solid ${palette.secondary.dark}`}
+                borderRight={({ palette }) =>
+                    `2px solid ${depthColor || palette.secondary.dark}`
+                }
                 display="block"
                 height="100%"
                 width="50%"
