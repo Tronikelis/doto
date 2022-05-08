@@ -47,7 +47,7 @@ Send me more if you have them
 -   Fanatical (https://www.fanatical.com/en/)
 -   Steam (https://store.steampowered.com/)
 
-Provider [statuses]
+Provider [statuses](https://stats.uptimerobot.com/2J4EzCVjMQ)
 
 ## Screenshots
 
