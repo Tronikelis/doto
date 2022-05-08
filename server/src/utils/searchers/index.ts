@@ -29,8 +29,8 @@ export const search = async ({
     const cleanQuery = query.replace(cleanRegex, "");
 
     const key = hashCode([query.toLowerCase(), country, currency, type].join("-"));
-    const redisResult = await redis.get(`${prefix}:${key}`);
 
+    const redisResult = await redis.get(`${prefix}:${key}`);
     if (redisResult) return JSON.parse(redisResult);
 
     const promises = searchers.map(async ({ fetchPrice, provider }) => {

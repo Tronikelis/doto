@@ -16,10 +16,10 @@ interface useCommentMutationProps {
 }
 
 export default function useCommentMutation({ fallbackData, slug }: useCommentMutationProps) {
-    const url = useMemo(
-        () => urlCat("/thread", { id: fallbackData?.id, slug }),
-        [fallbackData?.id, slug]
-    );
+    const url = useMemo(() => {
+        if (!fallbackData && !slug) return null;
+        return urlCat("/thread", { id: fallbackData?.id, slug });
+    }, [fallbackData, slug]);
 
     const { data, mutate } = useSWR<Reply>(url, {
         ...SWRImmutable,

@@ -39,7 +39,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
                     connectToField: "_id",
                     as: "deepReplies",
                     depthField: "depth",
-                    maxDepth: 10,
+                    maxDepth: 5,
                 },
             },
 

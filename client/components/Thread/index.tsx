@@ -1,4 +1,4 @@
-import { Card, CardContent, Divider, Link, Typography } from "@mui/material";
+import { Card, CardContent, Divider, Link, Stack, Typography } from "@mui/material";
 import { dequal } from "dequal";
 import { useRouter } from "next/router";
 import { memo, useContext, useMemo } from "react";
@@ -24,11 +24,11 @@ interface CommentContainerProps {
 
 const CommentContainer = memo(({ comments = [] }: CommentContainerProps) => {
     return (
-        <>
+        <Stack overflow="auto" pb={1}>
             {comments.map(comment => (
                 <CommentBox fallback={comment} key={comment.id} />
             ))}
-        </>
+        </Stack>
     );
 }, dequal);
 
