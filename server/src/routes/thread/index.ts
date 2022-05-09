@@ -43,9 +43,10 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         select: ["nickname", "avatar"],
     });
 
-    const replyCount = await commentModel.countDocuments({
-        rootId: comment[0].id,
-    });
+    const replyCount =
+        (await commentModel.countDocuments({
+            rootId: comment[0].id,
+        })) || 0;
 
     return { ...comment[0], replyCount };
 };
