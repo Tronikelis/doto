@@ -19,11 +19,13 @@ import axios from "axios";
 import Router from "next/router";
 import { useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import TimeAgo from "react-timeago";
 import useSWRInfinite from "swr/infinite";
-import TimeAgo from "timeago-react";
 import urlCat from "urlcat";
 
 import ResponsiveImage from "@components/ResponsiveImage";
+
+import useLoggedIn from "@hooks/useLoggedIn";
 
 import { AxiosNotifications, Datum } from "./types";
 
@@ -45,12 +47,12 @@ const TopBar = ({ onReadAll }: TopBarProps) => {
 
 export default function NotificationModal() {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const loggedIn = useLoggedIn();
 
     const { data, mutate, setSize } = useSWRInfinite<AxiosNotifications>((index, prev) => {
         if (prev && !prev.next) return null;
         return urlCat("/user/notifications", { page: index + 1 });
     });
-
     const more = data && data[data.length - 1].next;
 
     const { ref } = useInView({
@@ -65,7 +67,7 @@ export default function NotificationModal() {
     }, [data]);
 
     const onRead = async (id: string, href: string) => {
-        Router.push(href);
+        Router.push(urlCat("/thread/:href", { href }));
         await axios.post("/user/notifications/read", { id });
         mutate();
     };
@@ -77,7 +79,7 @@ export default function NotificationModal() {
 
     return (
         <Box>
-            <IconButton disabled={!data} onClick={e => setAnchorEl(e.currentTarget)}>
+            <IconButton disabled={!loggedIn} onClick={e => setAnchorEl(e.currentTarget)}>
                 <Badge badgeContent={unread} color="error">
                     <NotificationsIcon />
                 </Badge>
@@ -118,12 +120,12 @@ export default function NotificationModal() {
                                             <Typography>
                                                 {`${
                                                     sender?.nickname || "[deleted]"
-                                                }: ${title} - `}
+                                                }: ${title} · `}
                                                 <Typography
                                                     component="span"
                                                     color="text.secondary"
                                                 >
-                                                    <TimeAgo datetime={new Date(date)} />
+                                                    <TimeAgo date={date} />
                                                 </Typography>
                                             </Typography>
                                         }

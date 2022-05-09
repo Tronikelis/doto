@@ -85,14 +85,17 @@ fastify
     })
     .after(() => {
         fastify.next("/");
-        fastify.next("/game/:id");
         fastify.next("/account");
         fastify.next("/recently");
         fastify.next("/denuvo");
+        fastify.next("/search");
+        fastify.next("/threads");
+
+        fastify.next("/game/*");
         fastify.next("/auth/*");
         fastify.next("/create/*");
-        fastify.next("/search");
         fastify.next("/watchlist/*");
+        fastify.next("/thread/*");
     });
 
 fastify.register(

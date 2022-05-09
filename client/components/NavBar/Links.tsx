@@ -6,6 +6,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import ViewListIcon from "@mui/icons-material/ViewList";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import {
     Collapse,
@@ -29,8 +30,8 @@ import useMobile from "@hooks/useMobile";
 
 interface Link {
     name: string;
-    href: string;
-    icon: any;
+    href?: string;
+    icon?: any;
     nested?: Link[] | null;
 }
 
@@ -39,19 +40,30 @@ const links: Link[] = [
         name: "Home",
         href: "/",
         icon: <HomeIcon />,
-        nested: null,
     },
     {
         name: "Direct search",
         href: "/search",
         icon: <SearchIcon />,
-        nested: null,
     },
     {
         name: "Most watched",
         href: "/watchlist/popular",
         icon: <WhatshotIcon />,
-        nested: null,
+    },
+    {
+        name: "Threads",
+        icon: <ViewListIcon />,
+        nested: [
+            {
+                name: "Explore",
+                href: "/threads",
+            },
+            {
+                name: "Create",
+                href: "/create/thread",
+            },
+        ],
     },
     {
         name: "Denuvo updates",
@@ -78,7 +90,7 @@ const LinkListItem = ({
 
     if (!nested) {
         return (
-            <NextLink href={href} passHref>
+            <NextLink href={href as string} passHref>
                 <ListItemButton onClick={onClose} selected={href === route} LinkComponent="a">
                     <ListItemIcon>{icon}</ListItemIcon>
                     <ListItemText primary={name} />
@@ -98,7 +110,7 @@ const LinkListItem = ({
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List disablePadding>
                     {nested.map(({ href, icon, name }) => (
-                        <NextLink href={href} passHref key={href}>
+                        <NextLink href={href as string} passHref key={href}>
                             <ListItemButton
                                 selected={href === route}
                                 onClick={onClose}
@@ -127,12 +139,12 @@ export default function Links() {
 
     useEffect(() => {
         const callback = ({ key }: KeyboardEvent) => {
-            if (key !== "Control") return;
+            if (key !== "Escape") return;
             setOpen(x => !x);
         };
 
-        document.addEventListener("keyup", callback);
-        return () => document.removeEventListener("keyup", callback);
+        document.addEventListener("keydown", callback);
+        return () => document.removeEventListener("keydown", callback);
     }, []);
 
     return (
@@ -143,7 +155,7 @@ export default function Links() {
 
             {!isMobile && (
                 <Typography variant="body2" color="text.secondary">
-                    (CTRL)
+                    (ESC)
                 </Typography>
             )}
 
@@ -164,7 +176,7 @@ export default function Links() {
 
                 <List sx={{ width: { xs: "60vw", lg: 250 } }}>
                     {links.map(link => (
-                        <LinkListItem {...link} onClose={onClose} key={link.href} />
+                        <LinkListItem {...link} onClose={onClose} key={link.name} />
                     ))}
                     <Divider sx={{ my: 1 }} />
 

@@ -36,7 +36,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         req.headers["x-forwarded-for"]?.toString() ||
         req.ip;
 
-    const { data } = await cacheClient.get<AxiosGeolocate>(
+    const { data: ipData } = await cacheClient.get<AxiosGeolocate>(
         urlCat("https://ipapi.com/ip_api.php", {
             ip,
         })
@@ -53,13 +53,13 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const computedCountry = (
         country ||
         account?.settings.country ||
-        data?.country_code ||
+        ipData?.country_code ||
         defCountry
     ).toUpperCase();
 
     const computedCurrency = (
         currency ||
-        data.currency.code ||
+        ipData.currency.code ||
         account?.settings.currency ||
         defCurrency
     ).toUpperCase();
@@ -80,9 +80,10 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     });
 
     return {
-        country: data?.country_name
-            ? `${data?.country_name} ${data?.location.country_flag_emoji}`
+        country: ipData?.country_name
+            ? `${ipData?.country_name} ${ipData?.location.country_flag_emoji}`
             : computedCountry,
+
         currency: computedCurrency,
         query,
 

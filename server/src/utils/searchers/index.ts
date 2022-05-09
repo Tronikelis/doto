@@ -13,6 +13,7 @@ const searchers = [eneba, humble, kinguin, gog, ig, gmg, fanatical];
 
 const cleanRegex = /[^\w\s]/g;
 const prefix = "provider";
+const twoHours = 1 * 60 * 60 * 2;
 
 const hashCode = (string: string) => {
     let h = 0;
@@ -29,8 +30,8 @@ export const search = async ({
     const cleanQuery = query.replace(cleanRegex, "");
 
     const key = hashCode([query.toLowerCase(), country, currency, type].join("-"));
-    const redisResult = await redis.get(`${prefix}:${key}`);
 
+    const redisResult = await redis.get(`${prefix}:${key}`);
     if (redisResult) return JSON.parse(redisResult);
 
     const promises = searchers.map(async ({ fetchPrice, provider }) => {
@@ -43,7 +44,7 @@ export const search = async ({
     });
 
     const results = await Promise.all(promises);
-    await redis.set(`${prefix}:${key}`, JSON.stringify(results));
+    await redis.set(`${prefix}:${key}`, JSON.stringify(results), "EX", twoHours);
 
     return results;
 };

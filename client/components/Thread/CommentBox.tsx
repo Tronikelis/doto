@@ -2,8 +2,8 @@ import { Avatar, Box, Link, Stack, Typography } from "@mui/material";
 import { dequal } from "dequal";
 import { memo, useMemo } from "react";
 import { useContext } from "react";
+import TimeAgo from "react-timeago";
 import { SWRConfiguration } from "swr";
-import TimeAgo from "timeago-react";
 
 import { Reply } from "@types";
 
@@ -37,6 +37,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         loadMore,
         loading,
         reply,
+        next,
     } = useReplyMutation(
         { id: fallback.id, count },
         {
@@ -53,28 +54,19 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         onDelete,
     } = useCommentMutation({ fallbackData: fallback });
 
-    const comments = useMemo(
-        () => replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []),
-        [replies]
-    ) as Reply[];
-
-    const next = useMemo(() => {
-        if (!replies) return false;
-
-        const last = replies[replies.length - 1];
-        return last.next || last.data.length >= count;
-    }, [count, replies]);
-
-    const isPopulated = typeof comments[0] !== "string";
-
-    const more = useMemo(() => {
-        if (!isPopulated) return "replies";
-        if (next && isPopulated) return "more";
-        return null;
-    }, [next, isPopulated]);
+    const comments = useMemo(() => {
+        if (!replies) return [];
+        return replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []);
+    }, [replies]) as Reply[];
 
     const onReply = (description: string) =>
         reply({ description, id: comment?.id || "", slug });
+
+    const more = useMemo(() => {
+        if (!replies) return null;
+        // more if next is true (pagination) or (comment has replies but they are not populated)
+        return next || (comment?.hasReplies && comments.length < 1);
+    }, [comment?.hasReplies, comments.length, next, replies]);
 
     return (
         <Stack mt={2.5}>
@@ -92,8 +84,13 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                             {comment?.author?.nickname || "[deleted]"}
                         </Typography>
                         <Typography variant="body2" component="span">
-                            {" - "}
-                            <TimeAgo datetime={new Date(comment?.date || "")} />
+                            {" · "}
+                            <TimeAgo
+                                date={comment?.date || ""}
+                                formatter={(value, unit, suffix) =>
+                                    `${value}${unit.slice(0, 1)} ${suffix}`
+                                }
+                            />
                         </Typography>
                     </Typography>
 
@@ -112,7 +109,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                             onUpvote={() => onVote("upvote")}
                             onDownvote={() => onVote("downvote")}
                             onDelete={onDelete}
-                            votes={comment?.formattedVotes}
+                            votes={comment?.votes}
                             authorId={comment?.author?.id}
                         />
                     )}
@@ -128,27 +125,26 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
 
                     <Box>
                         {/** recursively add comments */}
-                        {isPopulated &&
-                            comments.map(comment => (
-                                <CommentBox fallback={comment} key={comment.id} />
-                            ))}
-
-                        {more && (
-                            <Link
-                                ml={ml}
-                                mt={1}
-                                underline="hover"
-                                variant="body2"
-                                color="primary.main"
-                                sx={{ cursor: "pointer" }}
-                                onClick={() => loadMore()}
-                            >
-                                {loading ? "Loading" : `Load ${more}`}
-                                {" ↓"}
-                            </Link>
-                        )}
+                        {comments.map(comment => (
+                            <CommentBox fallback={comment} key={comment.id} />
+                        ))}
                     </Box>
                 </Stack>
+            )}
+
+            {more && (
+                <Link
+                    ml={ml * 1.5}
+                    mt={1}
+                    underline="hover"
+                    variant="body2"
+                    color="primary.main"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => loadMore()}
+                >
+                    {loading ? "Loading" : "Load more"}
+                    {" ↓"}
+                </Link>
             )}
         </Stack>
     );

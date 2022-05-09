@@ -4,7 +4,7 @@ import type { SWRConfiguration } from "swr";
 import useSWRInfinite from "swr/infinite";
 import urlCat from "urlcat";
 
-import { AxiosReplies } from "@types";
+import { AxiosThread } from "@types";
 
 import { SWRImmutable } from "@config";
 
@@ -21,7 +21,7 @@ interface OnReplyProps {
 
 const getKey = ({ count, id }: useReplyMutation) => {
     // HOF to pass additional options
-    return (index: number, previous: AxiosReplies | null) => {
+    return (index: number, previous: AxiosThread | null) => {
         if (previous && !previous.next) return null;
         if (!id) return null;
 
@@ -35,7 +35,7 @@ const getKey = ({ count, id }: useReplyMutation) => {
 
 export default function useReplyMutation(props: useReplyMutation, config?: SWRConfiguration) {
     // this doesn't get called on render be
-    const { data, error, setSize, isValidating, mutate } = useSWRInfinite<AxiosReplies>(
+    const { data, error, setSize, isValidating, mutate } = useSWRInfinite<AxiosThread>(
         getKey(props),
         null,
         { ...SWRImmutable, ...config }
@@ -60,7 +60,7 @@ export default function useReplyMutation(props: useReplyMutation, config?: SWRCo
             const response = await send;
 
             // comments OR data because comments doesn't pick up fallback data
-            return produce(comments || data, (draft: AxiosReplies[]) => {
+            return produce(comments || data, (draft: AxiosThread[]) => {
                 draft[0].data.unshift(response);
             });
         }, false);

@@ -6,6 +6,8 @@ import { commentModel, notificationModel, userModel } from "@mongo";
 
 import { authenticate } from "@hooks/authenticate";
 
+import ErrorBuilder from "@utils/errorBuilder";
+
 const body = Type.Object(
     {
         replyTo: Type.String(),
@@ -24,9 +26,13 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     const [user, replyingTo, root] = await Promise.all([
         userModel.findById(req.session.user?.id || null).orFail(),
-        commentModel.findById(replyTo).orFail(),
-        commentModel.findOne({ "root.slug": slug }).orFail(),
+        commentModel.findById(replyTo).select("-replies").orFail(),
+        commentModel.findOne({ "root.slug": slug }).select("-replies").orFail(),
     ]);
+
+    if (replyingTo.rootId && replyingTo.rootId?.toString() !== root.id) {
+        throw new ErrorBuilder().msg("Replying to comment is from another thread").status(400);
+    }
 
     const reply = await commentModel.create({
         rootId: root.id,
@@ -35,8 +41,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         replyTo,
     });
 
-    replyingTo.replies.push(reply.id);
-    await replyingTo.save();
+    await replyingTo.update({ $addToSet: { replies: reply.id } }).exec();
 
     // push a notification to the receiver
     if (replyingTo.author?.toString() !== userId) {
@@ -51,7 +56,15 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     }
 
     await reply.populate({ path: "author", select: ["nickname", "avatar"] });
-    return reply.genFormattedVotes(userId).toJSON();
+
+    return {
+        ...reply.toJSON(),
+        votes: {
+            upvotes: 0,
+            downvotes: 0,
+            voted: null,
+        },
+    };
 };
 
 export default (): Resource => ({

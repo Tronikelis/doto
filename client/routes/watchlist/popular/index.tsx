@@ -12,6 +12,7 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
+import { NextSeo } from "next-seo";
 import NextLink from "next/link";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
@@ -40,6 +41,8 @@ export default function WatchlistPopular() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <NextSeo title="Most watched games" />
+
             <Typography variant="h4" gutterBottom align="center">
                 Most watched games
             </Typography>

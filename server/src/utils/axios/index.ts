@@ -18,7 +18,8 @@ const options: CacheOptions = {
     generateKey: defaultKeyGenerator,
     interpretHeader: false,
     methods: ["get", "post"],
-    ttl: 1000 * 60 * 60 * 24 * 2,
+    // 1 week
+    ttl: 1000 * 60 * 60 * 24 * 7,
 };
 
 const rawgAxios = axios.create({

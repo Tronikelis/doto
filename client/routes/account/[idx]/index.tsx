@@ -18,7 +18,10 @@ export default function Account() {
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <Paper sx={{ p: 2 }}>
-                <NextSeo title={data?.nickname} description="Account page for Doto" />
+                <NextSeo
+                    title={data?.nickname || "Account"}
+                    description="Account page for Doto"
+                />
                 <User />
 
                 <Divider sx={{ my: 2 }} />

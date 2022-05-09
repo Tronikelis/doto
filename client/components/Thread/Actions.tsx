@@ -21,7 +21,7 @@ import {
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { FormattedVotes } from "@types";
+import { Votes } from "@types";
 
 import { removeNewlines, removeSpaces } from "@config";
 
@@ -35,7 +35,7 @@ interface ReplyBoxProps {
 }
 
 interface ActionsProps {
-    votes?: FormattedVotes;
+    votes?: Votes;
     authorId?: string;
     onUpvote: () => any;
     onDownvote: () => any;

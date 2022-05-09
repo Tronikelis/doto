@@ -20,8 +20,9 @@
 -   [x] Has excellent support for mobile 📱
 -   [x] 100% FOSS 🔓
 -   [x] No referral links 🤑
+-   [x] Scalable comments
 -   [x] Simple notification system
--   [ ] Separate page dedicated to a thread
+-   [x] Separate page dedicated to a thread
 -   [ ] Keep track of the cheapest game's price, for graphs
 -   [ ] Ability to upload photos and put them in threads or change profile picture
 -   [ ] User page with misc info
@@ -46,7 +47,15 @@ Send me more if you have them
 -   Fanatical (https://www.fanatical.com/en/)
 -   Steam (https://store.steampowered.com/)
 
-Provider [statuses]
+Provider [statuses](https://stats.uptimerobot.com/2J4EzCVjMQ)
+
+## Screenshots
+
+![home](https://i.imgur.com/QQmkGR3.jpeg)
+
+![game page](https://i.imgur.com/qeNlQns.png)
+
+![direct search](https://i.imgur.com/2sWFFRg.png)
 
 ## Contact
 
