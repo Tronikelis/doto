@@ -13,6 +13,7 @@ const searchers = [eneba, humble, kinguin, gog, ig, gmg, fanatical];
 
 const cleanRegex = /[^\w\s]/g;
 const prefix = "provider";
+const twoHours = 1 * 60 * 60 * 2;
 
 const hashCode = (string: string) => {
     let h = 0;
@@ -43,7 +44,7 @@ export const search = async ({
     });
 
     const results = await Promise.all(promises);
-    await redis.set(`${prefix}:${key}`, JSON.stringify(results));
+    await redis.set(`${prefix}:${key}`, JSON.stringify(results), "EX", twoHours);
 
     return results;
 };
