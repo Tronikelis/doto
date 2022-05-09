@@ -24,7 +24,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const userId = req.session.user?.id || "";
 
     const data = await commentModel.aggregate([
-        { $match: { "root.variant": variant } },
+        { $match: { "root.variant": variant, author: { $ne: null } } },
         { $addFields: fieldAggregation("$", userId) },
         {
             $addFields: {
@@ -42,6 +42,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
     const amount = await commentModel.countDocuments({
         "root.variant": variant,
+        author: { $ne: null },
     });
 
     return {

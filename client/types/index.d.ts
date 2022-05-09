@@ -614,6 +614,7 @@ export interface Reply {
     replies: Reply[];
     hasReplies: boolean;
     votes: Votes;
+    replyCount: boolean;
     date: string;
     depth: number;
 }

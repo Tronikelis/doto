@@ -81,6 +81,11 @@ const Thread = () => {
                     <Typography component="span">
                         <TimeAgo date={comment?.date || ""} />
                     </Typography>
+
+                    <Typography component="span">
+                        {" · "}
+                        {`${comment?.replyCount} replies`}
+                    </Typography>
                 </Typography>
 
                 {minimal ? (

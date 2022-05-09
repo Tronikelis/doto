@@ -43,7 +43,11 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         select: ["nickname", "avatar"],
     });
 
-    return comment[0];
+    const replyCount = await commentModel.countDocuments({
+        rootId: comment[0].id,
+    });
+
+    return { ...comment[0], replyCount };
 };
 
 export default (): Resource => ({

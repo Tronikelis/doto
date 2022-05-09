@@ -32,7 +32,10 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         throw new ErrorBuilder().msg("Only admins can create home posts").status(400);
     }
 
-    const slug = `${title}-${nanoid()}`.replace(/ /g, "-").toLowerCase();
+    const slug = `${title}-${nanoid()}`
+        .replace(/ /g, "_")
+        .replace(/[^\w\s]/g, "")
+        .toLowerCase();
 
     const root = await commentModel.create({
         author: req.session.user?.id,
