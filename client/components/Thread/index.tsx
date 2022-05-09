@@ -2,7 +2,7 @@ import { Card, CardContent, Divider, Link, Stack, Typography } from "@mui/materi
 import { dequal } from "dequal";
 import { useRouter } from "next/router";
 import { memo, useContext, useMemo } from "react";
-import TimeAgo from "timeago-react";
+import TimeAgo from "react-timeago";
 
 import { Reply } from "@types";
 
@@ -69,7 +69,7 @@ const Thread = () => {
                     </Typography>
 
                     <Typography component="span">
-                        <TimeAgo datetime={new Date(comment?.date || "")} />
+                        <TimeAgo date={comment?.date || ""} />
                     </Typography>
                 </Typography>
 

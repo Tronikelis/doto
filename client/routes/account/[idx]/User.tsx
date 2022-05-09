@@ -1,5 +1,5 @@
 import { Avatar, Divider, Stack, Typography } from "@mui/material";
-import TimeAgo from "timeago-react";
+import TimeAgo from "react-timeago";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
 
@@ -24,7 +24,7 @@ export default function User() {
                     <Typography gutterBottom>
                         created on: {new Date(data.createdAt).toLocaleDateString()}
                         {" ("}
-                        <TimeAgo datetime={new Date(data.createdAt)} />
+                        <TimeAgo date={data.createdAt} />
                         {")"}
                     </Typography>
 

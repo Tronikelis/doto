@@ -2,8 +2,8 @@ import { Avatar, Box, Link, Stack, Typography } from "@mui/material";
 import { dequal } from "dequal";
 import { memo, useMemo } from "react";
 import { useContext } from "react";
+import TimeAgo from "react-timeago";
 import { SWRConfiguration } from "swr";
-import TimeAgo from "timeago-react";
 
 import { Reply } from "@types";
 
@@ -85,7 +85,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                         </Typography>
                         <Typography variant="body2" component="span">
                             {" - "}
-                            <TimeAgo datetime={new Date(comment?.date || "")} />
+                            <TimeAgo date={comment?.date || ""} />
                         </Typography>
                     </Typography>
 

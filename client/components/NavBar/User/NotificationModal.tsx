@@ -19,8 +19,8 @@ import axios from "axios";
 import Router from "next/router";
 import { useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import TimeAgo from "react-timeago";
 import useSWRInfinite from "swr/infinite";
-import TimeAgo from "timeago-react";
 import urlCat from "urlcat";
 
 import ResponsiveImage from "@components/ResponsiveImage";
@@ -125,7 +125,7 @@ export default function NotificationModal() {
                                                     component="span"
                                                     color="text.secondary"
                                                 >
-                                                    <TimeAgo datetime={new Date(date)} />
+                                                    <TimeAgo date={date} />
                                                 </Typography>
                                             </Typography>
                                         }
