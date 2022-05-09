@@ -8,13 +8,31 @@ export const fieldAggregation = (name: string, userId: string) => {
                     branches: [
                         {
                             case: {
-                                $in: [{ $toObjectId: userId }, `${name}votes.upvotes`],
+                                $in: [
+                                    {
+                                        $convert: {
+                                            input: userId,
+                                            to: "objectId",
+                                            onError: null,
+                                        },
+                                    },
+                                    `${name}votes.upvotes`,
+                                ],
                             },
                             then: "upvote",
                         },
                         {
                             case: {
-                                $in: [{ $toObjectId: userId }, `${name}votes.downvotes`],
+                                $in: [
+                                    {
+                                        $convert: {
+                                            input: userId,
+                                            to: "objectId",
+                                            onError: null,
+                                        },
+                                    },
+                                    `${name}votes.downvotes`,
+                                ],
                             },
                             then: "downvote",
                         },

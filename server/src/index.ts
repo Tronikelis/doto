@@ -89,6 +89,7 @@ fastify
         fastify.next("/recently");
         fastify.next("/denuvo");
         fastify.next("/search");
+        fastify.next("/threads");
 
         fastify.next("/game/*");
         fastify.next("/auth/*");

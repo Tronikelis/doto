@@ -1,5 +1,14 @@
-import { Card, CardContent, Divider, Link, Stack, Typography } from "@mui/material";
+import {
+    Card,
+    CardContent,
+    Divider,
+    Link,
+    Link as MuiLink,
+    Stack,
+    Typography,
+} from "@mui/material";
 import { dequal } from "dequal";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { memo, useContext, useMemo } from "react";
 import TimeAgo from "react-timeago";
@@ -16,6 +25,7 @@ import { ThreadContext, ThreadProvider } from "./Context";
 interface ThreadProps {
     count?: number;
     slug?: string;
+    minimal?: boolean;
 }
 
 interface CommentContainerProps {
@@ -33,7 +43,7 @@ const CommentContainer = memo(({ comments = [] }: CommentContainerProps) => {
 }, dequal);
 
 const Thread = () => {
-    const { count, slug } = useContext(ThreadContext);
+    const { count, slug, minimal } = useContext(ThreadContext);
 
     const {
         data: comment,
@@ -73,10 +83,24 @@ const Thread = () => {
                     </Typography>
                 </Typography>
 
-                <Typography fontWeight={900} variant="h6" gutterBottom>
-                    {comment?.root?.title || "[deleted]"}
-                </Typography>
-                <Typography gutterBottom>{comment?.description || "[deleted]"}</Typography>
+                {minimal ? (
+                    <NextLink href={`/thread/${comment?.root?.slug}`} passHref>
+                        <Typography
+                            fontWeight={900}
+                            variant="h6"
+                            component={MuiLink}
+                            gutterBottom
+                        >
+                            {comment?.root?.title || "[deleted]"}
+                        </Typography>
+                    </NextLink>
+                ) : (
+                    <Typography fontWeight={900} variant="h6" gutterBottom>
+                        {comment?.root?.title || "[deleted]"}
+                    </Typography>
+                )}
+
+                <Typography my={1}>{comment?.description || "[deleted]"}</Typography>
 
                 {!isDeleted && (
                     <Actions
@@ -90,9 +114,12 @@ const Thread = () => {
                     />
                 )}
 
-                <Divider sx={{ my: 2 }} />
-
-                <CommentContainer comments={comments} />
+                {!minimal && (
+                    <>
+                        <Divider sx={{ my: 1 }} />
+                        <CommentContainer comments={comments} />
+                    </>
+                )}
 
                 {next && (
                     <Link
@@ -112,11 +139,11 @@ const Thread = () => {
     );
 };
 
-const Root = memo(({ count = 25, slug }: ThreadProps) => {
+const Root = memo(({ count = 25, slug, minimal = false }: ThreadProps) => {
     const { query } = useRouter();
 
     return (
-        <ThreadProvider count={count} slug={slug || String(query.slug)}>
+        <ThreadProvider minimal={minimal} count={count} slug={slug || String(query.slug)}>
             <Thread />
         </ThreadProvider>
     );
