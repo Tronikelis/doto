@@ -29,71 +29,34 @@ export const fieldAggregation = (name: string, userId: string) => {
     };
 };
 
-const seconds = 1134028003;
-// increase to decrease the importance of a post's recency
-const interval = 69000;
-// increase to amplify score impact
-const sign = 5;
+const gravity = 1.8;
 
-// thanks to:
-// https://hackernoon.com/from-reddits-hot-ranking-algorithm-to-my-satisfying-blend-or-top-ranked-and-new-by2h35tm
+// hacker news algorithm
 export const ratingAggregation = (name: string) => {
     return {
         $let: {
             vars: {
-                score: {
-                    $subtract: [`${name}votes.upvotes`, `${name}votes.downvotes`],
+                points: {
+                    $add: [
+                        { $subtract: [`${name}votes.upvotes`, `${name}votes.downvotes`] },
+                        1,
+                    ],
                 },
-                seconds: {
-                    $subtract: [{ $subtract: [`${name}date`, new Date(0)] }, seconds],
-                },
-                order: {
-                    $log: [
+                hours: {
+                    $divide: [
                         {
-                            $max: [
-                                {
-                                    $abs: {
-                                        $subtract: [
-                                            `${name}votes.upvotes`,
-                                            `${name}votes.downvotes`,
-                                        ],
-                                    },
-                                },
-                                1,
-                            ],
+                            $dateDiff: {
+                                endDate: new Date(),
+                                startDate: `${name}date`,
+                                unit: "second",
+                            },
                         },
-                        10,
+                        60 * 60,
                     ],
                 },
             },
             in: {
-                $add: [
-                    {
-                        $let: {
-                            vars: {
-                                sign: {
-                                    $switch: {
-                                        branches: [
-                                            {
-                                                case: { $gte: ["$$score", 0] },
-                                                then: sign,
-                                            },
-                                            {
-                                                case: { $lte: ["$$score", 0] },
-                                                then: -sign,
-                                            },
-                                        ],
-                                        default: 0,
-                                    },
-                                },
-                            },
-                            in: { $multiply: ["$$sign", "$$order"] },
-                        },
-                    },
-                    {
-                        $divide: ["$$seconds", interval],
-                    },
-                ],
+                $divide: ["$$points", { $pow: [{ $add: ["$$hours", 2] }, gravity] }],
             },
         },
     };
