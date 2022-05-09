@@ -84,8 +84,13 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                             {comment?.author?.nickname || "[deleted]"}
                         </Typography>
                         <Typography variant="body2" component="span">
-                            {" - "}
-                            <TimeAgo date={comment?.date || ""} />
+                            {" · "}
+                            <TimeAgo
+                                date={comment?.date || ""}
+                                formatter={(value, unit, suffix) =>
+                                    `${value}${unit.slice(0, 1)} ${suffix}`
+                                }
+                            />
                         </Typography>
                     </Typography>
 

@@ -65,7 +65,7 @@ const Thread = () => {
                 <Typography variant="body2" color="text.secondary">
                     <Typography component="span">
                         {comment?.author?.nickname || "[deleted]"}
-                        {" - "}
+                        {" · "}
                     </Typography>
 
                     <Typography component="span">

@@ -120,7 +120,7 @@ export default function NotificationModal() {
                                             <Typography>
                                                 {`${
                                                     sender?.nickname || "[deleted]"
-                                                }: ${title} - `}
+                                                }: ${title} · `}
                                                 <Typography
                                                     component="span"
                                                     color="text.secondary"
