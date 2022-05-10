@@ -1,5 +1,5 @@
 import { Static, Type } from "@sinclair/typebox";
-import { createHash, randomBytes, scrypt } from "crypto";
+import { randomBytes, scrypt } from "crypto";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 import jwt from "jsonwebtoken";
@@ -43,16 +43,11 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         nickname
     )}.svg`;
 
-    // hash the user's ip
-    const ip = req.headers["cf-connecting-ip"]?.toString() || req.ip;
-    const hash = createHash("sha256").update(ip).digest("base64");
-
     const user = await userModel.create({
         email,
         nickname,
         password: `${salt}:${hashed}`,
         avatar,
-        ip: ip && hash,
     });
 
     await accountModel.create({ user: user.id });

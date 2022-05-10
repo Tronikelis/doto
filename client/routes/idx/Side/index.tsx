@@ -1,4 +1,4 @@
-import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Stack, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
@@ -22,16 +22,11 @@ const Discuss = () => {
     const { data } = useSWR<AxiosThreads>(urlCat("/threads", { variant: "home" }));
 
     return (
-        <Box>
-            <Typography variant="h6" gutterBottom>
-                Discuss
-            </Typography>
-            <Stack spacing={6}>
-                {data?.data.map(({ id, root }) => (
-                    <Thread slug={root?.slug} key={id} />
-                ))}
-            </Stack>
-        </Box>
+        <Stack spacing={6}>
+            {data?.data.map(({ id, root }) => (
+                <Thread slug={root?.slug} key={id} />
+            ))}
+        </Stack>
     );
 };
 
