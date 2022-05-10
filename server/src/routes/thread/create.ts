@@ -8,6 +8,7 @@ import { commentModel, userModel } from "@mongo";
 import { authenticate } from "@hooks/authenticate";
 
 import ErrorBuilder from "@utils/errorBuilder";
+import aggregateComment from "@utils/mongo/aggregateComment";
 
 const body = Type.Object(
     {
@@ -47,16 +48,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         },
     });
 
-    await root.populate("author", ["nickname", "avatar"]);
-
-    return {
-        ...root.toJSON(),
-        votes: {
-            upvotes: 0,
-            downvotes: 0,
-            voted: null,
-        },
-    };
+    return aggregateComment({ userId, id: root.id });
 };
 
 export default (): Resource => ({

@@ -13,7 +13,6 @@ export interface User {
     email: string;
     createdAt: Date;
     avatar: string;
-    ip: string;
     attributes: UserAttributes;
 
     ban: () => Promise<void>;
@@ -29,8 +28,6 @@ const userSchema = new Schema<User>({
         verified: { type: Boolean, required: true, default: false },
         admin: { type: Boolean, required: true, default: false },
     },
-    // hashed ip for bans
-    ip: { type: String, required: true },
 });
 
 userSchema.method("ban", async function () {
@@ -61,8 +58,8 @@ userSchema.method("ban", async function () {
         .exec();
 
     // cleanup
-    const deleteUser = this.deleteMany({ ip: this.ip }).exec();
     const deleteAccount = accountModel.deleteOne({ user: this.id }).exec();
+    const deleteUser = this.delete();
     const deleteNotifications = notificationModel.deleteMany({ receiver: this.id }).exec();
 
     await Promise.all([commentBan, deleteUser, rootBan, deleteAccount, deleteNotifications]);

@@ -80,7 +80,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
 
                 <Box ml={ml}>
                     <Typography color="text.secondary">
-                        <Typography fontWeight={600} component="span">
+                        <Typography component="span">
                             {comment?.author?.nickname || "[deleted]"}
                         </Typography>
                         <Typography variant="body2" component="span">
