@@ -1,13 +1,9 @@
 import { Static, Type } from "@sinclair/typebox";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
-import { Types } from "mongoose";
-
-import { commentModel } from "@mongo";
 
 import ErrorBuilder from "@utils/errorBuilder";
 import aggregateComment from "@utils/mongo/aggregateComment";
-import { fieldAggregation } from "@utils/mongo/aggregations";
 
 const querystring = Type.Object(
     {
