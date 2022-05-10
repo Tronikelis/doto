@@ -52,7 +52,7 @@ export default (): Resource => ({
         schema: { body },
         config: {
             rateLimit: {
-                max: 1,
+                max: 5,
                 timeWindow: "15 minutes",
             },
         },

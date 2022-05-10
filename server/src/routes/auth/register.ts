@@ -57,7 +57,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     await accountModel.create({ user: user.id });
 
-    const key = jwt.sign({ id: user.id }, process.env.SECRET as string);
+    const key = jwt.sign({ id: user.id }, process.env.SECRET as string, { expiresIn: "7d" });
     const url = urlCat(process.env.BASE_URL || "", "/api/v1/auth/account/verify", {
         key,
     });
@@ -67,7 +67,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         subject: "Doto account verification",
         to: user.email,
         html:
-            `<p>Hello, if you didn't register an account at doto you can safely ignore this email</p>` +
+            `<p>Hello, if you didn't register an account at doto.dev you can safely ignore this email</p>` +
             `<p>To verify your account click this <a href="${url}">link</a></p>`,
     });
 
@@ -80,7 +80,7 @@ export default (): Resource => ({
         schema: { body },
         config: {
             rateLimit: {
-                max: 2,
+                max: 3,
                 timeWindow: "60 minutes",
             },
         },
