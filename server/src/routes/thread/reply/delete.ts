@@ -6,6 +6,7 @@ import { Types } from "mongoose";
 import { commentModel, userModel } from "@mongo";
 
 import ErrorBuilder from "@utils/errorBuilder";
+import aggregateComment from "@utils/mongo/aggregateComment";
 import { fieldAggregation } from "@utils/mongo/aggregations";
 
 const querystring = Type.Object(
@@ -37,22 +38,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
 
     await reply.ban();
 
-    const comment = await commentModel.aggregate([
-        { $match: { _id: new Types.ObjectId(id) } },
-        { $addFields: fieldAggregation("$", userId) },
-    ]);
-
-    if (comment.length < 1) {
-        throw new ErrorBuilder().msg("Didn't find anything").status(404);
-    }
-
-    await commentModel.populate(comment, {
-        path: "author",
-        model: "User",
-        select: ["nickname", "avatar"],
-    });
-
-    return comment[0];
+    return aggregateComment({ userId, id: reply.id });
 };
 
 export default (): Resource => ({

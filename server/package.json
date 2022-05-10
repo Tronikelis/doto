@@ -22,7 +22,7 @@
         "fastify-autoroutes": "^2.1.3",
         "ioredis": "^5.0.4",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.3.2",
+        "mongoose": "^6.3.3",
         "nanoid": "^3.3.4",
         "node-cron": "^3.0.0",
         "nodemailer": "^6.7.5",
