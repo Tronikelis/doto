@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Paper, Tab, Tabs } from "@mui/material";
+import { Box, Container, Grid, Paper, Stack, Tab, Tabs } from "@mui/material";
 import { NextSeo } from "next-seo";
 import { useState } from "react";
 
@@ -19,26 +19,28 @@ export default function UserPage() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
-            <Paper sx={{ p: 2 }}>
-                <NextSeo
-                    title={data?.nickname || "Account"}
-                    description="Account page for Doto"
-                />
-                <User />
+            <NextSeo title={data?.nickname || "Account"} description="Account page for Doto" />
 
-                <Divider sx={{ my: 2 }} />
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={8}>
+                    <Stack component={Paper}>
+                        <Tabs value={value} centered onChange={(_, value) => setValue(value)}>
+                            <Tab label="Watchlist" value={0} />
+                            {data?.owner && <Tab label="Settings" value={1} />}
+                        </Tabs>
 
-                <Tabs value={value} centered onChange={(_, value) => setValue(value)}>
-                    <Tab label="Watchlist" value={0} />
-                    {data?.owner && <Tab label="Settings" value={1} />}
-                </Tabs>
+                        {Items.map((Item, i) => (
+                            <Box key={i} hidden={i !== value} mt={2}>
+                                <Item />
+                            </Box>
+                        ))}
+                    </Stack>
+                </Grid>
 
-                {Items.map((Item, i) => (
-                    <Box key={i} hidden={i !== value} mt={2}>
-                        <Item />
-                    </Box>
-                ))}
-            </Paper>
+                <Grid item xs>
+                    <User />
+                </Grid>
+            </Grid>
         </Container>
     );
 }

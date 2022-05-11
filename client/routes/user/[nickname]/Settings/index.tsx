@@ -4,7 +4,7 @@ import Country from "./Country";
 
 export default function Settings() {
     return (
-        <Stack flexDirection="row" flexWrap="wrap" justifyContent="space-around">
+        <Stack p={2} flexDirection="row" flexWrap="wrap" justifyContent="space-around">
             <Country />
         </Stack>
     );
