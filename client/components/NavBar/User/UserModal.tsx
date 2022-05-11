@@ -48,7 +48,7 @@ const UserMenu = (props: MenuProps) => {
             <Typography align="center">{data?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
 
-            <MenuItem onClick={onAccount}>
+            <MenuItem disabled={!data?.nickname} onClick={onAccount}>
                 <ListItemIcon>
                     <ManageAccountsIcon />
                 </ListItemIcon>
