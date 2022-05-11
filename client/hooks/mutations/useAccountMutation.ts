@@ -23,10 +23,12 @@ export interface Account {
 }
 
 export default function useAccountMutation(nickname?: string) {
-    const { data: user = null } = useUserMutation(nickname);
+    const { data: user } = useUserMutation(nickname);
     const url = useMemo(() => {
-        if (!nickname || !user) return null;
-        return urlCat("/user/info/:nickname/account", { nickname: nickname || user.nickname });
+        if (!user && !nickname) return null;
+        return urlCat("/user/info/:nickname/account", {
+            nickname: nickname || user?.nickname,
+        });
     }, [nickname, user]);
 
     const { data, mutate } = useSWR<Account>(url);

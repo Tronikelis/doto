@@ -22,20 +22,20 @@ export interface User {
 }
 
 export default function useUserMutation(nickname?: string) {
-    const { data: user = null } = useSWR<User>("/user");
+    const { data: user } = useSWR<User>("/user");
     const url = useMemo(() => {
-        if (!nickname || !user) return null;
-        return urlCat("/user/info/:nickname", { nickname: nickname || user.nickname });
+        if (!user && !nickname) return null;
+        return urlCat("/user/info/:nickname", { nickname: nickname || user?.nickname });
     }, [nickname, user]);
 
-    const { data, mutate } = useSWR<User | Record<string, never>>(url);
+    const { data, mutate } = useSWR<User>(url);
 
     const logout = () => {
         return mutate(
             axios.post("/auth/logout").then(x => x.data),
             {
                 ...SWRMutate,
-                optimisticData: {},
+                optimisticData: null as any,
             }
         );
     };
