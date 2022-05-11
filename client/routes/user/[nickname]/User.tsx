@@ -3,8 +3,11 @@ import TimeAgo from "react-timeago";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
 
+import useNickname from "./useNickname";
+
 export default function User() {
-    const { data } = useUserMutation();
+    const nickname = useNickname();
+    const { data } = useUserMutation(nickname);
 
     return (
         <Stack flexDirection="row" flexWrap="wrap" alignItems="center" justifyContent="center">
@@ -12,9 +15,6 @@ export default function User() {
 
             <Typography ml={1} variant="h3" sx={{ overflowWrap: "anywhere" }}>
                 {data?.nickname || "Logged out"}
-                <Typography color="text.secondary">
-                    {data?.email || "Login to start watching games"}
-                </Typography>
             </Typography>
 
             <Divider flexItem orientation="vertical" sx={{ mx: 2 }} />

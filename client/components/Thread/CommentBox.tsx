@@ -1,5 +1,6 @@
-import { Avatar, Box, Link, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Link, Link as MuiLink, Stack, Typography } from "@mui/material";
 import { dequal } from "dequal";
+import NextLink from "next/link";
 import { memo, useMemo } from "react";
 import { useContext } from "react";
 import TimeAgo from "react-timeago";
@@ -59,14 +60,16 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         return replies?.reduce((prev: any, curr) => [...prev, ...curr.data], []);
     }, [replies]) as Reply[];
 
-    const onReply = (description: string) =>
-        reply({ description, id: comment?.id || "", slug });
-
     const more = useMemo(() => {
         if (!replies) return null;
         // more if next is true (pagination) or (comment has replies but they are not populated)
         return next || (comment?.hasReplies && comments.length < 1);
     }, [comment?.hasReplies, comments.length, next, replies]);
+
+    const onReply = (description: string) =>
+        reply({ description, id: comment?.id || "", slug });
+
+    const nickname = comment?.author?.nickname || "[deleted]";
 
     return (
         <Stack mt={2.5}>
@@ -80,9 +83,10 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
 
                 <Box ml={ml}>
                     <Typography color="text.secondary">
-                        <Typography component="span">
-                            {comment?.author?.nickname || "[deleted]"}
-                        </Typography>
+                        <NextLink href={`/user/${nickname}`} passHref>
+                            <MuiLink underline="none">{nickname}</MuiLink>
+                        </NextLink>
+
                         <Typography variant="body2" component="span">
                             {" · "}
                             <TimeAgo

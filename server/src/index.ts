@@ -85,7 +85,6 @@ fastify
     })
     .after(() => {
         fastify.next("/");
-        fastify.next("/account");
         fastify.next("/recently");
         fastify.next("/denuvo");
         fastify.next("/search");
@@ -96,6 +95,7 @@ fastify
         fastify.next("/create/*");
         fastify.next("/watchlist/*");
         fastify.next("/thread/*");
+        fastify.next("/user/*");
     });
 
 fastify.register(

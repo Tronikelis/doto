@@ -18,19 +18,25 @@ import ResponsiveImage from "@components/ResponsiveImage";
 import useAccountMutation, { Account } from "@hooks/mutations/useAccountMutation";
 import usePrices from "@hooks/usePrices";
 
-const GameItem = memo(({ slug, title }: Account["watching"][0]) => {
-    const { computed } = usePrices({ query: title });
+import useNickname from "./useNickname";
 
+const GameItem = memo(({ slug, title }: Account["watching"][0]) => {
+    const nickname = useNickname();
     const {
+        data,
         actions: { watchlist },
-    } = useAccountMutation();
+    } = useAccountMutation(nickname);
+
+    const { computed } = usePrices({ query: title });
 
     return (
         <ListItem
             secondaryAction={
-                <IconButton onClick={() => watchlist.del(slug)}>
-                    <ClearIcon />
-                </IconButton>
+                data?.owner && (
+                    <IconButton onClick={() => watchlist.del(slug)}>
+                        <ClearIcon />
+                    </IconButton>
+                )
             }
             disablePadding
         >
@@ -63,7 +69,8 @@ const GameItem = memo(({ slug, title }: Account["watching"][0]) => {
 });
 
 export default function Watchlist() {
-    const { data } = useAccountMutation();
+    const nickname = useNickname();
+    const { data } = useAccountMutation(nickname);
 
     return (
         <Stack>

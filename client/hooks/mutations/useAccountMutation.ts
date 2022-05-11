@@ -1,9 +1,12 @@
 import axios from "axios";
 import produce from "immer";
+import { useMemo } from "react";
 import useSWR from "swr";
 import urlCat from "urlcat";
 
 import { SWRMutate } from "@config";
+
+import useUserMutation from "./useUserMutation";
 
 interface Game {
     slug: string;
@@ -16,10 +19,17 @@ export interface Account {
         country?: string | null;
     };
     watching: Game[];
+    owner: boolean;
 }
 
-export default function useAccountMutation() {
-    const { data, mutate } = useSWR<Account>("/account");
+export default function useAccountMutation(nickname?: string) {
+    const { data: user = null } = useUserMutation(nickname);
+    const url = useMemo(() => {
+        if (!nickname || !user) return null;
+        return urlCat("/user/info/:nickname/account", { nickname: nickname || user.nickname });
+    }, [nickname, user]);
+
+    const { data, mutate } = useSWR<Account>(url);
 
     const settings = {
         update: (settings: Account["settings"]) => {
@@ -40,13 +50,15 @@ export default function useAccountMutation() {
                 axios.delete("/account/settings").then(x => x.data),
                 {
                     ...SWRMutate,
-                    optimisticData: {
-                        settings: {
-                            country: null,
-                            currency: null,
-                        },
-                        watching: [],
-                    },
+                    optimisticData: data =>
+                        ({
+                            ...data,
+                            settings: {
+                                country: null,
+                                currency: null,
+                            },
+                            watching: [],
+                        } as any),
                 }
             );
         },

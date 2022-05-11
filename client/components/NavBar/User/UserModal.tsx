@@ -36,7 +36,7 @@ const UserMenu = (props: MenuProps) => {
 
     const onLogin = () => Router.push("/auth/login");
     const onRegister = () => Router.push("/auth/register");
-    const onAccount = () => Router.push("/account");
+    const onAccount = () => Router.push(`/user/${data?.nickname}`);
     const onRecover = () => Router.push("/auth/recover/generate");
 
     return (
@@ -52,7 +52,7 @@ const UserMenu = (props: MenuProps) => {
                 <ListItemIcon>
                     <ManageAccountsIcon />
                 </ListItemIcon>
-                Account
+                Profile
             </MenuItem>
 
             <MenuItem onClick={onRecover}>

@@ -7,11 +7,13 @@ import useUserMutation from "@hooks/mutations/useUserMutation";
 import Settings from "./Settings";
 import User from "./User";
 import Watchlist from "./Watchlist";
+import useNickname from "./useNickname";
 
 const Items = [Watchlist, Settings];
 
-export default function Account() {
-    const { data } = useUserMutation();
+export default function UserPage() {
+    const nickname = useNickname();
+    const { data } = useUserMutation(nickname);
 
     const [value, setValue] = useState(0);
 
@@ -28,7 +30,7 @@ export default function Account() {
 
                 <Tabs value={value} centered onChange={(_, value) => setValue(value)}>
                     <Tab label="Watchlist" value={0} />
-                    <Tab label="Settings" value={1} />
+                    {data?.owner && <Tab label="Settings" value={1} />}
                 </Tabs>
 
                 {Items.map((Item, i) => (
