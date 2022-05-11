@@ -10,7 +10,6 @@ import type { RegisterArgs } from "@routes/auth/register";
 
 export interface User {
     nickname: string;
-    email: string;
     avatar: string;
     createdAt: string;
     attributes?: {
