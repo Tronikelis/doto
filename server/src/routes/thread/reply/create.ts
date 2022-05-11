@@ -42,6 +42,9 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         replyTo,
     });
 
+    reply.votes.upvotes.push(user.id);
+    await reply.save();
+
     await replyingTo.update({ $addToSet: { replies: reply.id } }).exec();
 
     // push a notification to the receiver

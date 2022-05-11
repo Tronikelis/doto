@@ -48,6 +48,9 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
         },
     });
 
+    root.votes.upvotes.push(user.id);
+    await root.save();
+
     return aggregateComment({ userId, id: root.id });
 };
 
