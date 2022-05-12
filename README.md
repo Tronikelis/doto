@@ -51,6 +51,8 @@ Provider [statuses](https://stats.uptimerobot.com/2J4EzCVjMQ)
 
 ## Screenshots
 
+![gif](https://i.imgur.com/2YTHG1X.gif)
+
 ![home](https://i.imgur.com/QQmkGR3.jpeg)
 
 ![game page](https://i.imgur.com/qeNlQns.png)
@@ -58,6 +60,8 @@ Provider [statuses](https://stats.uptimerobot.com/2J4EzCVjMQ)
 ![thread](https://i.imgur.com/N3WFSHu.png)
 
 ![direct search](https://i.imgur.com/2sWFFRg.png)
+
+![user page](https://i.imgur.com/sYF3c2r.png)
 
 ## Contact
 
