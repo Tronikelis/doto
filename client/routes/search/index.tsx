@@ -29,7 +29,7 @@ export default function Search() {
         <Container maxWidth="lg" sx={{ mt: 3 }}>
             <NextSeo title="Direct search" />
 
-            <Typography align="center" variant="h4" gutterBottom>
+            <Typography align="center" variant="h5" gutterBottom>
                 Direct search ({currency} {country})
             </Typography>
 

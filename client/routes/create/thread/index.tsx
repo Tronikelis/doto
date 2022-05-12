@@ -45,7 +45,7 @@ export default function CreateThread() {
         <Container maxWidth="md" sx={{ mt: 3 }}>
             <NextSeo title="Create a thread" />
 
-            <Typography variant="h4" gutterBottom align="center">
+            <Typography variant="h5" gutterBottom align="center">
                 Create a thread
             </Typography>
 
