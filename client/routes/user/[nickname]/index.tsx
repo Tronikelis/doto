@@ -30,8 +30,8 @@ export default function UserPage() {
                         </Tabs>
 
                         {Items.map((Item, i) => (
-                            <Box key={i} hidden={i !== value} mt={2}>
-                                <Item />
+                            <Box key={i} mt={2}>
+                                {i === value && <Item />}
                             </Box>
                         ))}
                     </Stack>

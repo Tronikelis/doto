@@ -1,7 +1,18 @@
 import { keyframes } from "@emotion/react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import { Avatar, Divider, Paper, Stack, Typography } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import {
+    Avatar,
+    Divider,
+    IconButton,
+    Menu,
+    MenuItem,
+    Paper,
+    Stack,
+    Typography,
+} from "@mui/material";
+import { useState } from "react";
 import TimeAgo from "react-timeago";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
@@ -12,29 +23,52 @@ import useNickname from "./useNickname";
 
 const rainbow = keyframes`
     0% {
-        color:#A0D468;
+        color: #A0D468;
     }
-  
+
     20% {
-        color:#4FC1E9;
+        color: #4FC1E9;
     }
   
     40% {
-        color:#FFCE54;
+        color: #FFCE54;
     }
   
     60% {
-        color:#FC6E51;
+        color: #FC6E51;
     }
   
     80% {
-        color:#ED5565;
+        color: #ED5565;
     }
   
     100% {
-        color:#AC92EC;
+        color: #AC92EC;
     }
 `;
+
+const MiscMenu = () => {
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+    return (
+        <>
+            <Menu
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                anchorEl={anchorEl}
+                open={!!anchorEl}
+                onClose={() => setAnchorEl(null)}
+            >
+                <MenuItem>Delete account</MenuItem>
+                <MenuItem>Report account</MenuItem>
+            </Menu>
+
+            <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
+                <MoreVertIcon />
+            </IconButton>
+        </>
+    );
+};
 
 export default function User() {
     const nickname = useNickname();
@@ -65,6 +99,10 @@ export default function User() {
                         </Typography>
                     )}
                 </Typography>
+
+                <Stack flex={1} alignItems="flex-end">
+                    <MiscMenu />
+                </Stack>
             </Stack>
 
             <Divider flexItem sx={{ my: 2 }} />
