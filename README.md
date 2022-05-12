@@ -23,7 +23,7 @@
 -   [x] Scalable comments
 -   [x] Simple notification system
 -   [x] Separate page dedicated to a thread
--   [ ] User page with misc info
+-   [x] User page with misc info
 -   [ ] Keep track of the cheapest game's price, for graphs
 -   [ ] Ability to upload photos and put them in threads or change profile picture
 -   [ ] Has a public API 🦾
