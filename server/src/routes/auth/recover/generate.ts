@@ -35,7 +35,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: user.email,
-        subject: "Reset password - Crackwatch 2",
+        subject: "Reset password - Doto",
         html:
             `<p>Hello ${user.nickname}</p>` +
             `<p>If you requested to change your password, click this link:</p>` +

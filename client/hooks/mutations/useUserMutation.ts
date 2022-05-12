@@ -1,5 +1,7 @@
 import axios from "axios";
+import { useMemo } from "react";
 import useSWR from "swr";
+import urlCat from "urlcat";
 
 import { SWRMutate } from "@config";
 
@@ -8,7 +10,6 @@ import type { RegisterArgs } from "@routes/auth/register";
 
 export interface User {
     nickname: string;
-    email: string;
     avatar: string;
     createdAt: string;
     attributes?: {
@@ -16,17 +17,24 @@ export interface User {
         verified: boolean;
     };
     id: string;
+    owner: boolean;
 }
 
-export default function useUserMutation() {
-    const { data, mutate } = useSWR<User | Record<string, never>>("/user");
+export default function useUserMutation(nickname?: string) {
+    const { data: user, mutate } = useSWR<User>("/user");
+    const url = useMemo(() => {
+        if (!user?.nickname && !nickname) return null;
+        return urlCat("/user/info/:nickname", { nickname: nickname || user?.nickname });
+    }, [nickname, user]);
+
+    const { data } = useSWR<User>(url);
 
     const logout = () => {
         return mutate(
             axios.post("/auth/logout").then(x => x.data),
             {
                 ...SWRMutate,
-                optimisticData: {},
+                optimisticData: null as any,
             }
         );
     };

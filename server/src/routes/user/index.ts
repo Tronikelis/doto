@@ -3,14 +3,16 @@ import { Resource } from "fastify-autoroutes";
 
 import { userModel } from "@mongo";
 
+import { authenticate } from "@hooks/authenticate";
+
 const handler: any = async (req: Req) => {
-    if (!req.session.user) return {};
-    const user = await userModel.findById(req.session.user.id).orFail().select("-password");
+    const user = await userModel.findById(req.session.user?.id).select("-password").orFail();
     return user.toJSON();
 };
 
 export default (): Resource => ({
     get: {
         handler,
+        onRequest: authenticate("user"),
     },
 });

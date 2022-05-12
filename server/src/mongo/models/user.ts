@@ -18,16 +18,23 @@ export interface User {
     ban: () => Promise<void>;
 }
 
-const userSchema = new Schema<User>({
-    avatar: { type: String, required: true },
-    nickname: { type: String, required: true, minlength: 4, maxlength: 20, unique: true },
-    password: { type: String, required: true, minlength: 6, maxlength: 400 },
-    email: { type: String, required: true, minlength: 4, maxlength: 100, unique: true },
-    createdAt: { type: Date, required: true, default: () => new Date() },
-    attributes: {
-        verified: { type: Boolean, required: true, default: false },
-        admin: { type: Boolean, required: true, default: false },
+const userSchema = new Schema<User>(
+    {
+        avatar: { type: String, required: true },
+        nickname: { type: String, required: true, minlength: 4, maxlength: 20, unique: true },
+        password: { type: String, required: true, minlength: 6, maxlength: 400 },
+        email: { type: String, required: true, minlength: 4, maxlength: 100, unique: true },
+        createdAt: { type: Date, required: true, default: () => new Date() },
+        attributes: {
+            verified: { type: Boolean, required: true, default: false },
+            admin: { type: Boolean, required: true, default: false },
+        },
     },
+    { toJSON: { virtuals: true } }
+);
+
+userSchema.virtual("owner").get(function () {
+    return true;
 });
 
 userSchema.method("ban", async function () {

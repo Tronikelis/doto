@@ -69,16 +69,18 @@ const Thread = () => {
     const onReply = (description: string) =>
         reply({ description, id: comment?.id || "", slug });
 
+    const nickname = comment?.author?.nickname || "[deleted]";
+
     return (
         <Card>
             <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    <Typography component="span">
-                        {comment?.author?.nickname || "[deleted]"}
-                        {" · "}
-                    </Typography>
+                <Typography color="text.secondary">
+                    <NextLink href={`/user/${nickname}`} passHref>
+                        <MuiLink underline="none">{nickname}</MuiLink>
+                    </NextLink>
 
                     <Typography component="span">
+                        {" · "}
                         <TimeAgo date={comment?.date || ""} />
                     </Typography>
 
