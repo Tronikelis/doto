@@ -51,7 +51,7 @@ Provider [statuses](https://stats.uptimerobot.com/2J4EzCVjMQ)
 
 ## Screenshots
 
-![gif](https://i.imgur.com/2YTHG1X.gif)
+![gif](https://i.imgur.com/jaIWjKL.gif)
 
 ![home](https://i.imgur.com/QQmkGR3.jpeg)
 
