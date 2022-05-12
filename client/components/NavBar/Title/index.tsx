@@ -12,7 +12,7 @@ export default function Title() {
     return (
         <NextLink href="/" passHref>
             <Typography variant="h6" component={MuiLink} underline="none">
-                Doto {data.length > 0 && `- ${data?.[0].tag_name}`}
+                Doto {data.length > 0 && `· ${data?.[0].tag_name}`}
             </Typography>
         </NextLink>
     );
