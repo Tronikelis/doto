@@ -10,6 +10,7 @@ import { NextSeo } from "next-seo";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import Script from "next/script";
 import { SnackbarProvider } from "notistack";
 import { SWRConfig } from "swr";
 
@@ -140,6 +141,12 @@ export default function MyApp(props: MyAppProps) {
                 titleTemplate="%s | Doto"
                 defaultTitle="Doto"
                 description="Looking for the cheapest way to buy your favorite game? Look no further than Doto! Here we'll show you the best deals on the internet for the hottest games."
+            />
+
+            <Script
+                strategy="afterInteractive"
+                data-domain="doto.dev"
+                src="https://plausible.io/js/plausible.js"
             />
 
             <ThemeProvider theme={theme}>
