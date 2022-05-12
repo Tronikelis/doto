@@ -25,7 +25,7 @@ export interface Account {
 export default function useAccountMutation(nickname?: string) {
     const { data: user } = useUserMutation(nickname);
     const url = useMemo(() => {
-        if (!user && !nickname) return null;
+        if (!user?.nickname && !nickname) return null;
         return urlCat("/user/info/:nickname/account", {
             nickname: nickname || user?.nickname,
         });
