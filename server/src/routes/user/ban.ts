@@ -23,7 +23,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     const user = await userModel.findById(id).orFail();
     const requester = await userModel.findById(req.session.user?.id).orFail();
 
-    if (requester.id !== user.id || !requester.attributes.admin) {
+    if (requester.id !== user.id && !requester.attributes.admin) {
         throw new ErrorBuilder().msg("You cannot delete someone else's account").status(400);
     }
 

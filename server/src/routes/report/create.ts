@@ -14,7 +14,7 @@ const body = Type.Object(
             Type.Literal("thread"),
         ]),
         typeId: Type.String(),
-        summary: Type.String({ maxLength: 500 }),
+        summary: Type.Optional(Type.String({ maxLength: 500 })),
     },
     { additionalProperties: false }
 );

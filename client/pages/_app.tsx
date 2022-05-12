@@ -27,7 +27,7 @@ axios.defaults.baseURL = "/api/v1";
 axios.interceptors.response.use(
     x => x,
     error => {
-        if (error.response.status === 401) return Promise.reject();
+        if (error?.response?.status === 401) return Promise.reject();
         snack.error(parseError(error));
         return Promise.reject(error);
     }

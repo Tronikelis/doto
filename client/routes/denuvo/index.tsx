@@ -81,7 +81,7 @@ export default function DenuvoUpdates() {
         <Container maxWidth="xl">
             <NextSeo title="Denuvo updates" description="Most recent updates about denuvo" />
 
-            <Typography variant="h4" align="center" my={3}>
+            <Typography variant="h5" align="center" my={3}>
                 Denuvo updates
             </Typography>
 

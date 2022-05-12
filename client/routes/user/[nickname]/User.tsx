@@ -12,12 +12,14 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
 import TimeAgo from "react-timeago";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
+import snack from "@hooks/useSnack";
 
 import useNickname from "./useNickname";
 
@@ -48,7 +50,31 @@ const rainbow = keyframes`
 `;
 
 const MiscMenu = () => {
+    const nickname = useNickname();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+    const { data: user } = useUserMutation(nickname);
+
+    const onDelete = async () => {
+        if (
+            !confirm(
+                "Are you sure (this will delete everything associated with your account) ?"
+            )
+        )
+            return;
+
+        await axios.post("/user/ban", { id: user?.id });
+        snack.success("Account deleted");
+    };
+
+    const onReport = async () => {
+        await axios.post("/report/create", {
+            type: "user",
+            typeId: user?.id,
+            summary: user?.nickname,
+        });
+        snack.success("Account reported");
+    };
 
     return (
         <>
@@ -59,8 +85,8 @@ const MiscMenu = () => {
                 open={!!anchorEl}
                 onClose={() => setAnchorEl(null)}
             >
-                <MenuItem>Delete account</MenuItem>
-                <MenuItem>Report account</MenuItem>
+                <MenuItem onClick={onDelete}>Delete account</MenuItem>
+                <MenuItem onClick={onReport}>Report account</MenuItem>
             </Menu>
 
             <IconButton onClick={e => setAnchorEl(e.currentTarget)}>

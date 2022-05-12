@@ -43,7 +43,7 @@ export default function WatchlistPopular() {
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <NextSeo title="Most watched games" />
 
-            <Typography variant="h4" gutterBottom align="center">
+            <Typography variant="h5" gutterBottom align="center">
                 Most watched games
             </Typography>
 
