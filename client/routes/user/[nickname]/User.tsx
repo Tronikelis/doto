@@ -54,6 +54,7 @@ const MiscMenu = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const { data: user } = useUserMutation(nickname);
+    const { data: own } = useUserMutation();
 
     const onDelete = async () => {
         if (
@@ -85,7 +86,9 @@ const MiscMenu = () => {
                 open={!!anchorEl}
                 onClose={() => setAnchorEl(null)}
             >
-                <MenuItem onClick={onDelete}>Delete account</MenuItem>
+                {(user?.owner || own?.attributes?.admin) && (
+                    <MenuItem onClick={onDelete}>Delete account</MenuItem>
+                )}
                 <MenuItem onClick={onReport}>Report account</MenuItem>
             </Menu>
 
