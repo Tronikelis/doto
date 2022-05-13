@@ -5,6 +5,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
+import RuleIcon from "@mui/icons-material/Rule";
 import SearchIcon from "@mui/icons-material/Search";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
@@ -192,6 +193,21 @@ export default function Links() {
                                 <GitHubIcon />
                             </ListItemIcon>
                             <ListItemText primary="GitHub" />
+                        </ListItemButton>
+                    </ListItem>
+
+                    <ListItem
+                        disableGutters
+                        disablePadding
+                        component={MuiLink}
+                        target="_blank"
+                        href="https://rentry.co/doto"
+                    >
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <RuleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Rules & Guidelines" />
                         </ListItemButton>
                     </ListItem>
                 </List>
