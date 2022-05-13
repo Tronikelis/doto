@@ -42,7 +42,7 @@ const chunk = {
 const extensions = {
     persistedQuery: {
         version: 1,
-        sha256Hash: "fe31a6cdef096386ed3d398a4cfc7f80a68088f5e8eed4e7d6d46480af604fad",
+        sha256Hash: "22ea86ddb22e9b2bc862229b4c61cec3e496a46c71675f15c565632e8c457491",
     },
 };
 
