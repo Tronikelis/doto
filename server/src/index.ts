@@ -21,7 +21,7 @@ const secret = process.env.SECRET as string;
 
 const fastify = Fastify({
     ignoreTrailingSlash: true,
-    pluginTimeout: 1000 * 60,
+    pluginTimeout: 1000 * 60 * 2,
     logger: {
         level: "info",
         serializers: {
