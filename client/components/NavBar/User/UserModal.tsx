@@ -3,6 +3,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import VerifiedIcon from "@mui/icons-material/Verified";
 import {
     Avatar,
     Box,
@@ -14,12 +15,14 @@ import {
     MenuProps,
     Typography,
 } from "@mui/material";
+import axios from "axios";
 import Router from "next/router";
 import { useState } from "react";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
+import snack from "@hooks/useSnack";
 
 import MiscInfo from "./MiscInfo";
 
@@ -38,6 +41,15 @@ const UserMenu = (props: MenuProps) => {
     const onRegister = () => Router.push("/auth/register");
     const onAccount = () => Router.push(`/user/${data?.nickname}`);
     const onRecover = () => Router.push("/auth/recover/generate");
+
+    const [loading, setLoading] = useState(false);
+
+    const onVerify = async () => {
+        setLoading(true);
+        await axios.post("/auth/account/verify");
+        setLoading(false);
+        snack.success("Sent an email, check your inbox!");
+    };
 
     return (
         <Menu
@@ -61,6 +73,15 @@ const UserMenu = (props: MenuProps) => {
                 </ListItemIcon>
                 Reset password
             </MenuItem>
+
+            {!data?.attributes?.verified && (
+                <MenuItem onClick={onVerify} disabled={loading}>
+                    <ListItemIcon>
+                        <VerifiedIcon />
+                    </ListItemIcon>
+                    Verify account
+                </MenuItem>
+            )}
 
             {data?.nickname ? (
                 <MenuItem onClick={onLogout}>

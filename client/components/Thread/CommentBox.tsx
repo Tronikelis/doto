@@ -31,7 +31,7 @@ const config: SWRConfiguration = {
 };
 
 const CommentBox = memo(({ fallback }: CommentBoxProps) => {
-    const { count, slug } = useContext(ThreadContext);
+    const { count, slug, opId } = useContext(ThreadContext);
 
     const {
         data: replies,
@@ -70,6 +70,7 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
         reply({ description, id: comment?.id || "", slug });
 
     const nickname = comment?.author?.nickname || "[deleted]";
+    const isOp = opId === comment?.author?.id;
 
     return (
         <Stack mt={2.5}>
@@ -84,7 +85,19 @@ const CommentBox = memo(({ fallback }: CommentBoxProps) => {
                 <Box ml={ml}>
                     <Typography color="text.secondary">
                         <NextLink href={`/user/${nickname}`} passHref>
-                            <MuiLink underline="none">{nickname}</MuiLink>
+                            <MuiLink underline="none">
+                                <Typography component="span">{nickname}</Typography>
+                                {isOp && (
+                                    <Typography
+                                        variant="body2"
+                                        component="span"
+                                        color="text.primary"
+                                    >
+                                        {" "}
+                                        OP
+                                    </Typography>
+                                )}
+                            </MuiLink>
                         </NextLink>
 
                         <Typography variant="body2" component="span">

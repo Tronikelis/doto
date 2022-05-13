@@ -583,6 +583,12 @@ export interface AxiosThread {
     data: Reply[];
 }
 
+export interface Author {
+    id: string;
+    nickname: string;
+    avatar: string;
+}
+
 export interface Reply {
     id: string;
     description: Description;
@@ -593,7 +599,7 @@ export interface Reply {
         image?: string;
         variant: "home" | "explore";
     } | null;
-    author: Author;
+    author: Author | null;
     replyTo: ReplyTo;
     replies: Reply[];
     hasReplies: boolean;

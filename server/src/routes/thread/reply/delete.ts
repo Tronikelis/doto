@@ -31,7 +31,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     }
 
     if (user.id !== reply.author?.toString()) {
-        throw new ErrorBuilder().msg("This thread does not belong to you").status(400);
+        throw new ErrorBuilder().msg("This post does not belong to you").status(400);
     }
 
     await reply.ban();
