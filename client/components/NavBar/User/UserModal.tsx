@@ -74,7 +74,7 @@ const UserMenu = (props: MenuProps) => {
                 Reset password
             </MenuItem>
 
-            {!data?.attributes?.verified && (
+            {!data?.attributes?.verified && data && (
                 <MenuItem onClick={onVerify} disabled={loading}>
                     <ListItemIcon>
                         <VerifiedIcon />
