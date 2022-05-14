@@ -1,13 +1,10 @@
 import Progress from "@badrap/bar-of-progress";
-import createCache from "@emotion/cache";
-import { CacheProvider, EmotionCache } from "@emotion/react";
-import { createTheme } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
+import { CssBaseline, createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { dequal } from "dequal";
 import { NextSeo } from "next-seo";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Script from "next/script";
@@ -91,8 +88,6 @@ const theme = createTheme({
     },
 });
 
-const clientSideEmotionCache = createCache({ key: "css", prepend: true });
-
 const progress = new Progress({
     size: 3,
     color: "#81a1c1",
@@ -103,11 +98,7 @@ Router.events.on("routeChangeStart", progress.start);
 Router.events.on("routeChangeComplete", progress.finish);
 Router.events.on("routeChangeError", progress.finish);
 
-interface MyAppProps extends AppProps {
-    emotionCache?: EmotionCache;
-}
-
-const App = (props: MyAppProps) => {
+const App = (props: AppProps) => {
     const { Component, pageProps } = props;
 
     return (
@@ -128,11 +119,9 @@ const App = (props: MyAppProps) => {
     );
 };
 
-export default function MyApp(props: MyAppProps) {
-    const { emotionCache = clientSideEmotionCache } = props;
-
+export default function MyApp(props: AppProps) {
     return (
-        <CacheProvider value={emotionCache}>
+        <>
             <Head>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
@@ -142,7 +131,6 @@ export default function MyApp(props: MyAppProps) {
                 defaultTitle="Doto"
                 description="Looking for the cheapest way to buy your favorite game? Look no further than Doto! Here we'll show you the best deals on the internet for the hottest games."
             />
-
             <Script
                 strategy="afterInteractive"
                 data-domain="doto.dev"
@@ -151,7 +139,7 @@ export default function MyApp(props: MyAppProps) {
 
             <ThemeProvider theme={theme}>
                 <SnackbarProvider
-                    maxSnack={3}
+                    maxSnack={2}
                     classes={{
                         variantWarning: "snack-warning",
                         variantError: "snack-error",
@@ -162,6 +150,6 @@ export default function MyApp(props: MyAppProps) {
                     <App {...props} />
                 </SnackbarProvider>
             </ThemeProvider>
-        </CacheProvider>
+        </>
     );
 }
