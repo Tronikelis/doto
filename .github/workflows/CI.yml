@@ -56,12 +56,10 @@ jobs:
                   node-version: 16
 
             - name: Install node_modules
-              run: >
-                  npm i
+              run: npm i
 
             - name: Test build
-              run: >
-                  npm run build:all
+              run: npm run build:all
               with:
                   REDIS_URL: ${{ secrets.REDIS_URL }}
                   RAWG_KEY: ${{ secrets.RAWG_KEY }}
