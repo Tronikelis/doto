@@ -45,7 +45,7 @@ jobs:
                   rm .gitignore
                   mv .gitignore_prod .gitignore
                   npm run build:all
-              with:
+              env:
                   REDIS_URL: ${{ secrets.REDIS_URL }}
                   RAWG_KEY: ${{ secrets.RAWG_KEY }}
 
