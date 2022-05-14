@@ -14,7 +14,7 @@ const params = Type.Object(
 );
 type Params = Static<typeof params>;
 
-const handler: any = async (req: Req<{ Params: Params }>) => {
+export const handler: any = async (req: Req<{ Params: Params }>) => {
     const { slug } = req.params;
 
     const { data } = await rawgClient.get(

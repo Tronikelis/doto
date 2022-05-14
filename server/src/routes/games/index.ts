@@ -22,7 +22,7 @@ type Querystring = Static<typeof querystring>;
 const setMonth = (date: Date, by: number) =>
     new Date(date.setMonth(new Date(date).getMonth() + by));
 
-const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
+export const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { page, dates: period, ordering } = req.query;
 
     const [from, to] = period.split(",");
