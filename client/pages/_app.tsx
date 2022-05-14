@@ -1,6 +1,5 @@
 import Progress from "@badrap/bar-of-progress";
-import { createTheme } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
+import { CssBaseline, createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { dequal } from "dequal";
@@ -140,7 +139,7 @@ export default function MyApp(props: AppProps) {
 
             <ThemeProvider theme={theme}>
                 <SnackbarProvider
-                    maxSnack={3}
+                    maxSnack={2}
                     classes={{
                         variantWarning: "snack-warning",
                         variantError: "snack-error",
