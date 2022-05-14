@@ -2,9 +2,6 @@ name: CI
 
 on: push
 
-env:
-    RAWG_KEY: ${{ secrets.RAWG_KEY }}
-
 jobs:
     eslint:
         runs-on: ubuntu-latest
@@ -39,6 +36,7 @@ jobs:
         steps:
             - name: Cloning repo
               uses: actions/checkout@v2.3.5
+
             - name: Cache node_modules
               uses: actions/cache@v2.1.6
               env:
@@ -56,9 +54,14 @@ jobs:
               uses: actions/setup-node@v2.4.1
               with:
                   node-version: 16
+
             - name: Install node_modules
               run: >
                   npm i
+
             - name: Test build
               run: >
                   npm run build:all
+              with:
+                  REDIS_URL: ${{ secrets.REDIS_URL }}
+                  RAWG_KEY: ${{ secrets.RAWG_KEY }}
