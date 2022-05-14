@@ -3,9 +3,6 @@ name: "Deploy to dokku"
 on:
     workflow_dispatch:
 
-env:
-    RAWG_KEY: ${{ secrets.RAWG_KEY }}
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
@@ -48,6 +45,9 @@ jobs:
                   rm .gitignore
                   mv .gitignore_prod .gitignore
                   npm run build:all
+              with:
+                  REDIS_URL: ${{ secrets.REDIS_URL }}
+                  RAWG_KEY: ${{ secrets.RAWG_KEY }}
 
             - name: Save built files
               uses: EndBug/add-and-commit@v7.4.0
