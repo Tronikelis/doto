@@ -4,8 +4,10 @@
 
 <div align="center">
 
-<img src="https://img.shields.io/github/stars/Tronikelis/doto?style=for-the-badge" /> <img src="https://img.shields.io/badge/unofficial-100%25-blue?style=for-the-badge" /> <img src="https://img.shields.io/uptimerobot/status/m791749682-d94a1950a7d51576f86210b1?style=for-the-badge" /> <img src="https://img.shields.io/uptimerobot/ratio/7
-/m791749682-d94a1950a7d51576f86210b1?style=for-the-badge" />
+<img src="https://img.shields.io/github/stars/Tronikelis/doto?style=for-the-badge" /> 
+<img src="https://img.shields.io/badge/unofficial-100%25-blue?style=for-the-badge" /> 
+<img src="https://img.shields.io/uptimerobot/status/m791749682-d94a1950a7d51576f86210b1?style=for-the-badge" /> 
+<img src="https://img.shields.io/uptimerobot/ratio/7/m791749682-d94a1950a7d51576f86210b1?style=for-the-badge" />
 
 </div>
 
