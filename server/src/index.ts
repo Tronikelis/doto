@@ -18,6 +18,7 @@ dotenv.config({ path: path.resolve("../.env") });
 
 const dev = process.env.NODE_ENV !== "production";
 const secret = process.env.SECRET as string;
+process.env.__NEXT_REACT_ROOT = "true";
 
 const fastify = Fastify({
     ignoreTrailingSlash: true,
