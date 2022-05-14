@@ -11,6 +11,8 @@
 
 </div>
 
+<br>
+
 ⭐ Thanks to everyone who starred the project, it means a lot
 
 ## Planned features (semi sorted by priority)
