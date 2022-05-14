@@ -36,6 +36,12 @@ const fastify = Fastify({
     trustProxy: !dev,
 });
 
+fastify.register(fastifyHelmet, {
+    contentSecurityPolicy: false,
+    crossOriginResourcePolicy: false,
+    crossOriginEmbedderPolicy: false,
+});
+
 fastify.register(fastifyRateLimit, {
     max: 350,
     timeWindow: "1 minute",
@@ -101,8 +107,6 @@ fastify
 fastify.register(
     (fastify, opts, done) => {
         fastify.register(underPressure, underPressureSettings);
-
-        fastify.register(fastifyHelmet);
 
         fastify.register(fastifyAutoRoutes, {
             dir: path.resolve("./routes"),
