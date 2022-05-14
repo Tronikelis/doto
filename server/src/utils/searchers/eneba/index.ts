@@ -6,6 +6,10 @@ import Fuzzy from "../fuzzy";
 import { FetchPriceProps, SearchResults } from "../types";
 import { EnebaResult } from "./types";
 
+interface ProxyResult {
+    data: string;
+}
+
 const chunk = {
     currency: "USD",
     searchType: "DEFAULT",
@@ -63,7 +67,27 @@ const fetchPrice = async ({
         variables
     )}&extensions=${JSON.stringify(extensions)}`;
 
-    const { data } = await client.get<EnebaResult>(url);
+    // const { data } = await client.get<EnebaResult>(url);
+
+    const { data: proxy } = await client.post<ProxyResult>(
+        "https://proxy.hoppscotch.io",
+        {
+            method: "GET",
+            url,
+            headers: { "content-type": "application/json" },
+            params: {},
+            data: "",
+            wantsBinary: false,
+        },
+        {
+            headers: {
+                Origin: "https://hoppscotch.io",
+                Referer: "https://hoppscotch.io/",
+            },
+        }
+    );
+
+    const data: EnebaResult = JSON.parse(proxy.data);
 
     const lookup = byInternet(country);
 
