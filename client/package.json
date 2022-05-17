@@ -6,11 +6,11 @@
         "dev": "next dev"
     },
     "dependencies": {
-        "@badrap/bar-of-progress": "^0.1.2",
+        "@badrap/bar-of-progress": "^0.2.1",
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
-        "@mui/icons-material": "^5.6.2",
-        "@mui/material": "^5.7.0",
+        "@mui/icons-material": "^5.8.0",
+        "@mui/material": "^5.8.0",
         "axios": "^0.27.2",
         "dequal": "^2.0.2",
         "framer-motion": "^6.3.3",
