@@ -12,8 +12,6 @@ const News = () => {
     return (
         <Stack spacing={3}>
             <TopReddit reddit="GameDeals" />
-            <TopReddit reddit="gaming" />
-            <TopReddit reddit="pcmasterrace" />
         </Stack>
     );
 };
